@@ -333,6 +333,27 @@
   .sgroup .sr .sk { width: 56px; color: var(--sec); font-weight: 500; flex-shrink: 0; }
   .sgroup .sr .sv { flex: 1; font-weight: 500; }
 
+  /* ===== ALPHA TABLE CARDS ===== */
+  .alpha-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+  .alpha-card {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+  }
+  .alpha-card .alpha-bar {
+    width: 48px; height: 36px; border-radius: 8px; flex-shrink: 0;
+    position: relative; overflow: hidden;
+  }
+  .alpha-card .alpha-bar.fg { background: rgba(var(--fg-rgb), 0.045); }
+  .alpha-card .alpha-bar.accent-bar { background: rgba(var(--accent-rgb), 0.06); }
+  .alpha-card .alpha-fill {
+    position: absolute; inset: 0; border-radius: 8px;
+  }
+  .alpha-card .alpha-info { flex: 1; min-width: 0; }
+  .alpha-card .alpha-name { font-size: 12.5px; font-weight: 600; }
+  .alpha-card .alpha-vals { font-size: 10.5px; color: var(--sec); margin-top: 3px; display: flex; gap: 12px; }
+  .alpha-card .alpha-vals span { white-space: nowrap; }
+  .alpha-card .alpha-vals .tint { padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+
   /* ===== FOOTER ===== */
   footer {
     text-align: center; padding: 40px 24px; color: var(--mut); font-size: 11px;
@@ -445,8 +466,8 @@
     </div>
   </div>
 
-  <div class="sub-h">派生 alpha 常量表</div>
-  <div class="card card-flush"><table id="alphaTable" style="width:100%;border-collapse:collapse;font-size:12px"><thead></thead><tbody></tbody></table></div>
+  <div class="sub-h">派生 alpha 常量表<span class="muted-note"> — 禁止私造，只取规范档</span></div>
+  <div class="alpha-grid" id="alphaGrid"></div>
 </section>
 
 <!-- ===== TYPOGRAPHY ===== -->
@@ -520,6 +541,17 @@
 <section id="components">
   <div class="sec-h"><h2>组件</h2><span class="badge">Components</span></div>
   <p class="sec-desc">完整解剖与状态表见仓库 <code>components/*.md</code>（8 篇）。本节展示关键组件在规范 token 下的视觉效果。</p>
+
+  <div class="comp-group">
+    <div class="comp-label">Button 系列 — 安静胶囊（min 36 · pill · labelMedium w700 · 图标 17）</div>
+    <div class="card card-row" style="gap:12px;align-items:center">
+      <button class="btn btn-filled">filled · accent</button>
+      <button class="btn btn-quiet">outlined · text</button>
+      <button class="btn btn-destructive">destructive</button>
+      <button class="icon-btn">☰</button>
+      <button class="btn" style="min-height:32px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04)">toolbar 12·32</button>
+    </div>
+  </div>
 
   <div class="comp-group">
     <div class="comp-label">ChoiceStrip — 胶囊选择条（32px · pill · 选中 accent 9%）</div>
@@ -608,6 +640,44 @@
         <span class="em-title">书架还是空的</span>
         <span class="em-desc">导入 CBZ、ZIP 或 EPUB，开始你的书房。</span>
         <button class="btn btn-quiet" style="margin-top:16px">+ 导入书籍</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">GlassSurface 原语 — base vs strong 两档表面 + border + shadow + blur</div>
+    <div class="card card-row" style="gap:16px;justify-content:center">
+      <div style="flex:1;min-width:180px;height:112px;border-radius:14px;border:1px solid var(--glass-border);background:var(--glass-surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;box-shadow:0 10px 24px var(--glass-shadow)">
+        <span>glass.surface</span>
+      </div>
+      <div style="flex:1;min-width:180px;height:112px;border-radius:14px;border:1px solid var(--glass-border);background:var(--glass-strong);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;box-shadow:0 10px 34px var(--glass-shadow)">
+        <span>glass.strongSurface</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">CheckRow — 列表行变体（leading 20px 勾选 · 点击整行切换）</div>
+    <div class="card card-flush">
+      <div class="lrow" onclick="const b=this.querySelector('button');b.classList.toggle('on');this.classList.toggle('sel');b.textContent=b.classList.contains('on')?'✓':''">
+        <button class="cbx-demo" style="flex-shrink:0" onclick="event.stopPropagation();this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓':'';this.closest('.lrow').classList.toggle('sel')"></button>
+        <span class="lrow-body"><div class="lrow-title">可勾选行</div><div class="lrow-sub">点击整行切换选中态 · r5 · 1.4px border</div></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Scrollbar · LinearProgress — 5px 胶囊条 / accent 进度</div>
+    <div class="card card-row" style="gap:20px;align-items:center">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:5px;height:52px;border-radius:99px;background:rgba(var(--sec-rgb),0.30)"></div>
+        <span style="font-size:10.5px;color:var(--sec)">5px 胶囊<br>hover 55%</span>
+      </div>
+      <div style="flex:1;min-width:160px">
+        <div style="height:3px;border-radius:99px;background:transparent;position:relative;margin-bottom:6px">
+          <div style="position:absolute;left:0;top:0;height:3px;width:55%;border-radius:99px;background:var(--accent)"></div>
+        </div>
+        <span style="font-size:10.5px;color:var(--sec)">轨道透明 · accent 条</span>
       </div>
     </div>
   </div>
@@ -754,22 +824,54 @@ function renderRamp(skin) {
 
 function renderAlphaTable() {
   const a = SPEC.primitives.derivedAlphas;
-  const rows = [
-    ['border', a.border.light, a.border.dark],
-    ['hairline · 分隔线（禁用项衰减）', a.hairline.light, a.hairline.dark],
-    ['subtleFill · 输入框/按钮底', a.subtleFill.light, a.subtleFill.dark],
-    ['hover · 悬停态', a.stateLayer.hover, a.stateLayer.hover],
-    ['pressed · 按压态', a.stateLayer.pressed, a.stateLayer.pressed],
-    ['focused · 焦点环', a.stateLayer.focused, a.stateLayer.focused],
-    ['选中行/面', a.selection.rowOrSurface, a.selection.rowOrSurface],
-    ['accent 指示器', a.selection.accentIndicator, a.selection.accentIndicator],
-    ['chip 选中填充', a.selection.chipSelected, a.selection.chipSelected],
-    ['barrier · 遮罩', a.barrier.dialogLight, a.barrier.dialogDark],
-    ['destructive', `rest ${a.destructive.rest}`, `pressed ${a.destructive.pressed}`],
+  // map alpha string to a numeric percentage for the bar fill
+  function pct(v) {
+    const m = v.match(/@([\d.]+)/);
+    return m ? parseFloat(m[1]) : (v.includes('~') ? parseFloat(v.split('~')[1]) : 0);
+  }
+  // Detect if the value uses accent or foreground
+  function isAccent(v) { return v.startsWith('accent@'); }
+  function fillStyle(v, isDark) {
+    if (isAccent(v)) return `rgba(var(--accent-rgb),${pct(v)})`;
+    return `rgba(var(--fg-rgb),${pct(v)})`;
+  }
+
+  const items = [
+    { name: 'border · 边框', light: a.border.light, dark: a.border.dark, desc: '输入框/卡片常态描边' },
+    { name: 'hairline · 分隔线', light: a.hairline.light, dark: a.hairline.dark, desc: '行间/区间分隔，直接使用不衰减' },
+    { name: 'subtleFill · 填充底', light: a.subtleFill.light, dark: a.subtleFill.dark, desc: '输入框、按钮底色' },
+    { name: 'hover · 悬停', light: a.stateLayer.hover, dark: a.stateLayer.hover, desc: '前景色叠加' },
+    { name: 'pressed · 按压', light: a.stateLayer.pressed, dark: a.stateLayer.pressed, desc: '前景色叠加' },
+    { name: 'focused · 焦点环', light: a.stateLayer.focused, dark: a.stateLayer.focused, desc: 'accent 2px 描边' },
+    { name: '选中行/面', light: a.selection.rowOrSurface, dark: a.selection.rowOrSurface, desc: '列表行/表面选中底' },
+    { name: 'accent 指示器', light: a.selection.accentIndicator, dark: a.selection.accentIndicator, desc: '进度条、tab 下划线' },
+    { name: 'chip 选中填充', light: a.selection.chipSelected, dark: a.selection.chipSelected, desc: '胶囊条选中底色' },
+    { name: 'barrier · 遮罩', light: a.barrier.dialogLight, dark: a.barrier.dialogDark, desc: '浮层后暗色遮罩' },
+    { name: 'destructive', light: `rest ${a.destructive.rest}`, dark: `pressed ${a.destructive.pressed}`, desc: '危险操作底色 (error@)' },
   ];
-  document.getElementById('alphaTable').innerHTML =
-    '<tr><th>用途</th><th>浅色值</th><th>深色值</th></tr>' +
-    rows.map(r => `<tr><td style="font-weight:600">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+
+  const isDark = currentSkin().brightness === 'dark';
+
+  document.getElementById('alphaGrid').innerHTML = items.map(item => {
+    const lightVal = isAccent(item.light) ? item.light : item.light;
+    const darkVal = isAccent(item.dark) ? item.dark : item.dark;
+    const lightFill = fillStyle(item.light, false);
+    const darkFill = fillStyle(item.dark, true);
+
+    return `<div class="alpha-card">
+      <div class="alpha-bar fg">
+        <div class="alpha-fill" style="background:${isAccent(item.light) ? fillStyle(item.light,false) : fillStyle(item.light,false)}"></div>
+      </div>
+      <div class="alpha-info">
+        <div class="alpha-name">${item.name}</div>
+        <div class="alpha-vals">
+          <span>☀ <span class="tint" style="background:rgba(var(--fg-rgb),0.05);color:var(--sec)">${item.light}</span></span>
+          <span>☾ <span class="tint" style="background:rgba(var(--fg-rgb),0.08);color:var(--sec)">${item.dark}</span></span>
+        </div>
+        <div style="font-size:10.5px;color:var(--mut);margin-top:2px">${item.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderAccents() {
