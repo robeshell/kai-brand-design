@@ -334,10 +334,11 @@
   .sgroup .sr .sv { flex: 1; font-weight: 500; }
 
   /* ===== ALPHA TABLE CARDS ===== */
-  .alpha-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+  .alpha-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 10px; }
   .alpha-card {
     background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px;
     padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+    overflow: hidden;
   }
   .alpha-card .alpha-bar {
     width: 48px; height: 36px; border-radius: 8px; flex-shrink: 0;
@@ -348,10 +349,10 @@
   .alpha-card .alpha-fill {
     position: absolute; inset: 0; border-radius: 8px;
   }
-  .alpha-card .alpha-info { flex: 1; min-width: 0; }
+  .alpha-card .alpha-info { flex: 1; min-width: 0; overflow: hidden; }
   .alpha-card .alpha-name { font-size: 12.5px; font-weight: 600; }
-  .alpha-card .alpha-vals { font-size: 10.5px; color: var(--sec); margin-top: 3px; display: flex; gap: 12px; }
-  .alpha-card .alpha-vals span { white-space: nowrap; }
+  .alpha-card .alpha-vals { font-size: 10.5px; color: var(--sec); margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .alpha-card .alpha-vals span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .alpha-card .alpha-vals .tint { padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
 
   /* ===== FOOTER ===== */
