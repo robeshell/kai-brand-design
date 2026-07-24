@@ -68,7 +68,7 @@ L4 模式规范                    → patterns/*.md（通用：外壳 / 浮层 
 
 ## 可视化（viewer）
 
-`viewer/index.html` 是自包含的规范预览页：直接双击打开即可，可以切换 **皮肤（跟随系统/默认/纯净/深夜）× 产品强调色轴（开听/开卷）** 实时预览配色、排版、圆角阴影、状态层与全部组件/模式样例。
+`viewer/index.html` 是自包含的规范预览页——也部署在 **[robeshell.github.io/kai-brand-design](https://robeshell.github.io/kai-brand-design/)**（GitHub Pages）。可以切换 **皮肤（跟随系统/默认/纯净/深夜）× 产品强调色轴（开听/开卷）** 实时预览配色、排版、圆角阴影、状态层与全部组件/模式样例。
 
 页面不是手写的第二份规范——它由 `viewer/build.py` 读取 `tokens/*.json` 生成：
 
