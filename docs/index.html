@@ -361,6 +361,50 @@
   }
   footer code { font-size: 10.5px; background: rgba(var(--fg-rgb), 0.05); padding: 1px 5px; border-radius: 4px; }
 
+  /* ===== PRODUCT-SPECIFIC PATTERNS ===== */
+  .prod-panel { display: none; }
+  .prod-panel.active { display: block; }
+  /* kaiting */
+  .np-wide { display: flex; gap: 32px; align-items: center; border-radius: 14px; border: 1px solid var(--hairline); background: var(--canvas); padding: 28px 32px; min-height: 280px; }
+  .np-art-col { flex-shrink: 0; text-align: center; }
+  .np-cover { width: 220px; height: 220px; border-radius: 14px; background: linear-gradient(150deg, #d95770 0%, #8067bc 50%, #3f9e98 100%); box-shadow: 0 10px 24px var(--glass-shadow); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+  .np-cover .vinyl-label { width: 54%; aspect-ratio: 1; border-radius: 50%; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); font-size: 10px; font-weight: 700; }
+  .np-lyrics-col { flex: 1; }
+  .np-title { font-size: 27px; font-weight: 800; letter-spacing: -0.55px; margin-bottom: 5px; }
+  .np-artist { font-size: 15px; font-weight: 600; color: var(--sec); margin-bottom: 24px; }
+  .np-lyric-line { display: flex; gap: 6px; margin-bottom: 10px; }
+  .np-lyric-line span { display: block; height: 4px; border-radius: 2px; background: rgba(var(--fg-rgb),0.08); }
+  .np-lyric-line span:first-child { width: 80%; }
+  .np-lyric-line span:last-child { width: 50%; }
+  .np-lyric-line.current span { background: rgba(var(--fg-rgb),0.18); }
+  .np-controls { display: flex; gap: 16px; align-items: center; margin-top: 20px; justify-content: center; }
+  .np-controls .ctrl { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .np-controls .ctrl.play { width: 56px; height: 56px; background: var(--accent); color: var(--on-accent); border-radius: 50%; }
+  .mini-player-mock { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--glass-border); background: var(--glass-strong); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 10px 24px var(--glass-shadow); margin-top: 12px; }
+  .mini-player-mock .mp-cover { width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0; background: linear-gradient(135deg, #f0a35e, #c7842f); }
+  .mini-player-mock .mp-info { flex: 1; }
+  .mini-player-mock .mp-title { font-size: 13px; font-weight: 600; }
+  .mini-player-mock .mp-artist { font-size: 11px; color: var(--sec); }
+  .mini-player-mock .mp-progress { width: 100%; height: 2px; border-radius: 99px; background: var(--border); position: relative; margin-top: 4px; }
+  .mini-player-mock .mp-progress::after { content: ''; position: absolute; left: 0; top: 0; width: 35%; height: 100%; border-radius: 99px; background: var(--accent); }
+  /* kaijuan */
+  .reader-mock { border-radius: 14px; border: 1px solid var(--hairline); overflow: hidden; background: #F5F0E8; }
+  .reader-chrome-top { height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px; background: rgba(245,240,232,0.92); border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .reader-chrome-top .rc-btn { width: 32px; height: 32px; border-radius: 999px; border: 0; cursor: pointer; background: rgba(0,0,0,0.05); color: rgba(0,0,0,0.6); font-size: 14px; }
+  .reader-body { padding: 28px 40px; font-family: Georgia, 'Noto Serif CJK SC', serif; color: #3a3228; min-height: 160px; }
+  .reader-body .rb-title { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+  .reader-body .rb-para { font-size: 14px; line-height: 2; margin-bottom: 14px; }
+  .reader-body .rb-para span { background: rgba(234,88,12,0.18); padding: 0 1px; border-radius: 2px; }
+  .reader-chrome-bottom { height: 56px; display: flex; align-items: center; gap: 6px; padding: 0 10px; background: rgba(245,240,232,0.94); border-top: 1px solid rgba(0,0,0,0.06); }
+  .reader-chrome-bottom .rc-chip { height: 30px; padding: 0 11px; border-radius: 999px; border: 0; cursor: pointer; font-size: 11.5px; font-weight: 600; background: rgba(0,0,0,0.05); color: rgba(0,0,0,0.55); }
+  .reader-chrome-bottom .rc-chip.on { background: rgba(234,88,12,0.12); color: #EA580C; }
+  .bookshelf-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; margin-top: 10px; }
+  .bookshelf-grid .bk { aspect-ratio: 3/4; border-radius: 8px; }
+  .excerpt-card { border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass-strong); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 14px 16px; margin-top: 10px; }
+  .excerpt-card .ec-text { font-family: Georgia, 'Noto Serif CJK SC', serif; font-size: 14px; line-height: 1.8; color: var(--fg); margin-bottom: 8px; }
+  .excerpt-card .ec-text mark { background: rgba(var(--accent-rgb),0.18); color: inherit; padding: 0 1px; border-radius: 2px; }
+  .excerpt-card .ec-meta { font-size: 11px; color: var(--sec); }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 720px) {
     .topbar { padding: 0 14px; gap: 10px; height: 46px; }
@@ -399,13 +443,14 @@
   <a href="#shape">形状</a>
   <a href="#components">组件</a>
   <a href="#patterns">模式</a>
+  <a href="#product-patterns">产品</a>
 </nav>
 
 <!-- ===== HERO ===== -->
 <section id="hero" style="padding-top:0;margin-top:0">
 <div class="hero">
   <h1>品牌设计体系</h1>
-  <p class="sub">安静、内容优先的玻璃界面语言。皮肤 × 强调色正交，统一规则，不统一主色。</p>
+  <p class="sub">一套让内容成为主角的设计语言。三个皮肤（白天 / 纯净 / 深夜）一套规则，各产品保留自己的主题色。</p>
   <div class="skin-row" id="skinCards"></div>
 </div>
 </section>
@@ -415,12 +460,12 @@
 <!-- ===== COLOR ===== -->
 <section id="color">
   <div class="sec-h"><h2>配色</h2><span class="badge">Color</span></div>
-  <p class="sec-desc">中性玻璃：四档表面坡道 + 半透明浮面 + 文字三档 + 一个克制的强调色。皮肤拥有明暗与全部中性色板，强调色是独立产品轴。</p>
+  <p class="sec-desc">从页面底色到弹窗浮层，四个灰度级别递进。再加上半透明玻璃和文字的三个深浅档，构成界面的全部中性色。</p>
 
-  <div class="sub-h">表面坡道<span class="muted-note"> — 从画布到浮层，四档递进</span></div>
+  <div class="sub-h">表面坡道<span class="muted-note"> — 从画布到浮层，一步一步往上走</span></div>
   <div class="swatch-grid" id="ramp"></div>
 
-  <div class="sub-h">玻璃浮面<span class="muted-note"> — strongSurface + border + shadow × scale +（可选）blur</span></div>
+  <div class="sub-h">玻璃浮面<span class="muted-note"> — 半透明填充 + 细描边 + 毛玻璃投影 · 可根据需要加模糊</span></div>
   <div class="glass-stage">
     <div class="glass-plate" id="glassA">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="3"/></svg>
@@ -434,17 +479,17 @@
     </div>
   </div>
 
-  <div class="sub-h">文字三档</div>
+  <div class="sub-h">文字就三个档位</div>
   <div class="card">
     <div style="font-size:15px;font-weight:700">primaryText · 标题与正文 <code style="font-size:10.5px;font-weight:500;color:var(--mut);margin-left:6px" id="txtV0"></code></div>
     <div style="font-size:13.5px;font-weight:600;color:var(--sec);margin-top:10px">secondaryText · 辅助说明与副题 <code style="font-size:10.5px;font-weight:500;color:var(--mut);margin-left:6px" id="txtV1"></code></div>
     <div style="font-size:12px;color:var(--mut);margin-top:8px">mutedText · 元信息、占位符、空态文案 <code style="font-size:10.5px;font-weight:500;color:var(--mut);margin-left:6px" id="txtV2"></code></div>
   </div>
 
-  <div class="sub-h">强调色轴<span class="muted-note"> — 当前产品：<span id="productName"></span></span></div>
+  <div class="sub-h">主题色<span class="muted-note"> — 每个产品自己挑一个，跟皮肤互不影响。当前：<span id="productName"></span></span></div>
   <div class="swatch-grid" id="accentSwatches"></div>
 
-  <div class="sub-h">低透明度派生<span class="muted-note"> — 叠在中性表面上，只取规范档</span></div>
+  <div class="sub-h">低透明度派生<span class="muted-note"> — 叠在背景上用的透明度，下面这些数字是写死的，禁止自己发明</span></div>
   <div class="card card-row" style="gap:18px">
     <div style="text-align:center">
       <div style="width:110px;height:56px;border-radius:10px;border:1px solid var(--hairline);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:rgba(var(--accent-rgb),0.09);color:var(--accent)">选中项</div>
@@ -466,14 +511,14 @@
     </div>
   </div>
 
-  <div class="sub-h">派生 alpha 常量表<span class="muted-note"> — 禁止私造，只取规范档</span></div>
+  <div class="sub-h">派生 alpha 常量表<span class="muted-note"> — 禁止自己发明透明度数值，下面这些是全部可用档位</span></div>
   <div class="alpha-grid" id="alphaGrid"></div>
 </section>
 
 <!-- ===== TYPOGRAPHY ===== -->
 <section id="type">
   <div class="sec-h"><h2>排版</h2><span class="badge">Typography</span></div>
-  <p class="sec-desc">层级靠字重与颜色驱动，不靠字号堆叠。字族 <code>.SF Pro Text</code> + CJK 回退栈，不打包字体。</p>
+  <p class="sec-desc">大字不一定重要，粗字才重要——把字重从 400 调到 800 比把字号从 14 调到 20 更能表达层级。字体直接用系统的，不发文件。</p>
 
   <div class="card">
     <div class="type-specimen">
@@ -500,12 +545,12 @@
     </div>
   </div>
 
-  <div class="sub-h">字重阶梯</div>
+  <div class="sub-h">字重用哪个档位，一句话说清楚</div>
   <div class="card card-flush"><table class="type-table">
-    <tr><th>角色</th><th>字重</th><th>颜色档</th><th>示例</th></tr>
-    <tr><td>展示 / 页标题</td><td>w800</td><td>primary</td><td><span style="font-weight:800;letter-spacing:-0.55px">标题</span></td></tr>
-    <tr><td>强强调</td><td>w700</td><td>primary 或 accent</td><td><span style="font-weight:700">选中导航</span></td></tr>
-    <tr><td>强调</td><td>w600</td><td>primary / secondary</td><td><span style="font-weight:600;color:var(--sec)">副题按钮</span></td></tr>
+    <tr><th>什么时候用</th><th>字重</th><th>颜色</th><th>长这样</th></tr>
+    <tr><td>页面大标题</td><td>w800</td><td>primary</td><td><span style="font-weight:800;letter-spacing:-0.55px">标题</span></td></tr>
+    <tr><td>当前选中</td><td>w700</td><td>primary 或 accent</td><td><span style="font-weight:700">选中导航</span></td></tr>
+    <tr><td>次级强调</td><td>w600</td><td>primary / secondary</td><td><span style="font-weight:600;color:var(--sec)">副题按钮</span></td></tr>
     <tr><td>正文</td><td>w400</td><td>primary</td><td><span style="font-weight:400">内容</span></td></tr>
     <tr><td>辅助说明</td><td>w400</td><td>secondary / muted</td><td><span style="color:var(--sec)">元信息</span></td></tr>
   </table></div>
@@ -514,12 +559,12 @@
 <!-- ===== SHAPE ===== -->
 <section id="shape">
   <div class="sec-h"><h2>形状 · 阴影 · 状态</h2><span class="badge">Shape</span></div>
-  <p class="sec-desc">elevation 全局禁用；深度来自 hairline 与玻璃阴影 token。圆角五档 + pill，覆盖一切 UI 面。</p>
+  <p class="sec-desc">不用 Material 投影那一套。前后关系靠细线（分隔）和毛玻璃阴影（浮层）来表达。圆角就五个档位 + 一个全圆角，够用了。</p>
 
   <div class="sub-h">圆角刻度</div>
   <div class="card card-row" id="radiiRow" style="gap:20px;justify-content:center"></div>
 
-  <div class="sub-h">阴影档位<span class="muted-note"> — 全部由 glass token × effects.shadowScale 驱动</span></div>
+  <div class="sub-h">阴影档位<span class="muted-note"> — 不用 elevation，四档玻璃阴影覆盖一切场景。换皮肤数值会自动跟着变</span></div>
   <div class="card card-row" style="gap:16px;justify-content:center">
     <div class="shadow-demo" style="box-shadow:0 10px 24px var(--glass-shadow)">浮面<br>24 blur · (0, 10)</div>
     <div class="shadow-demo" style="box-shadow:0 10px 34px var(--glass-shadow)">strong<br>34 blur · (0, 10)</div>
@@ -527,7 +572,7 @@
     <div class="shadow-demo" style="box-shadow:0 -6px 18px var(--glass-shadow)">底栏<br>18 blur · (0, −6)</div>
   </div>
 
-  <div class="sub-h">交互状态层<span class="muted-note"> — 悬停/按压看反馈；Tab 键测 focus 环</span></div>
+  <div class="sub-h">交互状态层<span class="muted-note"> — 鼠标悬停或点击看看反馈效果，按 Tab 键能看到键盘焦点环</span></div>
   <div class="card card-row" style="gap:12px">
     <button class="btn btn-filled focus-demo">filled · accent</button>
     <button class="btn btn-quiet focus-demo">quiet · outlined/text</button>
@@ -540,10 +585,10 @@
 <!-- ===== COMPONENTS ===== -->
 <section id="components">
   <div class="sec-h"><h2>组件</h2><span class="badge">Components</span></div>
-  <p class="sec-desc">完整解剖与状态表见仓库 <code>components/*.md</code>（8 篇）。本节展示关键组件在规范 token 下的视觉效果。</p>
+  <p class="sec-desc">下面每个组件都标了关键尺寸和颜色规则。完整的状态表、禁止事项、踩坑记录在仓库 <code>components/*.md</code> 里。</p>
 
   <div class="comp-group">
-    <div class="comp-label">FilledButton — 安静胶囊（min 36 · pill · labelMedium w700 · 图标 17）</div>
+    <div class="comp-label">FilledButton — 背景色极浅、文字用主题色——不是实心大色块</div>
     <div class="card card-row" style="gap:12px;align-items:center">
       <button class="btn btn-filled">default · accent</button>
       <button class="btn btn-filled" style="background:rgba(var(--fg-rgb),.075)">hover 7.5%</button>
@@ -553,7 +598,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">OutlinedButton / TextButton — 更安静的胶囊（default 2.5% · hover 5.5% · pressed 8.5%）</div>
+    <div class="comp-label">OutlinedButton / TextButton — 比上面更轻——默认几乎透明，hover 才微微显色</div>
     <div class="card card-row" style="gap:12px;align-items:center">
       <button class="btn btn-quiet">default · accent</button>
       <button class="btn btn-quiet" style="background:rgba(var(--fg-rgb),.055)">hover 5.5%</button>
@@ -563,7 +608,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">IconButton — 40×40 正圆 · 图标 20 · hover 6.5% · focus 2px accent 描边</div>
+    <div class="comp-label">IconButton — 纯图标没有文字 · 40 见方 · 键盘聚焦时有一圈主题色描边</div>
     <div class="card card-row" style="gap:12px;align-items:center">
       <button class="icon-btn focus-demo">☰</button>
       <button class="icon-btn focus-demo" style="color:var(--accent)">★</button>
@@ -572,7 +617,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">ToolbarButton — 高 32 胶囊 · label 12 w600 secondary · 图标 16</div>
+    <div class="comp-label">ToolbarButton — 高 32 · 小字 12 · 图标 16 · 按钮组/工具条专用</div>
     <div class="card card-row" style="gap:8px;align-items:center">
       <button class="btn" style="min-height:32px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04);border-radius:999px">全部播放</button>
       <button class="btn" style="min-height:32px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04);border-radius:999px">随机</button>
@@ -583,7 +628,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">FAB — 正圆 · 前景 4.5% 底 · accent 图标 · 无 elevation</div>
+    <div class="comp-label">FAB — 页面角落那个大圆按钮 · 不用阴影 · 主题色图标</div>
     <div class="card card-center" style="padding:24px">
       <button class="icon-btn" style="width:56px;height:56px;background:rgba(var(--fg-rgb),0.045);color:var(--accent);font-size:22px">+</button>
     </div>
@@ -595,7 +640,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">TextField — r10 · subtle 填充 · 聚焦 2px accent · 错误 error</div>
+    <div class="comp-label">TextField — 圆角 10 · 浅灰底 · 点进去有一圈主题色 · 输了不合法内容变红</div>
     <div class="card card-row" style="gap:14px;align-items:center">
       <input class="tf-demo" placeholder="搜索书名、作者…">
       <input class="tf-demo" placeholder="错误态 · 输入无效" style="border-color:#e0313e;box-shadow:0 0 0 1px #e0313e">
@@ -603,7 +648,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Slider — 轨道高 3（accent/border）· 拇指 r6 · 按压 overlay accent 12% r14</div>
+    <div class="comp-label">Slider — 进度条/音量条 · 轨道 3px · 圆点 6px · 拖拽时圆点外有一圈光晕</div>
     <div class="card card-row" style="gap:20px;align-items:center">
       <div>
         <input type="range" class="slider-demo" value="65" style="background:linear-gradient(to right, var(--accent) 65%, var(--border) 65%)">
@@ -617,7 +662,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Switch — 轨道 40×24 pill · 拇指 18 · 160ms easeOutCubic · 禁平台自适应</div>
+    <div class="comp-label">Switch — 40 宽 · 24 高 · 里头的小圆 18px · 切换动画 160 毫秒。不用 iOS/macOS 默认的绿色开关</div>
     <div class="card card-row" style="gap:16px;align-items:center">
       <div style="text-align:center">
         <button class="switch-demo on" onclick="this.classList.toggle('on')"></button>
@@ -631,7 +676,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Checkbox — r5 · 1.4px border · 选中 accent 底 + onAccent 勾</div>
+    <div class="comp-label">Checkbox — 方勾 · 5px 圆角 · 细灰框 · 勾上后变主题色底 + 白勾</div>
     <div class="card card-row" style="gap:16px;align-items:center">
       <div style="display:flex;align-items:center;gap:8px">
         <button class="cbx-demo on" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓':''">✓</button>
@@ -645,7 +690,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Radio — 选中 accent 填充 · compact 密度</div>
+    <div class="comp-label">Radio — 圆单选 · 选中填主题色 · 跟 checkbox 不一样</div>
     <div class="card card-row" style="gap:16px;align-items:center">
       <div style="display:flex;align-items:center;gap:8px">
         <button class="rdo-demo on" onclick="document.querySelectorAll('.rdo-demo').forEach(r=>r.classList.remove('on'));this.classList.add('on')"></button>
@@ -659,7 +704,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Dropdown — 输入同 TextField · 菜单 elevated 面 r12 border</div>
+    <div class="comp-label">Dropdown — 点开弹出菜单 · 样式跟输入框走 · 菜单圆角 12 带描边</div>
     <div class="card card-row" style="gap:12px;align-items:center">
       <div style="position:relative;display:inline-block">
         <div class="tf-demo" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:200px" onclick="const m=this.nextElementSibling;m.style.display=m.style.display==='none'?'block':'none'">
@@ -676,7 +721,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">ListRow — 列表行（minHeight 54 · 标题 13.5 w600 / 副题 11.5 secondary）</div>
+    <div class="comp-label">ListRow — 列表行（设置页/菜单里最常见的行 · 标题略大略粗 · 下面一行小字灰色补充说明）</div>
     <div class="card card-flush">
       <div class="lrow"><span class="lrow-ic">◔</span><span class="lrow-body"><div class="lrow-title">普通行</div><div class="lrow-sub">副题 11.5 secondary · 元信息</div></span></div>
       <div class="lrow sel"><span class="lrow-ic">◑</span><span class="lrow-body"><div class="lrow-title">选中行（前景 5%）</div><div class="lrow-sub">selected · 行内 check / accent 文字</div></span><span class="lrow-check">✓</span></div>
@@ -685,7 +730,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Dialog — r20 · glass strong · maxWidth 520</div>
+    <div class="comp-label">Dialog — 圆角最大的一档 · 毛玻璃背景 · 最宽 520 不撑满屏</div>
     <div class="stage">
       <div class="barrier"></div>
       <div class="dialog-mock">
@@ -697,7 +742,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">OptionSheet（简单选项列表） — 同 Sheet 结构 · maxWidth 560</div>
+    <div class="comp-label">OptionSheet（简单选项列表） — 跟弹层一样但窄一点 · 只有几个选项让用户挑一个</div>
     <div class="card card-center">
       <div style="width:min(100%,400px);border-radius:18px 18px 0 0;background:var(--glass-strong);border:1px solid var(--glass-border);border-bottom:0;box-shadow:0 -8px 28px var(--glass-shadow);padding:20px 14px;text-align:center">
         <div style="width:38px;height:4px;border-radius:99px;background:rgba(var(--sec-rgb),0.38);margin:0 auto 14px"></div>
@@ -710,7 +755,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Sheet — r18 顶角 · 把手 38×4 · maxWidth 760 · 同品牌规范</div>
+    <div class="comp-label">Sheet — 从屏幕底部弹出 · 顶部圆角 · 小横条把手 · 宽屏会自动居中</div>
     <div class="stage">
       <div class="barrier"></div>
       <div class="sheet-mock">
@@ -723,7 +768,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Menu — 宽 252 r12 · ≥680px 锚定 / 窄屏退化为底部弹层</div>
+    <div class="comp-label">Menu — 右键菜单那种 · 252 宽 · 屏幕宽时浮在旁边 · 屏幕窄时从底部弹出</div>
     <div class="card card-center">
       <div class="menu-mock">
         <div class="mi"><span class="mi-ic">⇅</span><span class="mi-label">按标题排序</span></div>
@@ -735,7 +780,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">NavigationBar — 56px 玻璃底栏 · 图标 21 · 标签 10.5</div>
+    <div class="comp-label">NavigationBar — 手机底部常驻导航 · 毛玻璃半透明 · 能看到下面内容透上来</div>
     <div class="card card-center">
       <div class="nav-mock">
         <div class="ni on"><span class="ni-ic">▤</span>书架</div>
@@ -764,7 +809,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">GlassSurface 原语 — base vs strong 两档表面 + border + shadow + blur</div>
+    <div class="comp-label">GlassSurface 原语 — 浮面有两种浓度——72% 和 87%——配细描边和玻璃阴影</div>
     <div class="card card-row" style="gap:16px;justify-content:center">
       <div style="flex:1;min-width:180px;height:112px;border-radius:14px;border:1px solid var(--glass-border);background:var(--glass-surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;box-shadow:0 10px 24px var(--glass-shadow)">
         <span>glass.surface</span>
@@ -776,7 +821,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">CheckRow — 列表行变体（leading 20px 勾选 · 点击整行切换）</div>
+    <div class="comp-label">CheckRow — 列表行变体（在列表行左边加个勾选框 · 点文字或点框都能勾选）</div>
     <div class="card card-flush">
       <div class="lrow" onclick="const b=this.querySelector('button');b.classList.toggle('on');this.classList.toggle('sel');b.textContent=b.classList.contains('on')?'✓':''">
         <button class="cbx-demo" style="flex-shrink:0" onclick="event.stopPropagation();this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓':'';this.closest('.lrow').classList.toggle('sel')"></button>
@@ -786,7 +831,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Scrollbar · LinearProgress — 5px 胶囊条 / accent 进度</div>
+    <div class="comp-label">Scrollbar · LinearProgress — 滚动条 5px 宽 · 进度条主题色 · 都走同一条视觉规则</div>
     <div class="card card-row" style="gap:20px;align-items:center">
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:5px;height:52px;border-radius:99px;background:rgba(var(--sec-rgb),0.30)"></div>
@@ -805,10 +850,10 @@
 <!-- ===== PATTERNS ===== -->
 <section id="patterns">
   <div class="sec-h"><h2>模式</h2><span class="badge">Patterns</span></div>
-  <p class="sec-desc">应用外壳、设置页等跨页面布局模式。产品特有的沉浸页（开听正在播放、开卷阅读器）见 <code>products/</code>。</p>
+  <p class="sec-desc">几个产品都要用的页面骨架——桌面侧栏、移动底栏、设置页卡片。每个产品自己特有的沉浸页在下面「产品」区。</p>
 
   <div class="comp-group">
-    <div class="comp-label">桌面外壳 — 侧栏（chromeSurface）+ 内容画布</div>
+    <div class="comp-label">桌面外壳 — 桌面端左边导航栏 · 半透明玻璃底 · 右边是内容区</div>
     <div class="shell-mock">
       <div class="side">
         <div class="sb" id="shellBrand"></div>
@@ -830,12 +875,96 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">设置页 — 分组卡片（r14 · surface@72% · hairline）+ info 行</div>
+    <div class="comp-label">设置页 — 设置页就是这些圆角卡片叠起来的 · 每张卡圆角 14 · 浅灰底 · 细灰线隔开每行</div>
     <div class="sgroup">
       <div class="sr"><span class="sk">版本</span><span class="sv" id="specVerInfo"></span></div>
       <div class="sr"><span class="sk">规范</span><span class="sv">tokens/*.json + foundations/ + components/</span></div>
       <div class="sr"><span class="sk">同步</span><span class="sv">python3 viewer/build.py 重新生成</span></div>
       <div class="sr"><span class="sk">仓库</span><span class="sv">github.com/robeshell/kai-brand-design</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCT PATTERNS ===== -->
+<section id="product-patterns">
+  <div class="sec-h"><h2>产品模式</h2><span class="badge">Products</span></div>
+  <p class="sec-desc">上面这些通用规则在开听和开卷里分别长什么样。切一下顶部「产品」看看——不是换色，是两套完全不同的页面。</p>
+
+  <!-- kaiting -->
+  <div class="prod-panel active" data-product="kaiting">
+    <div class="sub-h">正在播放 · 桌面双栏<span class="muted-note"> — 封面/黑胶 居中 · 曲名 27 w800 · 歌词右栏</span></div>
+    <div class="np-wide">
+      <div class="np-art-col">
+        <div class="np-cover"><div class="vinyl-label">黑胶 / 封面</div></div>
+        <div style="font-size:11px;color:var(--mut);margin-top:8px">440×440 · card r14</div>
+      </div>
+      <div class="np-lyrics-col">
+        <div class="np-title">机动战士高达</div>
+        <div class="np-artist">玉置成实</div>
+        <div class="np-lyric-line"><span></span><span></span></div>
+        <div class="np-lyric-line"><span></span><span></span></div>
+        <div class="np-lyric-line current"><span></span><span></span></div>
+        <div class="np-lyric-line"><span></span><span></span></div>
+        <div class="np-lyric-line"><span></span><span></span></div>
+        <div class="np-controls">
+          <div class="ctrl">⏮</div><div class="ctrl play">▶</div><div class="ctrl">⏭</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-h" style="margin-top:24px">迷你播放器<span class="muted-note"> — GlassSurface strong · 圆角 r18 · 错误用 error 色 · 可交互进度</span></div>
+    <div class="mini-player-mock">
+      <div class="mp-cover"></div>
+      <div class="mp-info">
+        <div class="mp-title">Believe</div>
+        <div class="mp-artist">玉置成实 · 机动战士高达 SEED</div>
+        <div class="mp-progress"></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div class="ctrl" style="width:32px;height:32px;font-size:13px">▶</div>
+        <div class="ctrl" style="width:32px;height:32px;font-size:13px">⏭</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- kaijuan -->
+  <div class="prod-panel" data-product="kaijuan">
+    <div class="sub-h">阅读器 chrome<span class="muted-note"> — 栏高 56 · macOS 避让 78 · 书籍取色自阅读主题（已登记分叉）</span></div>
+    <div class="reader-mock">
+      <div class="reader-chrome-top">
+        <button class="rc-btn">←</button>
+        <span style="font-size:13px;font-weight:600;color:rgba(0,0,0,0.6);flex:1">第 3 章 · 设计的层次</span>
+        <button class="rc-btn">⚙</button>
+      </div>
+      <div class="reader-body">
+        <div class="rb-title">设计的层次</div>
+        <div class="rb-para">设计系统不是一套组件库，而是一套<span>共享的语言与约束</span>。它规定了什么可以做，更规定了什么不能做——后者往往比前者更有价值。</div>
+        <div class="rb-para">好的约束让决策变少，让一致性<span>自然发生</span>，而不是靠人工审查。</div>
+      </div>
+      <div class="reader-chrome-bottom">
+        <button class="rc-chip on">目录</button>
+        <button class="rc-chip">书签</button>
+        <button class="rc-chip">搜索</button>
+        <button class="rc-chip">设置</button>
+        <span style="flex:1"></span>
+        <button class="rc-chip">← 上一章</button>
+      </div>
+    </div>
+
+    <div class="sub-h" style="margin-top:24px">摘抄卡片<span class="muted-note"> — 强玻璃浮面 + 高亮标记（accent 18%）+ 书源/页码</span></div>
+    <div class="excerpt-card">
+      <div class="ec-text">好的约束让决策变少，让一致性<mark>自然发生</mark>，而不是靠人工审查。</div>
+      <div class="ec-meta">《设计体系导论》· 第 3 章 · 2024-03-12</div>
+    </div>
+
+    <div class="sub-h" style="margin-top:24px">书架网格<span class="muted-note"> — 封面 card r14 · shadow × scale · ≥96px 才投影 · 无彩色背景条</span></div>
+    <div class="bookshelf-grid">
+      <div class="bk" style="background:linear-gradient(150deg,#d95770,#8067bc)"></div>
+      <div class="bk" style="background:linear-gradient(150deg,#3f9e98,#6673c7)"></div>
+      <div class="bk" style="background:linear-gradient(150deg,#f0a35e,#d95770)"></div>
+      <div class="bk" style="background:linear-gradient(150deg,#536171,#18202a)"></div>
+      <div class="bk" style="background:linear-gradient(150deg,#c7842f,#8067bc)"></div>
+      <div class="bk" style="background:linear-gradient(150deg,#6673c7,#3f9e98)"></div>
     </div>
   </div>
 </section>
@@ -928,6 +1057,7 @@ function applyTheme() {
   renderRamp(skin);
   renderAlphaTable();
   renderAccents();
+  updateProductPanel();
   markControls();
 }
 
@@ -1018,6 +1148,12 @@ function renderProductSeg() {
     .map(([id, p]) => `<button data-product="${id}">${p.displayName}</button>`).join('');
   document.querySelectorAll('#productSeg button').forEach(b =>
     b.onclick = () => { state.product = b.dataset.product; state.accent = null; applyTheme(); });
+}
+
+function updateProductPanel() {
+  document.querySelectorAll('.prod-panel').forEach(p => {
+    p.classList.toggle('active', p.dataset.product === state.product);
+  });
 }
 
 function renderSkinCards() {
