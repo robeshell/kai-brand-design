@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.2.1（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
+**specVersion: 0.2.2（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -103,3 +103,4 @@ python3 viewer/build.py   # tokens 改值后重跑即同步
 - **0.1.3**（2026-07-24）：设计审计收尾——搜索框 r10 + 聚焦 2px accent；分区标题统一 12.5 w600 secondary；新增 `derivedAlphas.status.warning` token；SnackBar 显式 floating；对话框宽度收敛 520、简单选项列表弹层登记 560；底栏导航标签定档 10.5；正文字号归位 0.5 网格；展示文字禁 accent；文字三档之外禁止再乘 alpha。
 - **0.2.0**（2026-07-24）：结构拆分——规范迁入独立仓库，分为品牌层（仓库根）与产品层（`products/`）；新增层级归属与品牌层中立治理规则；侧栏选中锚点明确为 accent 10% 胶囊（r10）。开听产品规范首批落地（见 `products/kaiting/`），开卷产品目录建立。
 - **0.2.1**（2026-07-24）：新增 `DESIGN.md`——Google Stitch 格式（9 段）的品牌层单文件蒸馏，作为 AI 代理入口；数值仍以此仓库 tokens/ 与 components/ 为准。
+- **0.2.2**（2026-07-24）：`DESIGN.md` 重写对齐 awesome-design-md 实际格式——YAML frontmatter 内嵌 token 块（`{token.path}` 引用语法）+ Overview/Colors/Typography/Layout/Elevation & Depth/Shapes/Components/Do's and Don'ts/Responsive Behavior/Iteration Guide/Known Gaps 段落结构；三仓库（品牌/开听/开卷）格式统一。
