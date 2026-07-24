@@ -83,6 +83,33 @@
         }
       ],
       "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色"
+    },
+    "kaigua": {
+      "displayName": "开刮",
+      "default": "indigo",
+      "presets": [
+        {
+          "id": "indigo",
+          "name": "靛蓝",
+          "accent": "#6673C7"
+        },
+        {
+          "id": "teal",
+          "name": "青绿",
+          "accent": "#3F9E98"
+        },
+        {
+          "id": "sky",
+          "name": "晴空",
+          "accent": "#0284C7"
+        },
+        {
+          "id": "slate",
+          "name": "岩灰",
+          "accent": "#475569"
+        }
+      ],
+      "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色"
     }
   },
   "usageRules": [

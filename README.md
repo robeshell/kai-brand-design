@@ -63,6 +63,7 @@ L4 模式规范                    → patterns/*.md（通用：外壳 / 浮层 
 |---|---|
 | `products/kaiting/` | 开听：L0 登记、产品 token、正在播放/资料库模式、分叉登记 |
 | `products/kaijuan/` | 开卷：L0 登记（模式规范随落地补全） |
+| `products/kaigua/` | 开刮：L0 登记（默认靛蓝）、设置页分叉登记 |
 
 新产品接入：`tokens/accents.json` 登记强调色轴 → 建 `products/<product>/README.md`（L0 + 前缀 + 内容层扩展点）→ 按需补产品 patterns。
 
@@ -105,3 +106,4 @@ python3 viewer/build.py   # tokens 改值后重跑即同步
 - **0.2.1**（2026-07-24）：新增 `DESIGN.md`——Google Stitch 格式（9 段）的品牌层单文件蒸馏，作为 AI 代理入口；数值仍以此仓库 tokens/ 与 components/ 为准。
 - **0.2.2**（2026-07-24）：`DESIGN.md` 重写对齐 awesome-design-md 实际格式——YAML frontmatter 内嵌 token 块（`{token.path}` 引用语法）+ Overview/Colors/Typography/Layout/Elevation & Depth/Shapes/Components/Do's and Don'ts/Responsive Behavior/Iteration Guide/Known Gaps 段落结构；三仓库（品牌/开听/开卷）格式统一。
 - **0.2.3**（2026-07-24）：`DESIGN.md` Components 段全量重写——按功能分 8 组（表面原语/按钮 7 变体/输入 6 控件/选择 2 件/列表 3 种/浮层 3 件/导航 2 件/反馈 6 件），每个组件带完整锚点值与状态映射，与 `components/*.md` 一一对应不再缺漏。
+- **0.2.4**（2026-07-24）：开刮（kaigua）接入——`tokens/accents.json` 登记产品轴（默认靛蓝 `#6673C7`）；建立 `products/kaigua/` L0 与分叉登记。
