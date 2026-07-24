@@ -543,13 +543,49 @@
   <p class="sec-desc">完整解剖与状态表见仓库 <code>components/*.md</code>（8 篇）。本节展示关键组件在规范 token 下的视觉效果。</p>
 
   <div class="comp-group">
-    <div class="comp-label">Button 系列 — 安静胶囊（min 36 · pill · labelMedium w700 · 图标 17）</div>
+    <div class="comp-label">FilledButton — 安静胶囊（min 36 · pill · labelMedium w700 · 图标 17）</div>
     <div class="card card-row" style="gap:12px;align-items:center">
-      <button class="btn btn-filled">filled · accent</button>
-      <button class="btn btn-quiet">outlined · text</button>
+      <button class="btn btn-filled">default · accent</button>
+      <button class="btn btn-filled" style="background:rgba(var(--fg-rgb),.075)">hover 7.5%</button>
+      <button class="btn btn-filled" style="background:rgba(var(--fg-rgb),.11)">pressed 11%</button>
+      <button class="btn" disabled>disabled</button>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">OutlinedButton / TextButton — 更安静的胶囊（default 2.5% · hover 5.5% · pressed 8.5%）</div>
+    <div class="card card-row" style="gap:12px;align-items:center">
+      <button class="btn btn-quiet">default · accent</button>
+      <button class="btn btn-quiet" style="background:rgba(var(--fg-rgb),.055)">hover 5.5%</button>
+      <button class="btn btn-quiet" style="background:rgba(var(--fg-rgb),.085)">pressed 8.5%</button>
       <button class="btn btn-destructive">destructive</button>
-      <button class="icon-btn">☰</button>
-      <button class="btn" style="min-height:32px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04)">toolbar 12·32</button>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">IconButton — 40×40 正圆 · 图标 20 · hover 6.5% · focus 2px accent 描边</div>
+    <div class="card card-row" style="gap:12px;align-items:center">
+      <button class="icon-btn focus-demo">☰</button>
+      <button class="icon-btn focus-demo" style="color:var(--accent)">★</button>
+      <button class="icon-btn" disabled style="opacity:0.38">☰</button>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">ToolbarButton — 高 32 胶囊 · label 12 w600 secondary · 图标 16</div>
+    <div class="card card-row" style="gap:8px;align-items:center">
+      <button class="btn" style="min-height:32px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04);border-radius:999px">全部播放</button>
+      <button class="btn" style="min-height:32px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04);border-radius:999px">随机</button>
+      <button class="btn" style="min-height:32px;padding:5px 8px;font-size:12px;font-weight:600;color:var(--sec);background:rgba(var(--fg-rgb),0.04);border-radius:999px;display:inline-flex;align-items:center;gap:5px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> 下一首
+      </button>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">FAB — 正圆 · 前景 4.5% 底 · accent 图标 · 无 elevation</div>
+    <div class="card card-center" style="padding:24px">
+      <button class="icon-btn" style="width:56px;height:56px;background:rgba(var(--fg-rgb),0.045);color:var(--accent);font-size:22px">+</button>
     </div>
   </div>
 
@@ -559,22 +595,92 @@
   </div>
 
   <div class="comp-group">
+    <div class="comp-label">TextField — r10 · subtle 填充 · 聚焦 2px accent · 错误 error</div>
+    <div class="card card-row" style="gap:14px;align-items:center">
+      <input class="tf-demo" placeholder="搜索书名、作者…">
+      <input class="tf-demo" placeholder="错误态 · 输入无效" style="border-color:#e0313e;box-shadow:0 0 0 1px #e0313e">
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Slider — 轨道高 3（accent/border）· 拇指 r6 · 按压 overlay accent 12% r14</div>
+    <div class="card card-row" style="gap:20px;align-items:center">
+      <div>
+        <input type="range" class="slider-demo" value="65" style="background:linear-gradient(to right, var(--accent) 65%, var(--border) 65%)">
+        <div style="font-size:10.5px;color:var(--mut);margin-top:4px">可交互 · 65%</div>
+      </div>
+      <div>
+        <input type="range" class="slider-demo" value="20" style="background:linear-gradient(to right, var(--accent) 20%, var(--border) 20%)">
+        <div style="font-size:10.5px;color:var(--mut);margin-top:4px">20%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Switch — 轨道 40×24 pill · 拇指 18 · 160ms easeOutCubic · 禁平台自适应</div>
+    <div class="card card-row" style="gap:16px;align-items:center">
+      <div style="text-align:center">
+        <button class="switch-demo on" onclick="this.classList.toggle('on')"></button>
+        <div style="font-size:10.5px;color:var(--mut);margin-top:4px">on · accent 轨</div>
+      </div>
+      <div style="text-align:center">
+        <button class="switch-demo" onclick="this.classList.toggle('on')"></button>
+        <div style="font-size:10.5px;color:var(--mut);margin-top:4px">off · border 轨</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Checkbox — r5 · 1.4px border · 选中 accent 底 + onAccent 勾</div>
+    <div class="card card-row" style="gap:16px;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="cbx-demo on" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓':''">✓</button>
+        <span style="font-size:12px">已选</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="cbx-demo" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓':''"></button>
+        <span style="font-size:12px">未选</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Radio — 选中 accent 填充 · compact 密度</div>
+    <div class="card card-row" style="gap:16px;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="rdo-demo on" onclick="document.querySelectorAll('.rdo-demo').forEach(r=>r.classList.remove('on'));this.classList.add('on')"></button>
+        <span style="font-size:12px">已选</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="rdo-demo" onclick="document.querySelectorAll('.rdo-demo').forEach(r=>r.classList.remove('on'));this.classList.add('on')"></button>
+        <span style="font-size:12px">未选</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Dropdown — 输入同 TextField · 菜单 elevated 面 r12 border</div>
+    <div class="card card-row" style="gap:12px;align-items:center">
+      <div style="position:relative;display:inline-block">
+        <div class="tf-demo" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:200px" onclick="const m=this.nextElementSibling;m.style.display=m.style.display==='none'?'block':'none'">
+          <span style="font-size:13px">选择排序方式</span>
+          <span style="font-size:11px;color:var(--sec)">▼</span>
+        </div>
+        <div style="display:none;position:absolute;top:100%;left:0;margin-top:4px;width:200px;background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:6px 0;z-index:10;box-shadow:0 8px 24px var(--glass-shadow)">
+          <div class="mi"><span class="mi-label" style="font-size:13px;padding:0 14px;min-height:40px;display:flex;align-items:center">按标题</span></div>
+          <div class="mi sel"><span class="mi-label" style="font-size:13px;padding:0 14px;min-height:40px;display:flex;align-items:center">按最近阅读</span><span class="lrow-check">✓</span></div>
+          <div class="mi"><span class="mi-label" style="font-size:13px;padding:0 14px;min-height:40px;display:flex;align-items:center">按作者</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
     <div class="comp-label">ListRow — 列表行（minHeight 54 · 标题 13.5 w600 / 副题 11.5 secondary）</div>
     <div class="card card-flush">
       <div class="lrow"><span class="lrow-ic">◔</span><span class="lrow-body"><div class="lrow-title">普通行</div><div class="lrow-sub">副题 11.5 secondary · 元信息</div></span></div>
       <div class="lrow sel"><span class="lrow-ic">◑</span><span class="lrow-body"><div class="lrow-title">选中行（前景 5%）</div><div class="lrow-sub">selected · 行内 check / accent 文字</div></span><span class="lrow-check">✓</span></div>
       <div class="lrow destructive"><span class="lrow-ic">✕</span><span class="lrow-body"><div class="lrow-title">危险操作</div><div class="lrow-sub">destructive · error 前景</div></span></div>
-    </div>
-  </div>
-
-  <div class="comp-group">
-    <div class="comp-label">输入控件 — TextField · Slider · Switch · Checkbox · Radio</div>
-    <div class="card card-row" style="gap:18px;align-items:center">
-      <input class="tf-demo" placeholder="搜索书名、作者…">
-      <input type="range" class="slider-demo" value="35">
-      <button class="switch-demo on" onclick="this.classList.toggle('on')"></button>
-      <button class="cbx-demo on" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓':''">✓</button>
-      <button class="rdo-demo on" onclick="this.classList.toggle('on')"></button>
     </div>
   </div>
 
@@ -591,7 +697,20 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Sheet — r18 顶角 · 把手 38×4 · maxWidth 760</div>
+    <div class="comp-label">OptionSheet（简单选项列表） — 同 Sheet 结构 · maxWidth 560</div>
+    <div class="card card-center">
+      <div style="width:min(100%,400px);border-radius:18px 18px 0 0;background:var(--glass-strong);border:1px solid var(--glass-border);border-bottom:0;box-shadow:0 -8px 28px var(--glass-shadow);padding:20px 14px;text-align:center">
+        <div style="width:38px;height:4px;border-radius:99px;background:rgba(var(--sec-rgb),0.38);margin:0 auto 14px"></div>
+        <div class="lrow"><span class="lrow-body"><div class="lrow-title">15 分钟</div></span><span class="lrow-check">✓</span></div>
+        <div class="lrow"><span class="lrow-body"><div class="lrow-title">30 分钟</div></span></div>
+        <div class="lrow"><span class="lrow-body"><div class="lrow-title">45 分钟</div></span></div>
+        <div class="lrow"><span class="lrow-body"><div class="lrow-title">60 分钟</div></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <div class="comp-label">Sheet — r18 顶角 · 把手 38×4 · maxWidth 760 · 同品牌规范</div>
     <div class="stage">
       <div class="barrier"></div>
       <div class="sheet-mock">
