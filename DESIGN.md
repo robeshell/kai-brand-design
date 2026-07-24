@@ -47,19 +47,30 @@ spacing:
   x8: 32
   pageGutter: { compact: 16, medium: 24, wide: 32 }
 components:
-  dialog: { maxWidth: 520, radius: "{rounded.dialog}", padding: "20h/24v" }
-  sheet: { maxWidth: 760, radiusTop: "{rounded.sheet}", handle: "38x4" }
+  buttonFilled: { shape: pill, minSize: 36, bg: "foreground@0.045", fg: accent, iconSize: 17 }
+  toolbarButton: { height: 32, shape: pill, label: "12 w600 secondary", icon: 16 }
+  iconButton: { size: 40, shape: circle, icon: 20 }
+  dialog: { maxWidth: 520, confirmMaxWidth: 400, radius: "{rounded.dialog}", padding: "20h/24v" }
+  sheet: { maxWidth: 760, radiusTop: "{rounded.sheet}", handle: "38x4", handleColor: "secondary@0.38-0.45" }
   optionSheet: { maxWidth: 560 }
-  menu: { width: 252, radius: "{rounded.menu}" }
+  menu: { width: 252, radius: "{rounded.menu}", adaptiveBelow: 680 }
+  menuRow: { height: "46 wide / 52 compact", icon: 19, iconSlot: 24, selected: "foreground@0.055 + accent + check 18" }
   listRow: { minHeight: 54, leading: 32, title: "{typography.rowTitle}", subtitle: "{typography.rowSubtitle}" }
+  checkRow: { leading: "checkbox icon 20, accent filled / muted hollow" }
   settingsGroup: { radius: "{rounded.card}", fill: "surfaceContainerLow@0.72", border: "{colors.hairline}", dividerIndent: 14 }
+  textField: { radius: "{rounded.control}", fill: subtle, focusBorder: "2px accent", padding: "14h/14v isDense" }
+  slider: { track: 3, thumbRadius: 6, overlay: "accent@0.12 r14" }
   switch: { track: "40x24", thumb: 18, motion: "160ms easeOutCubic" }
+  checkbox: { radius: 5, border: "1.4px", checked: "accent + onAccent check" }
   chip: { height: 32, radius: "{rounded.pill}", selected: "accent@0.09" }
   sidebarRow: { minHeight: 40, selected: "accent@0.10 capsule", radius: "{rounded.control}" }
   navBar: { height: 56, icon: 21, label: "{typography.navLabel}" }
-  snackbar: { behavior: floating, width: "220 centered >=420w", duration: "1.4s" }
-  emptyState: { maxWidth: 420, icon: 30 }
+  snackbar: { behavior: floating, surface: "overlay + border", radius: "{rounded.menu}", width: "220 centered >=420w", duration: "1.4s" }
+  tooltip: { surface: "overlay + border", radius: "{rounded.tooltip}", padding: "10h/7v", delay: "450ms", show: "3s" }
+  emptyState: { maxWidth: 420, icon: 30, title: "16 w600", note: "12 secondary" }
   spinner: { size: 24, stroke: 2 }
+  scrollbar: { width: 5, thumb: "secondary@0.30 / hover 0.55" }
+  linearProgress: { color: accent, track: transparent }
 ---
 
 # Kai Brand Design System
@@ -184,49 +195,65 @@ components:
 
 ## Components
 
-### Buttons
+> 每个组件的完整解剖/状态表/交互规则见 `components/*.md`（8 篇规范文件）；本节是代理速查，列出每一个组件及其关键锚点值。命名中性（`GlassSurface`、`MenuButton`…），产品实现加前缀（开听 `Sound*`、开卷 `App*`）。
 
-- **`button-primary`** — accent 填充圆角 control，onAccent 文字 w700；主操作一屏一个。
-- **`button-tonal`** — subtle 填充 + primary 文字，用于次操作与空态行动钮。
-- **`button-destructive`** — error@0.08 填充 + error 文字（hover 0.12 / pressed 0.16 / disabled 0.025，取自 derivedAlphas.destructive）。
-- **icon-button** — 触控目标 ≥40，图标 19–20，secondary 色。
+### Surfaces — 表面原语
 
-### Dialogs & Sheets & Menus
+- **`glass-surface`** — 一切浮面的原语：`base` / `strong` 两档填充（取自 `glass.surface` / `glass.strongSurface`）+ `glass.border` 描边 + token 阴影 × `effects.shadowScale` +（可选）`glass.blur` 模糊。blur=0 的皮肤（纯净）自动跳过 BackdropFilter，shadowScale=0 自动免投影。浮面按场景用模糊，**重复的行/卡片不模糊**。
+- **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔，左右缩进 14，自动插入（不手动写 Divider）；子块标签 12.5 w600 secondary，padding 14/12/14/2，左对齐。
+- **皮肤预览卡** — 124×80、r12、hairline 描边；内部 0.74×0.64 elevated 小卡（r7）+ accent 短条 13×4 + 两条假文字（0.78/0.52 宽、3.5 高、primaryText@0.22 / secondaryText@0.32）；选中 accent 2px 描边 + 下方标签 accent w700，未选 hairline + secondary w500（12px）。不放 check 角标。
+- **主题色板** — 28px 圆点横排，间距 12；选中 1.5px primary 描边 + 中心 8px onAccent 圆点；未选无描边（自定义彩虹渐变点外带 hairline）。不放 check 图标、不加投影。
 
-- **`dialog`** — maxWidth 520、r20、barrier light 38%/dark 62%；标题 titleLarge w800 单行省略。
-- **`sheet`** — r18 顶角、把手 38×4、maxWidth 760 居中；简单选项列表 560；barrier 同对话框。
-- **`menu`** — 窄屏（<680）落底部弹层，宽屏锚定 252px r12 玻璃弹层；菜单项图标 20，destructive 项 error 色。
+### Buttons — 安静胶囊，不是实心大色块
 
-### List Rows
+- **`button-filled`** — pill 胶囊、最小 36、padding 14h/7v、labelMedium w700、图标 17。状态：default 前景 4.5% 底 + accent 前景 / hover 7.5% / pressed 11% / disabled 前景 2.2% + secondary 38%。主操作一屏一个。
+- **`button-outlined`** — 同形制；default 前景 2.5% / hover 5.5% / pressed 8.5%；前景 accent，用于次操作。
+- **`button-text`** — 同形制；default 透明 / hover 5.5% / pressed 8.5%；前景 accent，最低姿态。
+- **`button-destructive`** — error@8% 底 + error 文字；hover 12% / pressed 16% / disabled 2.5%。
+- **`icon-button`** — 40×40 正圆、图标 20、前景 primary（选中 accent）；hover 前景 6.5% / pressed 10%；focus 2px accent 描边。
+- **`toolbar-button`** — 高 32 胶囊、padding 8–10h；文字 12 w600 secondary、图标 16 secondary；工具条触发器专用。
+- **`fab`** — 正圆、前景 4.5% 底 + accent 图标；无 elevation。
+- **横规则**：状态过渡 160ms easeOutCubic、NoSplash；对话框按钮区 OverflowBar 右对齐，间距 10、主按钮在右；同一区域最多一个主强调；**禁止实心 accent 大色块、禁止自定义圆角（一律 pill）、禁止阴影**。
 
-- **`list-row`** — 标题 13.5 w600 + 副题 11.5 secondary 堆叠；leading 32px 槽位（图标 18–20）；trailing value 12.5 secondary + chevron 19；minHeight 54，设置行桌面 ≥64。
-- 选中态：行内 check / accent 文字，**禁止整行填充块**（侧栏除外，见下）。
+### Inputs — 文本 / 滑杆 / 开关 / 勾选 / 下拉
 
-### Navigation
+- **`text-field`** — r10（control 档）、subtle 填充（前景 4.5% light / 5.5% dark）、内边距 14h/14v isDense；常态 border 描边，聚焦 2px accent，错误 error（聚焦 2px）；标签 secondary w600，浮动标签 accent w700；提示文字 secondary 70%。搜索框可有独立更矮的紧凑变体，但填充/圆角/聚焦规则不变。**禁止 M1 风格无填充下划线输入框**。
+- **`slider`** — 轨道高 3：激活 accent / 未激活 border；拇指半径 6 圆、accent；按压 overlay accent 12% 半径 14；不显示数值标签。只读进度条：轨道 3、无拇指或拇指 5、复用同语言。**禁止拇指带阴影/elevation**。
+- **`switch`** — 轨道 40×24 pill 999，无描边；拇指 18 正圆，轨道内边距 3。选中：轨道 accent、拇指 onAccent；未选：轨道 border、拇指 secondary。颜色 + 位置过渡 160ms easeOutCubic；触控目标 ≥40（透明 padding 外扩）。**禁止 `Switch.adaptive`**——macOS/iOS 得到系统绿 Cupertino 开关，且不吃主题。
+- **`checkbox`** — 圆角 5、1.4px border 描边；选中 accent 底 + onAccent 勾；未选 muted 空心；compact 密度。
+- **`radio`** — 选中 accent 填充；compact 密度。
+- **`dropdown`** — 输入部分同 text-field；下拉菜单 elevated 面 + r12 + border，同菜单规范。
 
-- **`sidebar-row`** — 选中 = accent@0.10 胶囊（r10）+ accent 图标 + w700 标题；未选 secondary。
-- **`nav-bar`** — 56px 玻璃底栏，图标 21，标签 10.5（选中 w800 primary / 未选 w600 secondary）。
+### Choice & Selection — 选择条 / CheckRow
 
-### Inputs & Forms
+- **`choice-strip`** — 高度 32 pill 胶囊条、padding 11h、间距 8、可选图标 15（前导 6）。状态：default 前景 2.5% 底 + secondary 字 w600 / selected accent 9% 底 + accent 字 w700 / disabled 前景 2.5% + muted 45%。横排滚动（默认）或 Wrap；选中过渡 160ms；单选语义。阅读器覆盖在内容上的场景：前景可取内容色板（已登记分叉），形状/高度/间距不变。**优先用 ChoiceStrip**；仅在语义必须是 Chip 控件时用 Material Chip（Theme 层已配成同语言：pill、无 checkmark、选中 accent 9%）。
+- **`check-row`** — list-row 变体：leading 为 20px 勾选图标（选中 accent 实心 / 未选 muted 空心）；`selected` 与勾选态一致；点击整行切换。
 
-- **`text-field`** — r10，filled subtle；聚焦描边 2px accent；错误描边 error（聚焦 2px）。
-- **`switch`** — 轨道 40×24 pill、拇指 18；on = accent 轨 + onAccent 拇指，off = border 轨 + secondary 拇指；160ms easeOutCubic；**禁用平台自适应开关**。
+### Lists — 列表行 / 菜单行
 
-### Chips & Tags
+- **`list-row`** — 解剖 `[leading 槽32] 10 [标题/副题] 10 [trailing]`；minHeight 54（设置页行 64 / 紧凑 58）、padding 14h/6v；标题 13.5 w600 单行省略、副题 11.5 secondary 单行省略。trailing：value 12.5 secondary w500 + chevron 19 secondary，或 Switch（右内边距 6）。状态：default 透明 / hover 前景 3.5% / focus 5% / selected 5%（可叠加 accent 内容）/ disabled muted 50%。destructive 行：图标与文字 error 色。整行 InkWell 透明叠加可点，无 onTap 不注册 button 语义；**行内不出现 elevation / 阴影**。
+- **`check-row`** — 见 §Choice & Selection。
+- **`menu-row`** — 高 46（锚定）/ 52（底部弹层）；图标 19 槽宽 24；标签 14 w600、副题 11.5 secondary；选中 foreground 5.5% 底 + accent 前景 + 右侧 check 18px；destructive error 前景；`dividerBefore` → hairline indent 16。菜单标题：12–12.5 w600 secondary + hairline 下分隔。
 
-- **`choice-strip`** — pill 32 高，选中 accent@9% 填充 + accent 文字 w700；未选 secondary w600；可横向滚动或 Wrap。
+### Overlays — 对话框 / 底部弹层 / 菜单
 
-### Settings
+- **`dialog`** — 强玻璃面 r20、maxWidth 520（确认/提示类收至 400）、barrier 38%（浅）/ 62%（深）、视口内边距 20h/24v。标题区 padding 24/22/20/16、titleLarge w800 单行省略；内容区 padding 24/0/24/20、bodyMedium secondary；**内容超高时内容区独立滚动，对话框整体不滚**（shrink-wrap：maxHeight = 视口 − 48，内容区 Flexible + SingleChildScrollView）。按钮区 20/14/20/20 OverflowBar 右对齐间距 10；destructive 确认用 destructive 样式；文本输入流 autofocus + Enter 提交。**禁止 AlertDialog 默认灰面与 elevation、禁止对话框内第二个 accent 主按钮**。
+- **`sheet`** — 顶角 r18、把手 38×4 胶囊（secondary 38–45%，距顶 7）、maxWidth 760 居中（简单选项列表 560）、阴影 blur 28 × scale offset (0,−8)、barrier 同对话框。表面 strongSurface + border，内容区顶 padding 14 避把手。
+- **`menu`** — 同一 `MenuAction<T>` 数据模型（value / label / icon / subtitle? / selected / enabled / destructive / dividerBefore）两种自适应呈现：<680px → 底部弹层（行高 ≥52、padding 20h、最高 72% 视口、SafeArea）；≥680px → 锚定玻璃弹层（宽 252、r12、阴影 blur 24 offset (0,8)、自动上下翻避免越界）。触发器 `MenuButton`：默认 more_horiz 21px 图标钮（支持自定义 child、hover 前景 4%），无可用项时禁用。**禁止裸用 Material PopupMenuButton 默认样式；禁止菜单内嵌套滚动视图不收缩**。
 
-- **`settings-group`** — r14 + surfaceContainerLow@72% + hairline 描边；行间 hairline 缩进 14 自动插入；子块标签 12.5 w600 secondary 左对齐（14/12/14/2 内边距）。
-- **皮肤预览卡** 124×80 r12：画布色 + 0.74×0.64 elevated 小卡 + accent 短条 + 假文字行；选中 accent 2px 描边 + 标签 accent w700，不放 check 角标。
-- **主题色板** 28px 圆点：选中 1.5px primary 描边 + 8px onAccent 圆心；不用 check 图标。
+### Navigation — 底栏 / 侧栏
 
-### Feedback
+- **`nav-bar`（底栏）** — 高 56（嵌入态 46）+ SafeArea；`chromeSurface`（strongSurface@80%）+ 顶 hairline；阴影 blur 18 offset (0,−6)。图标 21、标签 10.5（选中 w800 accent / 未选 w600 onSurfaceVariant）；标签颜色过渡 160ms easeOutCubic。目的地 3–5 个、图标 + 2–4 字短标签；选中/未选图标可同形或双态，尺寸一致。底栏常驻，内容底部留白按壳规范。
+- **`side-rail`（侧栏）** — 宽 216（medium）/ 236（wide），产品可选图标轨（开听）或列表轨（开卷），token 一致。`chromeSurface` + 右 hairline，全高延伸至标题栏下方（避让交通灯）。品牌字 17 w800 −0.35。行高 ≥40、行圆角 10（control 档）；选中行：accent 10% 胶囊底 + accent 图标（18–20）+ primary 标签 w700；未选行：secondary 图标与标签 w500；hover 前景 4.5%。侧栏不透明堆叠内容时模糊可省（无内容从其下滚过）。
 
-- **`snackbar`** — floating；≥420px 窗口居中 220 窄条距底 36，窄窗左右 16 距底 18；1.4s，新提示顶掉旧提示，下滑关闭。
-- **`empty-state`** — 图标 30 muted + 16 w600 标题 + 12 说明（secondary），maxWidth 420，可选 tonal 行动钮。
-- **`spinner`** — 24px、stroke 2；按钮内 busy 用 onPrimary 色。
+### Feedback — 轻提示 / 空态 / 加载 / 滚动条 / 进度条
+
+- **`snackbar`** — floating、overlay 面 + border、r12（menu 档）；文字 bodyMedium primary、action accent；≥420px 宽窗居中 220 窄条距底 36，窄窗左右 16 距底 18；时长 1.4s，**新提示顶掉旧提示**（clearSnackBars），下滑关闭；不用 action 时保持纯文本一行。**不带 margin 的 fixed Snackbar 会导致断言失败**。
+- **`tooltip`** — overlay 面 + border、r8、10h/7v 内边距、bodySmall 染 primary；延迟 450ms、展示 3s；message 为空时不挂 tooltip；中文文案，仅桌面指向设备依赖它。
+- **`empty-state`** — 30px muted 描线图标（weight 300）/ 14 / 16 w600 标题（primary 88%）/ 6 / 12 说明（muted 76%，行高 1.45）；maxWidth 420，居中；可选 tonal 行动钮。
+- **`spinner`** — 24px、stroke 2；accent 由 progressIndicatorTheme 供给，**禁止硬编码颜色**。按钮内 busy 态用 onPrimary 色。
+- **`scrollbar`** — 5px 胶囊、thumb secondary 30%（hover 55%）、轨道透明；桌面常驻可显，触屏淡入淡出。
+- **`linear-progress`** — accent 色、轨道透明；只表达确定/不确定进度，**不用作分隔线**。
 
 ## Do's and Don'ts
 

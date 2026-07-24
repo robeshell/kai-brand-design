@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.2.2（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
+**specVersion: 0.2.3（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -104,3 +104,4 @@ python3 viewer/build.py   # tokens 改值后重跑即同步
 - **0.2.0**（2026-07-24）：结构拆分——规范迁入独立仓库，分为品牌层（仓库根）与产品层（`products/`）；新增层级归属与品牌层中立治理规则；侧栏选中锚点明确为 accent 10% 胶囊（r10）。开听产品规范首批落地（见 `products/kaiting/`），开卷产品目录建立。
 - **0.2.1**（2026-07-24）：新增 `DESIGN.md`——Google Stitch 格式（9 段）的品牌层单文件蒸馏，作为 AI 代理入口；数值仍以此仓库 tokens/ 与 components/ 为准。
 - **0.2.2**（2026-07-24）：`DESIGN.md` 重写对齐 awesome-design-md 实际格式——YAML frontmatter 内嵌 token 块（`{token.path}` 引用语法）+ Overview/Colors/Typography/Layout/Elevation & Depth/Shapes/Components/Do's and Don'ts/Responsive Behavior/Iteration Guide/Known Gaps 段落结构；三仓库（品牌/开听/开卷）格式统一。
+- **0.2.3**（2026-07-24）：`DESIGN.md` Components 段全量重写——按功能分 8 组（表面原语/按钮 7 变体/输入 6 控件/选择 2 件/列表 3 种/浮层 3 件/导航 2 件/反馈 6 件），每个组件带完整锚点值与状态映射，与 `components/*.md` 一一对应不再缺漏。

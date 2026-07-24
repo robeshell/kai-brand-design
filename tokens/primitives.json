@@ -1,6 +1,6 @@
 {
   "$schema": "../README.md",
-  "specVersion": "0.2.2",
+  "specVersion": "0.2.3",
   "spacing": {
     "comment": "4 的倍数刻度；组件内部微调可用半档（2/6/10），页面级只用下列值",
     "x1": 4,
