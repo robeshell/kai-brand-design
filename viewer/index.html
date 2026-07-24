@@ -709,13 +709,16 @@
     <div class="card card-row" style="gap:12px;align-items:center">
       <div style="position:relative;display:inline-block">
         <div class="tf-demo" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:200px" onclick="const m=this.nextElementSibling;m.style.display=m.style.display==='none'?'block':'none'">
-          <span style="font-size:13px">选择排序方式</span>
+          <span style="font-size:13px">按最近阅读</span>
           <span style="font-size:11px;color:var(--sec)">▼</span>
         </div>
-        <div style="class="menu-mock" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;width:200px;background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:6px 0;z-index:10;box-shadow:0 8px 24px var(--glass-shadow)">
-          <div class="mi"><span class="mi-label" style="font-size:13px;padding:0 14px;min-height:40px;display:flex;align-items:center">按标题</span></div>
-          <div class="mi sel"><span class="mi-label" style="font-size:13px;padding:0 14px;min-height:40px;display:flex;align-items:center">按最近阅读</span><span class="lrow-check">✓</span></div>
-          <div class="mi"><span class="mi-label" style="font-size:13px;padding:0 14px;min-height:40px;display:flex;align-items:center">按作者</span></div>
+        <div class="menu-mock" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;width:200px;background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:6px 0;z-index:10;box-shadow:0 8px 24px var(--glass-shadow)">
+          <div class="mi sel"><span class="mi-label">按最近阅读</span><span class="lrow-check">✓</span></div>
+          <div class="mi"><span class="mi-label">按标题</span></div>
+          <div class="mi"><span class="mi-label">按作者</span></div>
+          <hr>
+          <div class="mi"><span class="mi-label">升序</span></div>
+          <div class="mi"><span class="mi-label">降序</span></div>
         </div>
       </div>
     </div>
