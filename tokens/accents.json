@@ -1,6 +1,6 @@
 {
   "$schema": "../README.md",
-  "specVersion": "0.2.0",
+  "specVersion": "0.2.1",
   "comment": "强调色是独立品牌轴，与皮肤正交组合。品牌统一中性系统与规则，不统一主色。onAccent 规则：对 accent 做亮度估算，深底白字、浅底 #1C1C22。",
   "products": {
     "kaiting": {
