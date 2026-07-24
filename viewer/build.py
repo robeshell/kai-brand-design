@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
-"""Generate the design-spec viewer (design/viewer/index.html).
+"""Generate the design-spec viewer.
 
-Reads the token JSON files (the single source of truth) and injects them
-into template.html. Re-run after any change under design/tokens/:
+Outputs two copies:
+- viewer/index.html (repo-local preview)
+- docs/index.html   (GitHub Pages entry point)
 
-    python3 design/viewer/build.py
+Reads token JSON files and injects them into template.html.
+Re-run after any change under tokens/:
+
+    python3 viewer/build.py
 """
 
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-TOKENS = ROOT.parent / "tokens"
+REPO = ROOT.parent
+TOKENS = REPO / "tokens"
 TEMPLATE = ROOT / "template.html"
-OUTPUT = ROOT / "index.html"
+OUTPUTS = [ROOT / "index.html", REPO / "docs" / "index.html"]
 MARKER = "/*__SPEC_JSON__*/"
 
 
@@ -31,8 +36,11 @@ def main() -> None:
     if MARKER not in template:
         raise SystemExit(f"marker {MARKER} not found in {TEMPLATE}")
     payload = json.dumps(spec, ensure_ascii=False)
-    OUTPUT.write_text(template.replace(MARKER, payload), encoding="utf-8")
-    print(f"wrote {OUTPUT} (specVersion {spec['primitives']['specVersion']})")
+    for out in OUTPUTS:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(template.replace(MARKER, payload), encoding="utf-8")
+    print(f"wrote {OUTPUTS[0]} (specVersion {spec['primitives']['specVersion']})")
+    print(f"wrote {OUTPUTS[1]} (specVersion {spec['primitives']['specVersion']})")
 
 
 if __name__ == "__main__":
