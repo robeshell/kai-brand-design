@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://robeshell.github.io/kai-brand-design/schema/accents.schema.json",
+  "title": "Kai Product Accent Axes",
+  "type": "object",
+  "required": ["specVersion", "products", "usageRules"],
+  "properties": {
+    "specVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "products": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["displayName", "default", "presets"]
+      }
+    },
+    "usageRules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

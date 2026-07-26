@@ -1,0 +1,42 @@
+name: Design system CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: viewer/package-lock.json
+
+      - name: Install viewer dependencies
+        run: npm ci --prefix viewer
+
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Validate sources
+        run: python3 tool/kai_design.py validate
+
+      - name: Verify committed outputs
+        run: python3 tool/kai_design.py check
+
+      - name: Reject whitespace errors
+        run: git diff --check

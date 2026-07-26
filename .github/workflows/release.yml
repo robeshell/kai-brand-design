@@ -1,0 +1,47 @@
+name: Design system release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: viewer/package-lock.json
+
+      - name: Verify tag matches release contract
+        run: |
+          expected="$(python3 -c 'import json; print(json.load(open("release.json"))["tag"])')"
+          test "$GITHUB_REF_NAME" = "$expected"
+
+      - name: Install viewer dependencies
+        run: npm ci --prefix viewer
+
+      - name: Build and verify release
+        run: |
+          make test
+          make build
+          make check
+
+      - name: Package immutable distribution
+        run: tar -czf "kai-brand-design-${GITHUB_REF_NAME}.tar.gz" dist
+
+      - uses: softprops/action-gh-release@v3
+        with:
+          name: Kai Design ${{ github.ref_name }}
+          generate_release_notes: true
+          files: kai-brand-design-${{ github.ref_name }}.tar.gz

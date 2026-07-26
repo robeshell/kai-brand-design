@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://robeshell.github.io/kai-brand-design/schema/viewer-content.schema.json",
+  "title": "Kai Viewer Content",
+  "type": "object",
+  "required": ["contentVersion", "pages"],
+  "properties": {
+    "contentVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "pages": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "prefixItems": [
+          { "type": "string", "minLength": 1 },
+          { "type": "string", "minLength": 1 },
+          { "type": "string", "minLength": 1 }
+        ],
+        "minItems": 3,
+        "maxItems": 3
+      }
+    }
+  },
+  "additionalProperties": false
+}

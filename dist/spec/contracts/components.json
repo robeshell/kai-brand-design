@@ -1,0 +1,227 @@
+{
+  "components": {
+    "buttons": {
+      "tokens": [
+        {
+          "name": "控件圆角",
+          "token": "radii.control",
+          "value": "10px"
+        },
+        {
+          "name": "最小触控范围",
+          "token": "tapTargets.buttonMin",
+          "value": "44px"
+        },
+        {
+          "name": "状态动效",
+          "token": "motion.uiStandard",
+          "value": "180ms"
+        }
+      ],
+      "usage": [
+        "主要按钮用于当前区域最重要的操作。",
+        "危险操作必须使用明确动词，并提供确认或撤销。",
+        "不要用按钮代替导航链接。"
+      ]
+    },
+    "dialogs": {
+      "tokens": [
+        {
+          "name": "对话框圆角",
+          "token": "radii.dialog",
+          "value": "20px"
+        },
+        {
+          "name": "最大宽度",
+          "token": "component.dialog.maxWidth",
+          "value": "520px"
+        },
+        {
+          "name": "遮罩",
+          "token": "component.dialog.barrier",
+          "value": "black 38% / 62%"
+        },
+        {
+          "name": "按钮间距",
+          "token": "component.dialog.actionGap",
+          "value": "10px"
+        }
+      ],
+      "usage": [
+        "需要用户确认不可逆操作，或完成一段短任务时使用。",
+        "简单选择优先使用菜单，不要把对话框当作普通信息卡片。",
+        "内容过高时只滚动内容区，标题和按钮区保持可见。"
+      ]
+    },
+    "feedback": {
+      "tokens": [
+        {
+          "name": "轻提示圆角",
+          "token": "radii.menu",
+          "value": "12px"
+        },
+        {
+          "name": "轻提示时长",
+          "token": "component.feedback.snackbarDuration",
+          "value": "1.4s"
+        },
+        {
+          "name": "提示延迟",
+          "token": "component.feedback.tooltipDelay",
+          "value": "450ms"
+        },
+        {
+          "name": "加载圈",
+          "token": "component.feedback.spinner",
+          "value": "24px / 2px"
+        }
+      ],
+      "usage": [
+        "短暂完成结果使用轻提示；需要用户处理的问题不要自动消失。",
+        "空态说明为什么没有内容，并在有明确下一步时提供操作。",
+        "加载和进度使用统一尺寸与强调色，不单独硬编码。"
+      ]
+    },
+    "inputs": {
+      "tokens": [
+        {
+          "name": "输入框圆角",
+          "token": "radii.control",
+          "value": "10px"
+        },
+        {
+          "name": "输入文字",
+          "token": "typography.sizes.rowTitle",
+          "value": "13.5px"
+        },
+        {
+          "name": "焦点边框",
+          "token": "component.input.focusBorder",
+          "value": "2px · 无外侧 outline"
+        }
+      ],
+      "usage": [
+        "标签写清楚需要填写什么，不要只依赖占位文字。",
+        "错误提示放在输入框附近，并说明如何修正。",
+        "不可编辑和只读状态需要清楚区分。"
+      ]
+    },
+    "list-rows": {
+      "tokens": [
+        {
+          "name": "普通行高度",
+          "token": "component.listRow.minHeight",
+          "value": "54px"
+        },
+        {
+          "name": "设置行高度",
+          "token": "component.listRow.settingsHeight",
+          "value": "64px"
+        },
+        {
+          "name": "控件圆角",
+          "token": "radii.control",
+          "value": "10px"
+        },
+        {
+          "name": "标题字号",
+          "token": "typography.sizes.rowTitle",
+          "value": "13.5px"
+        }
+      ],
+      "usage": [
+        "设置项、弹层操作项和带副标题的结构化列表使用列表行。",
+        "整行点击时必须提供完整的键盘焦点和按钮语义。",
+        "选中态使用勾选或文字表达，不使用大面积强调色填充。"
+      ]
+    },
+    "menus": {
+      "tokens": [
+        {
+          "name": "菜单圆角",
+          "token": "radii.menu",
+          "value": "12px"
+        },
+        {
+          "name": "菜单宽度",
+          "token": "component.menu.width",
+          "value": "160–280px"
+        },
+        {
+          "name": "菜单行高",
+          "token": "component.menu.rowHeight",
+          "value": "36px"
+        },
+        {
+          "name": "弹层顶角",
+          "token": "radii.sheet",
+          "value": "18px"
+        },
+        {
+          "name": "拖拽把手",
+          "token": "component.sheet.handle",
+          "value": "38×4px"
+        }
+      ],
+      "usage": [
+        "与触发位置相关的短操作列表使用锚定菜单。",
+        "窄屏自动切换为底部弹层，并保留安全区域。",
+        "菜单宽度由内容决定，长列表需要限制高度并允许滚动。"
+      ]
+    },
+    "navigation": {
+      "tokens": [
+        {
+          "name": "侧栏宽度",
+          "token": "layoutMetrics.sidebarWidth",
+          "value": "216 / 236px"
+        },
+        {
+          "name": "导航文字",
+          "token": "typography.sizes.navLabel",
+          "value": "13.5px"
+        },
+        {
+          "name": "选中背景",
+          "token": "component.navigation.selection",
+          "value": "accent 10%"
+        },
+        {
+          "name": "侧栏材质",
+          "token": "component.navigation.chrome",
+          "value": "GlassSurface strong"
+        }
+      ],
+      "usage": [
+        "当前项必须清楚可见，同一组中只有一个当前项。",
+        "桌面侧栏和移动底栏共享目的地，但尺寸不同。",
+        "不要把普通操作混进主导航。"
+      ]
+    },
+    "selection": {
+      "tokens": [
+        {
+          "name": "选中背景",
+          "token": "derivedAlphas.selection",
+          "value": "accent 10%"
+        },
+        {
+          "name": "勾选框圆角",
+          "token": "radii.checkbox",
+          "value": "5px"
+        },
+        {
+          "name": "状态动效",
+          "token": "motion.uiStandard",
+          "value": "180ms"
+        }
+      ],
+      "usage": [
+        "开关变化后立即生效，不需要再放保存按钮。",
+        "不能只靠颜色表达是否选中。",
+        "一组单选项只能有一个选中状态。"
+      ]
+    }
+  },
+  "contractVersion": "0.1.0"
+}

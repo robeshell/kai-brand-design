@@ -1,0 +1,784 @@
+{
+  "accents": {
+    "$schema": "../schema/accents.schema.json",
+    "comment": "强调色是独立品牌轴，与皮肤正交组合。品牌统一中性系统与规则，不统一主色。onAccent 规则：对 accent 做亮度估算，深底白字、浅底 #1C1C22。",
+    "products": {
+      "kaigua": {
+        "default": "indigo",
+        "displayName": "开刮",
+        "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色",
+        "presets": [
+          {
+            "accent": "#6673C7",
+            "id": "indigo",
+            "name": "靛蓝"
+          },
+          {
+            "accent": "#3F9E98",
+            "id": "teal",
+            "name": "青绿"
+          },
+          {
+            "accent": "#0284C7",
+            "id": "sky",
+            "name": "晴空"
+          },
+          {
+            "accent": "#475569",
+            "id": "slate",
+            "name": "岩灰"
+          }
+        ]
+      },
+      "kaijuan": {
+        "default": "ember",
+        "displayName": "开卷",
+        "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色",
+        "presets": [
+          {
+            "accent": "#EA580C",
+            "id": "ember",
+            "name": "暖橙"
+          },
+          {
+            "accent": "#0284C7",
+            "id": "sky",
+            "name": "晴空"
+          },
+          {
+            "accent": "#047857",
+            "id": "forest",
+            "name": "松绿"
+          },
+          {
+            "accent": "#BE123C",
+            "id": "rose",
+            "name": "绯红"
+          },
+          {
+            "accent": "#475569",
+            "id": "slate",
+            "name": "岩灰"
+          }
+        ]
+      },
+      "kaiting": {
+        "customDerive": "自定义色：hover = lerp(accent, white, 0.14)，pressed = lerp(accent, black, 0.13)",
+        "default": "coral",
+        "displayName": "开听",
+        "presets": [
+          {
+            "accent": "#FF5A4D",
+            "hover": "#FF7567",
+            "id": "coral",
+            "name": "珊瑚",
+            "pressed": "#E3483E"
+          },
+          {
+            "accent": "#D95770",
+            "hover": "#E66C82",
+            "id": "rose",
+            "name": "玫瑰",
+            "pressed": "#BF465D"
+          },
+          {
+            "accent": "#6673C7",
+            "hover": "#7884D2",
+            "id": "indigo",
+            "name": "靛蓝",
+            "pressed": "#5360AE"
+          },
+          {
+            "accent": "#3F9E98",
+            "hover": "#51ADA7",
+            "id": "teal",
+            "name": "青绿",
+            "pressed": "#338781"
+          },
+          {
+            "accent": "#C7842F",
+            "hover": "#D4953F",
+            "id": "amber",
+            "name": "暖金",
+            "pressed": "#AB6E24"
+          },
+          {
+            "accent": "#8067BC",
+            "hover": "#9279C8",
+            "id": "violet",
+            "name": "紫罗兰",
+            "pressed": "#6D54A5"
+          }
+        ]
+      }
+    },
+    "specVersion": "0.2.3",
+    "usageRules": [
+      "强调色只用于选中 / 进度 / 主操作；同一区域最多一个主强调",
+      "低透明度派生（指示器 10~14%、chip 选中 9%、列表选中 3.5%）见 primitives.derivedAlphas",
+      "新产品接入：在此文件新增产品轴；禁止在 App 内私建强调色常量"
+    ]
+  },
+  "componentContracts": {
+    "components": {
+      "buttons": {
+        "tokens": [
+          {
+            "name": "控件圆角",
+            "token": "radii.control",
+            "value": "10px"
+          },
+          {
+            "name": "最小触控范围",
+            "token": "tapTargets.buttonMin",
+            "value": "44px"
+          },
+          {
+            "name": "状态动效",
+            "token": "motion.uiStandard",
+            "value": "180ms"
+          }
+        ],
+        "usage": [
+          "主要按钮用于当前区域最重要的操作。",
+          "危险操作必须使用明确动词，并提供确认或撤销。",
+          "不要用按钮代替导航链接。"
+        ]
+      },
+      "dialogs": {
+        "tokens": [
+          {
+            "name": "对话框圆角",
+            "token": "radii.dialog",
+            "value": "20px"
+          },
+          {
+            "name": "最大宽度",
+            "token": "component.dialog.maxWidth",
+            "value": "520px"
+          },
+          {
+            "name": "遮罩",
+            "token": "component.dialog.barrier",
+            "value": "black 38% / 62%"
+          },
+          {
+            "name": "按钮间距",
+            "token": "component.dialog.actionGap",
+            "value": "10px"
+          }
+        ],
+        "usage": [
+          "需要用户确认不可逆操作，或完成一段短任务时使用。",
+          "简单选择优先使用菜单，不要把对话框当作普通信息卡片。",
+          "内容过高时只滚动内容区，标题和按钮区保持可见。"
+        ]
+      },
+      "feedback": {
+        "tokens": [
+          {
+            "name": "轻提示圆角",
+            "token": "radii.menu",
+            "value": "12px"
+          },
+          {
+            "name": "轻提示时长",
+            "token": "component.feedback.snackbarDuration",
+            "value": "1.4s"
+          },
+          {
+            "name": "提示延迟",
+            "token": "component.feedback.tooltipDelay",
+            "value": "450ms"
+          },
+          {
+            "name": "加载圈",
+            "token": "component.feedback.spinner",
+            "value": "24px / 2px"
+          }
+        ],
+        "usage": [
+          "短暂完成结果使用轻提示；需要用户处理的问题不要自动消失。",
+          "空态说明为什么没有内容，并在有明确下一步时提供操作。",
+          "加载和进度使用统一尺寸与强调色，不单独硬编码。"
+        ]
+      },
+      "inputs": {
+        "tokens": [
+          {
+            "name": "输入框圆角",
+            "token": "radii.control",
+            "value": "10px"
+          },
+          {
+            "name": "输入文字",
+            "token": "typography.sizes.rowTitle",
+            "value": "13.5px"
+          },
+          {
+            "name": "焦点边框",
+            "token": "component.input.focusBorder",
+            "value": "2px · 无外侧 outline"
+          }
+        ],
+        "usage": [
+          "标签写清楚需要填写什么，不要只依赖占位文字。",
+          "错误提示放在输入框附近，并说明如何修正。",
+          "不可编辑和只读状态需要清楚区分。"
+        ]
+      },
+      "list-rows": {
+        "tokens": [
+          {
+            "name": "普通行高度",
+            "token": "component.listRow.minHeight",
+            "value": "54px"
+          },
+          {
+            "name": "设置行高度",
+            "token": "component.listRow.settingsHeight",
+            "value": "64px"
+          },
+          {
+            "name": "控件圆角",
+            "token": "radii.control",
+            "value": "10px"
+          },
+          {
+            "name": "标题字号",
+            "token": "typography.sizes.rowTitle",
+            "value": "13.5px"
+          }
+        ],
+        "usage": [
+          "设置项、弹层操作项和带副标题的结构化列表使用列表行。",
+          "整行点击时必须提供完整的键盘焦点和按钮语义。",
+          "选中态使用勾选或文字表达，不使用大面积强调色填充。"
+        ]
+      },
+      "menus": {
+        "tokens": [
+          {
+            "name": "菜单圆角",
+            "token": "radii.menu",
+            "value": "12px"
+          },
+          {
+            "name": "菜单宽度",
+            "token": "component.menu.width",
+            "value": "160–280px"
+          },
+          {
+            "name": "菜单行高",
+            "token": "component.menu.rowHeight",
+            "value": "36px"
+          },
+          {
+            "name": "弹层顶角",
+            "token": "radii.sheet",
+            "value": "18px"
+          },
+          {
+            "name": "拖拽把手",
+            "token": "component.sheet.handle",
+            "value": "38×4px"
+          }
+        ],
+        "usage": [
+          "与触发位置相关的短操作列表使用锚定菜单。",
+          "窄屏自动切换为底部弹层，并保留安全区域。",
+          "菜单宽度由内容决定，长列表需要限制高度并允许滚动。"
+        ]
+      },
+      "navigation": {
+        "tokens": [
+          {
+            "name": "侧栏宽度",
+            "token": "layoutMetrics.sidebarWidth",
+            "value": "216 / 236px"
+          },
+          {
+            "name": "导航文字",
+            "token": "typography.sizes.navLabel",
+            "value": "13.5px"
+          },
+          {
+            "name": "选中背景",
+            "token": "component.navigation.selection",
+            "value": "accent 10%"
+          },
+          {
+            "name": "侧栏材质",
+            "token": "component.navigation.chrome",
+            "value": "GlassSurface strong"
+          }
+        ],
+        "usage": [
+          "当前项必须清楚可见，同一组中只有一个当前项。",
+          "桌面侧栏和移动底栏共享目的地，但尺寸不同。",
+          "不要把普通操作混进主导航。"
+        ]
+      },
+      "selection": {
+        "tokens": [
+          {
+            "name": "选中背景",
+            "token": "derivedAlphas.selection",
+            "value": "accent 10%"
+          },
+          {
+            "name": "勾选框圆角",
+            "token": "radii.checkbox",
+            "value": "5px"
+          },
+          {
+            "name": "状态动效",
+            "token": "motion.uiStandard",
+            "value": "180ms"
+          }
+        ],
+        "usage": [
+          "开关变化后立即生效，不需要再放保存按钮。",
+          "不能只靠颜色表达是否选中。",
+          "一组单选项只能有一个选中状态。"
+        ]
+      }
+    },
+    "contractVersion": "0.1.0"
+  },
+  "primitives": {
+    "$schema": "../schema/primitives.schema.json",
+    "basePalette": {
+      "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
+      "mainBackground": "#F7F9FC",
+      "primary": "#FF5A4D",
+      "sideBackground": "#F3F5F8"
+    },
+    "breakpoints": {
+      "menuAdaptive": 680,
+      "mobileShell": "非桌面平台且（width < 820 或 height < 600）",
+      "settingsMaxContentWidth": 920,
+      "windowClass": {
+        "compact": "width <= 600 或 height < 600（移动）",
+        "medium": "桌面 width < 1100；移动 width < 1000",
+        "wide": "桌面 width >= 1100；移动 width >= 1000"
+      }
+    },
+    "derivedAlphas": {
+      "barrier": {
+        "dialogDark": "black@0.62",
+        "dialogLight": "black@0.38"
+      },
+      "border": {
+        "dark": "white@0.10",
+        "light": "black@0.08"
+      },
+      "comment": "全品牌通用的派生透明度；实现方不得另行发明数值",
+      "destructive": {
+        "disabled": "error@0.025",
+        "hoverOrFocus": "error@0.12",
+        "pressed": "error@0.16",
+        "rest": "error@0.08"
+      },
+      "disabledBorder": {
+        "dark": "white@0.05",
+        "light": "black@0.04"
+      },
+      "disabledSubtle": {
+        "dark": "white@0.028",
+        "light": "black@0.024"
+      },
+      "hairline": {
+        "dark": "white@0.065",
+        "light": "black@0.055"
+      },
+      "selection": {
+        "accentIndicator": "accent@0.10~0.14",
+        "chipSelected": "accent@0.09",
+        "listTileSelected": "accent@0.035",
+        "rowOrSurface": "foreground@0.05~0.055"
+      },
+      "stateLayer": {
+        "focused": "accent@0.16",
+        "hover": "foreground@0.055~0.065",
+        "pressed": "foreground@0.10"
+      },
+      "status": {
+        "error": "colorScheme.error（由 seed 生成，不另设常量）",
+        "warning": {
+          "dark": "#E3AC45",
+          "light": "#B07514"
+        }
+      },
+      "subtleFill": {
+        "dark": "white@0.055",
+        "light": "black@0.045"
+      }
+    },
+    "layoutMetrics": {
+      "contentBottomPadding": {
+        "desktop": 96,
+        "mobileShell": 140
+      },
+      "desktopWindow": {
+        "comment": "主窗口逻辑像素（content size）；首次打开居中；可视区不足时钳到 min 与 visibleFrame−80 之间。辅窗（工具窗）属产品层。",
+        "defaultHeight": 800,
+        "defaultWidth": 1280,
+        "minHeight": 700,
+        "minWidth": 1024
+      },
+      "pageGutter": {
+        "compact": 16,
+        "medium": 24,
+        "wide": 32
+      },
+      "sidebarWidth": {
+        "medium": 216,
+        "wide": 236
+      },
+      "titlebarInset": {
+        "macOS": 38,
+        "windows": 44
+      }
+    },
+    "motion": {
+      "ambient": {
+        "comment": "环境动效（氛围背景等），reduced-motion 时按 motionStrength 衰减",
+        "durationS": 14
+      },
+      "paletteTransition": {
+        "comment": "皮肤/配色切换；深夜皮肤 520",
+        "durationMs": 420
+      },
+      "uiFast": {
+        "curve": "easeOut",
+        "durationMs": 140
+      },
+      "uiStandard": {
+        "curve": "easeOutCubic",
+        "durationMs": 160
+      }
+    },
+    "radii": {
+      "card": 14,
+      "checkbox": 5,
+      "control": 10,
+      "dialog": 20,
+      "menu": 12,
+      "pill": 999,
+      "sheet": 18,
+      "tooltip": 8
+    },
+    "spacing": {
+      "comment": "4 的倍数刻度；组件内部微调可用半档（2/6/10），页面级只用下列值",
+      "x1": 4,
+      "x2": 8,
+      "x3": 12,
+      "x4": 16,
+      "x6": 24,
+      "x8": 32
+    },
+    "specVersion": "0.4.0",
+    "tapTargets": {
+      "buttonMin": 36,
+      "chipHeight": 32,
+      "iconButton": 40,
+      "listRowMin": 46
+    },
+    "typography": {
+      "fontFamily": ".SF Pro Text",
+      "fontFamilyFallback": [
+        "PingFang SC",
+        "Microsoft YaHei",
+        "Noto Sans CJK SC",
+        "Roboto",
+        "sans-serif"
+      ],
+      "sizes": {
+        "chipLabel": 12,
+        "navLabel": 10.5,
+        "pageTitle": [
+          26,
+          28
+        ],
+        "rowSubtitle": 11.5,
+        "rowTitle": 13.5,
+        "sectionSubtitle": 12.5
+      },
+      "tracking": {
+        "headlineLarge": -0.8,
+        "headlineMedium": -0.55,
+        "pageTitle": -0.55,
+        "titleLarge": -0.25
+      },
+      "weights": {
+        "body": 400,
+        "comment": "层级靠字重驱动（w600→w700→w800）+ 颜色（primary→secondary→muted），不靠字号堆叠",
+        "display": 800,
+        "emphasis": 600,
+        "strong": 700
+      }
+    }
+  },
+  "productTokens": {
+    "kaigua": {
+      "product": "kaigua",
+      "productSpecVersion": "0.1.1",
+      "tokens": {}
+    },
+    "kaijuan": {
+      "product": "kaijuan",
+      "productSpecVersion": "0.1.1",
+      "tokens": {
+        "cover.radius": {
+          "description": "书籍与漫画窄幅封面的默认圆角",
+          "type": "dimension",
+          "value": 12
+        }
+      }
+    },
+    "kaiting": {
+      "product": "kaiting",
+      "productSpecVersion": "0.1.0",
+      "tokens": {
+        "playback.busySpinnerSize": {
+          "description": "传输按钮忙碌指示器尺寸",
+          "type": "dimension",
+          "value": 24
+        },
+        "playback.busySpinnerStroke": {
+          "description": "传输按钮忙碌指示器线宽",
+          "type": "dimension",
+          "value": 2
+        },
+        "source.local": {
+          "description": "本机文件夹来源标识色",
+          "type": "color",
+          "value": "#55B889"
+        },
+        "source.webDav": {
+          "description": "WebDAV 远程来源标识色",
+          "type": "color",
+          "value": "#5E8BFF"
+        }
+      }
+    }
+  },
+  "skins": {
+    "$schema": "../schema/skins.schema.json",
+    "comment": "皮肤预设：每个皮肤自带明暗 + 四档表面坡道 + 玻璃 token + 动效 token。已发布皮肤的 token 值是稳定承诺，不得修改；新外观只能新增皮肤。",
+    "presets": [
+      {
+        "brightness": "light",
+        "canvas": "#F7F9FC",
+        "description": "品牌的中性浅色玻璃界面",
+        "effects": {
+          "darkVeilOpacity": 0.12,
+          "lightVeilOpacity": 0.04,
+          "motionDurationS": 14,
+          "motionStrength": 1,
+          "paletteTransitionMs": 420,
+          "primaryGlowOpacity": 0.9,
+          "secondaryGlowOpacity": 0.72,
+          "shadowScale": 1
+        },
+        "elevated": "#FFFFFF",
+        "glass": {
+          "blur": 20,
+          "border": "black@0.07",
+          "canvasHighlight": "#FBFBFC",
+          "innerHighlight": "white@0.55",
+          "mutedText": "#77747D",
+          "primaryText": "#1C1C22",
+          "secondaryText": "#5A5A62",
+          "shadow": "black@0.09",
+          "strongBlur": 28,
+          "strongSurface": "#FFFFFF@0.87",
+          "surface": "#FFFFFF@0.72"
+        },
+        "id": "default",
+        "name": "默认",
+        "overlay": "#F1F2F4",
+        "surface": "#FAFAFB"
+      },
+      {
+        "brightness": "light",
+        "canvas": "#F1F4F8",
+        "description": "冷静通透的实色表面与清晰层次",
+        "effects": {
+          "darkVeilOpacity": 0.08,
+          "lightVeilOpacity": 0.015,
+          "motionDurationS": 26,
+          "motionStrength": 0.22,
+          "paletteTransitionMs": 240,
+          "primaryGlowOpacity": 0.38,
+          "secondaryGlowOpacity": 0.24,
+          "shadowScale": 0
+        },
+        "elevated": "#FFFFFF",
+        "glass": {
+          "blur": 0,
+          "border": "#526174@0.12",
+          "canvasHighlight": "#F8FBFF",
+          "innerHighlight": "#FFFFFF@1.0",
+          "mutedText": "#718092",
+          "primaryText": "#18202A",
+          "secondaryText": "#536171",
+          "shadow": "transparent",
+          "strongBlur": 0,
+          "strongSurface": "#FFFFFF@1.0",
+          "surface": "#FFFFFF@1.0"
+        },
+        "id": "pure",
+        "name": "纯净",
+        "note": "实色皮肤：blur=0 时组件必须跳过 BackdropFilter，shadowScale=0 时无投影。组件读 token 则此行为免费获得。",
+        "overlay": "#E5EBF2",
+        "surface": "#FAFCFF"
+      },
+      {
+        "brightness": "dark",
+        "canvas": "#0D0D0F",
+        "description": "专注于内容的低亮深色界面",
+        "effects": {
+          "darkVeilOpacity": 0.22,
+          "lightVeilOpacity": 0.04,
+          "motionDurationS": 18,
+          "motionStrength": 0.68,
+          "paletteTransitionMs": 520,
+          "primaryGlowOpacity": 0.76,
+          "secondaryGlowOpacity": 0.54,
+          "shadowScale": 1.12
+        },
+        "elevated": "#202024",
+        "glass": {
+          "blur": 20,
+          "border": "white@0.11",
+          "canvasHighlight": "#17171A",
+          "innerHighlight": "white@0.12",
+          "mutedText": "white@0.70",
+          "primaryText": "#F7F3F4",
+          "secondaryText": "white@0.60",
+          "shadow": "black@0.42",
+          "strongBlur": 28,
+          "strongSurface": "#202024@0.90",
+          "surface": "#17171A@0.72"
+        },
+        "id": "deep-night",
+        "name": "深夜",
+        "overlay": "#29292E",
+        "surface": "#17171A"
+      }
+    ],
+    "specVersion": "0.4.0",
+    "systemPseudoSkin": {
+      "id": "system",
+      "note": "不是真实预设，不进 presets 列表；持久化层存 'system' 字符串",
+      "resolve": "按平台亮度解析：light → default，dark → deep-night"
+    }
+  },
+  "viewerContent": {
+    "contentVersion": "0.1.0",
+    "pages": {
+      "app-shell": [
+        "页面结构",
+        "应用框架",
+        "桌面使用侧栏，窄屏使用底部导航。内容区保持同一套层级。"
+      ],
+      "buttons": [
+        "组件",
+        "按钮",
+        "覆盖文字按钮、图标按钮、工具按钮和悬浮按钮。一个区域通常只有一个主要操作。"
+      ],
+      "color": [
+        "基础规范",
+        "颜色",
+        "浅色界面以冷白为主内容背景、浅灰为侧栏背景、暖橙为参考主色。产品强调色只在产品差异中覆盖。"
+      ],
+      "delivery": [
+        "产品与工程",
+        "生成文件",
+        "设计源文件经过检查后，生成各端可以直接使用的代码和规范快照。"
+      ],
+      "dialogs": [
+        "组件",
+        "对话框",
+        "对话框用于确认、输入、表单和需要用户完整注意力的任务。"
+      ],
+      "feedback": [
+        "组件",
+        "反馈",
+        "覆盖轻提示、工具提示、空态、加载和进度。反馈应该说明当前发生了什么。"
+      ],
+      "getting-started": [
+        "开始",
+        "怎么使用",
+        "设计师和工程师都从同一份规范出发。"
+      ],
+      "inputs": [
+        "组件",
+        "输入框",
+        "覆盖文本输入、下拉选择和滑杆。控件需要清楚显示焦点、错误和不可编辑状态。"
+      ],
+      "list-rows": [
+        "组件",
+        "列表行",
+        "列表行用于设置项、操作项和结构化列表。整行可点击时，状态覆盖整行。"
+      ],
+      "menus": [
+        "组件",
+        "菜单与底部弹层",
+        "同一组操作在宽屏使用锚定菜单，在窄屏改为底部弹层。"
+      ],
+      "motion": [
+        "基础规范",
+        "动效",
+        "动效只用于说明界面发生了什么，不用于装饰。"
+      ],
+      "navigation": [
+        "组件",
+        "导航",
+        "导航用于切换主要目的地。桌面使用侧栏，移动端使用底栏或标签。"
+      ],
+      "overlays": [
+        "页面结构",
+        "弹窗与浮层",
+        "简单选择使用菜单，复杂任务使用对话框；窄屏时可改为底部弹层。"
+      ],
+      "overview": [
+        "开始",
+        "Kai Design",
+        "一套供多个产品共同使用的设计规范。这里说明规则、展示组件，并输出工程可以直接使用的变量。"
+      ],
+      "products": [
+        "产品与工程",
+        "产品差异",
+        "这里只记录不能放进通用规范的主题色、内容样式和特殊页面。"
+      ],
+      "qa": [
+        "产品与工程",
+        "检查清单",
+        "发布前按外观、产品和窗口大小逐项检查。"
+      ],
+      "selection": [
+        "组件",
+        "选择控件",
+        "覆盖开关、勾选框、单选项和选择条。选中状态不能只靠颜色表达。"
+      ],
+      "settings": [
+        "页面结构",
+        "设置页",
+        "设置按主题分组，直接展示当前值；不要为了少量内容再加标签页。"
+      ],
+      "spacing": [
+        "基础规范",
+        "间距与圆角",
+        "页面间距使用 4px 倍数。圆角按组件用途选择，不按个人感觉调整。"
+      ],
+      "typography": [
+        "基础规范",
+        "字体",
+        "字号负责可读性，字重和留白负责层级。不要靠大量不同字号制造区别。"
+      ]
+    }
+  }
+}

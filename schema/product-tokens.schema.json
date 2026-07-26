@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://robeshell.github.io/kai-brand-design/schema/product-tokens.schema.json",
+  "title": "Kai Product Tokens",
+  "type": "object",
+  "required": ["product", "productSpecVersion", "tokens"],
+  "properties": {
+    "product": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "productSpecVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type", "value", "description"],
+        "properties": {
+          "type": { "enum": ["color", "dimension", "number", "duration"] },
+          "value": { "type": ["string", "number"] },
+          "description": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

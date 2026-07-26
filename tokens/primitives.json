@@ -1,6 +1,12 @@
 {
-  "$schema": "../README.md",
-  "specVersion": "0.2.7",
+  "$schema": "../schema/primitives.schema.json",
+  "specVersion": "0.4.0",
+  "basePalette": {
+    "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
+    "mainBackground": "#F7F9FC",
+    "sideBackground": "#F3F5F8",
+    "primary": "#FF5A4D"
+  },
   "spacing": {
     "comment": "4 的倍数刻度；组件内部微调可用半档（2/6/10），页面级只用下列值",
     "x1": 4,
@@ -105,6 +111,13 @@
     "titlebarInset": {
       "macOS": 38,
       "windows": 44
+    },
+    "desktopWindow": {
+      "comment": "主窗口逻辑像素（content size）；首次打开居中；可视区不足时钳到 min 与 visibleFrame−80 之间。辅窗（工具窗）属产品层。",
+      "defaultWidth": 1280,
+      "defaultHeight": 800,
+      "minWidth": 1024,
+      "minHeight": 700
     }
   },
   "derivedAlphas": {
