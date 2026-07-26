@@ -15,7 +15,7 @@
 - [ ] 开关：轨道 40×24、拇指 18、选中 accent/onAccent、未选 border/secondary、无描边、无 `Switch.adaptive`
 - [ ] 底栏：56px、图标 21、标签 10.5 选中 w800
 - [ ] 对话框：maxWidth 520、barrier 黑 38%/62%；sheet：maxWidth 760、把手 38×4
-- [ ] 锚定菜单：宽 252；<680px 自动退化为底部弹层
+- [ ] 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 13.5；禁止定宽；<680px 自动退化为底部弹层
 - [ ] 字族 `.SF Pro Text` + 五个回退；页标题 26/28 w800 负字距 −0.55
 - [ ] 代码中无字面色值泄漏（grep `Color(0x` 应只出现在 theme 层与内容层扩展）
 - [ ] 旧外观存储迁移有单元测试

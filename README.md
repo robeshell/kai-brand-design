@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.2.3（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
+**specVersion: 0.2.5（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -107,3 +107,4 @@ python3 viewer/build.py   # tokens 改值后重跑即同步
 - **0.2.2**（2026-07-24）：`DESIGN.md` 重写对齐 awesome-design-md 实际格式——YAML frontmatter 内嵌 token 块（`{token.path}` 引用语法）+ Overview/Colors/Typography/Layout/Elevation & Depth/Shapes/Components/Do's and Don'ts/Responsive Behavior/Iteration Guide/Known Gaps 段落结构；三仓库（品牌/开听/开卷）格式统一。
 - **0.2.3**（2026-07-24）：`DESIGN.md` Components 段全量重写——按功能分 8 组（表面原语/按钮 7 变体/输入 6 控件/选择 2 件/列表 3 种/浮层 3 件/导航 2 件/反馈 6 件），每个组件带完整锚点值与状态映射，与 `components/*.md` 一一对应不再缺漏。
 - **0.2.4**（2026-07-24）：开刮（kaigua）接入——`tokens/accents.json` 登记产品轴（默认靛蓝 `#6673C7`）；建立 `products/kaigua/` L0 与分叉登记。
+- **0.2.5**（2026-07-26）：锚定菜单改内容撑开（min 160 / max 280，禁止定宽）；行高 46→36、标签 14→13.5、图标 19/24→17/22、行 padding 12h、壳上下 4；窄屏底部弹层规格不变。

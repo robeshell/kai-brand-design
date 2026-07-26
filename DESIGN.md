@@ -1,5 +1,5 @@
 ---
-version: "0.2.2"
+version: "0.2.5"
 name: kai-brand-design
 description: "A quiet, content-first glass interface system for the kai product family (kaiting music player, kaijuan reader). Neutral ramps and rules are unified; product accents are deliberately not."
 colors:
@@ -53,8 +53,8 @@ components:
   dialog: { maxWidth: 520, confirmMaxWidth: 400, radius: "{rounded.dialog}", padding: "20h/24v" }
   sheet: { maxWidth: 760, radiusTop: "{rounded.sheet}", handle: "38x4", handleColor: "secondary@0.38-0.45" }
   optionSheet: { maxWidth: 560 }
-  menu: { width: 252, radius: "{rounded.menu}", adaptiveBelow: 680 }
-  menuRow: { height: "46 wide / 52 compact", icon: 19, iconSlot: 24, selected: "foreground@0.055 + accent + check 18" }
+  menu: { width: "hug, min 160 / max 280", radius: "{rounded.menu}", paddingV: 4, adaptiveBelow: 680 }
+  menuRow: { height: "36 anchored / 52 sheet", icon: "17/22 anchored · 19/24 sheet", label: "13.5 anchored · 14 sheet", selected: "foreground@0.055 + accent + check 16/18" }
   listRow: { minHeight: 54, leading: 32, title: "{typography.rowTitle}", subtitle: "{typography.rowSubtitle}" }
   checkRow: { leading: "checkbox icon 20, accent filled / muted hollow" }
   settingsGroup: { radius: "{rounded.card}", fill: "surfaceContainerLow@0.72", border: "{colors.hairline}", dividerIndent: 14 }
@@ -233,13 +233,13 @@ components:
 
 - **`list-row`** — 解剖 `[leading 槽32] 10 [标题/副题] 10 [trailing]`；minHeight 54（设置页行 64 / 紧凑 58）、padding 14h/6v；标题 13.5 w600 单行省略、副题 11.5 secondary 单行省略。trailing：value 12.5 secondary w500 + chevron 19 secondary，或 Switch（右内边距 6）。状态：default 透明 / hover 前景 3.5% / focus 5% / selected 5%（可叠加 accent 内容）/ disabled muted 50%。destructive 行：图标与文字 error 色。整行 InkWell 透明叠加可点，无 onTap 不注册 button 语义；**行内不出现 elevation / 阴影**。
 - **`check-row`** — 见 §Choice & Selection。
-- **`menu-row`** — 高 46（锚定）/ 52（底部弹层）；图标 19 槽宽 24；标签 14 w600、副题 11.5 secondary；选中 foreground 5.5% 底 + accent 前景 + 右侧 check 18px；destructive error 前景；`dividerBefore` → hairline indent 16。菜单标题：12–12.5 w600 secondary + hairline 下分隔。
+- **`menu-row`** — 高 36（锚定）/ ≥52（底部弹层）；锚定图标 17 槽宽 22、标签 13.5 w600、padding 12h；弹层图标 19 槽宽 24、标签 14 w600、padding 20h；副题 11.5 secondary；选中 foreground 5.5% 底 + accent 前景 + 右侧 check（锚定 16 / 弹层 18）；destructive error 前景；`dividerBefore` → hairline（indent 对齐行 padding：锚定 12 / 弹层 16）。菜单标题：12–12.5 w600 secondary + hairline 下分隔。
 
 ### Overlays — 对话框 / 底部弹层 / 菜单
 
 - **`dialog`** — 强玻璃面 r20、maxWidth 520（确认/提示类收至 400）、barrier 38%（浅）/ 62%（深）、视口内边距 20h/24v。标题区 padding 24/22/20/16、titleLarge w800 单行省略；内容区 padding 24/0/24/20、bodyMedium secondary；**内容超高时内容区独立滚动，对话框整体不滚**（shrink-wrap：maxHeight = 视口 − 48，内容区 Flexible + SingleChildScrollView）。按钮区 20/14/20/20 OverflowBar 右对齐间距 10；destructive 确认用 destructive 样式；文本输入流 autofocus + Enter 提交。**禁止 AlertDialog 默认灰面与 elevation、禁止对话框内第二个 accent 主按钮**。
 - **`sheet`** — 顶角 r18、把手 38×4 胶囊（secondary 38–45%，距顶 7）、maxWidth 760 居中（简单选项列表 560）、阴影 blur 28 × scale offset (0,−8)、barrier 同对话框。表面 strongSurface + border，内容区顶 padding 14 避把手。
-- **`menu`** — 同一 `MenuAction<T>` 数据模型（value / label / icon / subtitle? / selected / enabled / destructive / dividerBefore）两种自适应呈现：<680px → 底部弹层（行高 ≥52、padding 20h、最高 72% 视口、SafeArea）；≥680px → 锚定玻璃弹层（宽 252、r12、阴影 blur 24 offset (0,8)、自动上下翻避免越界）。触发器 `MenuButton`：默认 more_horiz 21px 图标钮（支持自定义 child、hover 前景 4%），无可用项时禁用。**禁止裸用 Material PopupMenuButton 默认样式；禁止菜单内嵌套滚动视图不收缩**。
+- **`menu`** — 同一 `MenuAction<T>` 数据模型（value / label / icon / subtitle? / selected / enabled / destructive / dividerBefore）两种自适应呈现：<680px → 底部弹层（行高 ≥52、padding 20h、最高 72% 视口、SafeArea）；≥680px → 锚定玻璃弹层（宽度随内容 min 160 / max 280、禁止定宽、壳上下 padding 4、r12、阴影 blur 24 offset (0,8)、自动上下翻避免越界）。触发器 `MenuButton`：默认 more_horiz 21px 图标钮（支持自定义 child、hover 前景 4%），无可用项时禁用。**禁止裸用 Material PopupMenuButton 默认样式；禁止菜单内嵌套滚动视图不收缩；禁止锚定菜单定宽**。
 
 ### Navigation — 底栏 / 侧栏
 

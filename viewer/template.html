@@ -270,18 +270,20 @@
     width: 38px; height: 4px; border-radius: 99px; background: rgba(var(--sec-rgb), 0.38);
   }
   .menu-mock {
-    width: 252px; border-radius: 12px; background: var(--glass-strong); border: 1px solid var(--glass-border);
+    width: max-content; min-width: 160px; max-width: 280px;
+    border-radius: 12px; background: var(--glass-strong); border: 1px solid var(--glass-border);
     backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-    box-shadow: 0 8px 24px var(--glass-shadow); padding: 6px 0; font-size: 14px;
+    box-shadow: 0 8px 24px var(--glass-shadow); padding: 4px 0; font-size: 13.5px;
   }
-  .menu-mock .mi { display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 14px; cursor: pointer; transition: background 0.12s; }
+  .menu-mock .mi { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 12px; cursor: pointer; transition: background 0.12s; }
   .menu-mock .mi:hover { background: rgba(var(--fg-rgb), 0.04); }
-  .menu-mock .mi .mi-ic { width: 24px; font-size: 15px; color: var(--fg); }
-  .menu-mock .mi .mi-label { font-weight: 600; flex: 1; }
+  .menu-mock .mi .mi-ic { width: 22px; font-size: 14px; color: var(--fg); flex-shrink: 0; }
+  .menu-mock .mi .mi-label { font-weight: 600; flex: 1; white-space: nowrap; }
   .menu-mock .mi.sel { background: rgba(var(--fg-rgb), 0.055); color: var(--accent); }
   .menu-mock .mi.sel .mi-ic { color: var(--accent); }
   .menu-mock .mi.destructive, .menu-mock .mi.destructive .mi-ic { color: #e0313e; }
-  .menu-mock hr { border: 0; border-top: 1px solid var(--hairline); margin: 4px 16px; }
+  .menu-mock hr { border: 0; border-top: 1px solid var(--hairline); margin: 4px 12px; }
+  .menu-mock .lrow-check { font-size: 13px; }
   .nav-mock {
     width: min(100%, 420px); height: 56px; display: flex;
     background: var(--glass-strong); border: 1px solid var(--glass-border); border-radius: 14px;
@@ -772,7 +774,7 @@
   </div>
 
   <div class="comp-group">
-    <div class="comp-label">Menu — 右键菜单那种 · 252 宽 · 屏幕宽时浮在旁边 · 屏幕窄时从底部弹出</div>
+    <div class="comp-label">Menu — 右键菜单 · 内容撑开（min 160 / max 280）· 行高 36 · 宽屏锚定 / 窄屏底部弹层</div>
     <div class="card card-center">
       <div class="menu-mock">
         <div class="mi"><span class="mi-ic">⇅</span><span class="mi-label">按标题排序</span></div>
@@ -986,7 +988,7 @@
         <div class="ec-text">好的约束让决策变少，让一致性<mark>自然发生</mark>，而不是靠人工审查。</div>
         <div class="ec-meta">《设计体系导论》· 第 3 章 · 2024-03-12</div>
       </div>
-      <div class="menu-mock" style="border-radius:12px;background:var(--glass-strong);border:1px solid var(--glass-border);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 8px 24px var(--glass-shadow);padding:6px 0;width:180px;flex-shrink:0;align-self:flex-start">
+      <div class="menu-mock" style="border-radius:12px;background:var(--glass-strong);border:1px solid var(--glass-border);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 8px 24px var(--glass-shadow);padding:4px 0;width:max-content;min-width:160px;max-width:280px;flex-shrink:0;align-self:flex-start">
         <div class="mi"><span class="mi-ic">📋</span><span class="mi-label">复制</span></div>
         <div class="mi"><span class="mi-ic">✎</span><span class="mi-label">记笔记</span></div>
         <div class="mi"><span class="mi-ic">⤴</span><span class="mi-label">分享</span></div>
