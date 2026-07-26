@@ -145,16 +145,16 @@
       "sha256": "773052aa87d37c167d323c3a00bed90a8ee56833bf8cab982f2dc0a63dd3d8fd"
     },
     "spec/products/kaiting/README.md": {
-      "bytes": 1954,
-      "sha256": "3644580941e587f817aa9541197517cd85283c09c0b0f8c9cd1154d8c27a72c4"
+      "bytes": 2109,
+      "sha256": "cfcbca36e2835efb005667748ea25225a78c7e0ac891fd3aaea869873ab5f8ae"
     },
     "spec/products/kaiting/divergences.md": {
       "bytes": 1525,
       "sha256": "ac4f19957338821afadab53cb84c0296488be377909392e9db2c2e3997c1ef52"
     },
     "spec/products/kaiting/patterns/now-playing.md": {
-      "bytes": 4109,
-      "sha256": "3b225bdb0d147fccad5981d2d3695904fa94b4ca244935161901bb5382012ae0"
+      "bytes": 4377,
+      "sha256": "b77392f5320593ca366149b28c65640a284799e2974154cdc92f01fb30353d91"
     },
     "spec/products/kaiting/tokens.md": {
       "bytes": 1907,
