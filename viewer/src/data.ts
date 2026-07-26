@@ -124,6 +124,8 @@ export const navigationGroups: Array<{
   {
     label: "组件",
     items: [
+      { id: "components", label: "组件总览" },
+      { id: "surfaces", label: "表面与容器" },
       { id: "buttons", label: "按钮" },
       { id: "inputs", label: "输入框" },
       { id: "selection", label: "选择控件" },
@@ -132,6 +134,7 @@ export const navigationGroups: Array<{
       { id: "feedback", label: "反馈" },
       { id: "dialogs", label: "对话框" },
       { id: "menus", label: "菜单与底部弹层" },
+      { id: "data-display", label: "数据展示" },
     ],
   },
   {

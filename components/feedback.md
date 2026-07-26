@@ -8,7 +8,7 @@
 |---|---|
 | 形态 | floating，overlay 面 + border，r12（menu 档） |
 | 文字 | bodyMedium primary；action accent |
-| 时长 | 1.4s（轻提示） |
+| 时长 | 2.2s（轻提示） |
 | 桌面呈现 | 居中窄条（宽 220，窗口 <420 时收缩），距底 36 |
 | 移动呈现 | 左右 16、距底 18 |
 

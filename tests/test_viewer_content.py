@@ -41,6 +41,21 @@ class ViewerContentTests(unittest.TestCase):
             source,
         )
 
+    def test_overview_stays_practical(self):
+        source = (ROOT / "viewer" / "src" / "main.ts").read_text()
+        overview = source.split("function overview(): string", maxsplit=1)[1]
+        overview = overview.split("function gettingStarted", maxsplit=1)[0]
+
+        for term in ("内容校验", "当前版本", "成熟度", "设计原则"):
+            with self.subTest(term=term):
+                self.assertNotIn(term, overview)
+
+    def test_mobile_navigation_has_an_explicit_entry(self):
+        source = (ROOT / "viewer" / "src" / "main.ts").read_text()
+        self.assertIn('id="mobile-nav-toggle"', source)
+        self.assertIn('aria-controls="site-navigation"', source)
+        self.assertIn('event.key === "Escape"', source)
+
 
 if __name__ == "__main__":
     unittest.main()

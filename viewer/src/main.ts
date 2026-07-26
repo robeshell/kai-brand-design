@@ -24,6 +24,7 @@ const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (!rootElement) throw new Error("Missing #app");
 const root = rootElement;
 let state = loadState();
+let mobileNavOpen = false;
 
 const escapeHtml = (value: unknown): string =>
   String(value)
@@ -67,7 +68,6 @@ const pageHeaderFor = (pageId: PageId): string => {
 
 const sectionIds: Record<string, string> = {
   "基础色板": "base-palette",
-  "设计原则": "principles",
   "规范内容": "contents",
   "使用方式": "workflow",
   "修改设计": "edit",
@@ -79,8 +79,10 @@ const sectionIds: Record<string, string> = {
   "间距": "spacing",
   "圆角": "radius",
   "常用时长": "duration",
-  "什么时候使用": "when-to-use",
-  "代码演示": "examples",
+  "用法": "usage",
+  "示例": "examples",
+  "组件清单": "catalog",
+  "覆盖情况": "coverage",
   "设计变量": "design-tokens",
   "结构示例": "examples",
   "边界": "boundaries",
@@ -126,7 +128,7 @@ const tokenTable = (
 
 function sidebar(): string {
   return `
-    <aside class="sidebar">
+    <aside class="sidebar ${mobileNavOpen ? "mobile-open" : ""}" id="site-navigation">
       <a class="brand" href="#overview"><b>K</b><span><strong>Kai Design</strong><small>设计规范</small></span></a>
       <nav aria-label="规范目录">
         ${navigationGroups
@@ -155,7 +157,12 @@ function sidebar(): string {
 function topbar(): string {
   return `
     <header class="topbar">
-      <div class="top-title"><b>K</b><span><small>${escapeHtml(pageInfo().label)}</small><strong>${escapeHtml(pageInfo().label)}</strong></span></div>
+      <div class="top-title">
+        <button id="mobile-nav-toggle" class="mobile-nav-button" type="button"
+          aria-label="${mobileNavOpen ? "关闭目录" : "打开目录"}"
+          aria-expanded="${mobileNavOpen}" aria-controls="site-navigation">K</button>
+        <span><small>${escapeHtml(pageInfo().label)}</small><strong>${escapeHtml(pageInfo().label)}</strong></span>
+      </div>
       <div class="top-actions">
         <label class="search"><span>⌕</span><input id="nav-search" type="search" placeholder="搜索目录"></label>
         <label class="select-control"><span>外观</span><select id="skin">
@@ -172,23 +179,11 @@ function overview(): string {
   return `
     <article class="document">
       ${pageHeaderFor("overview")}
-      <div class="overview-meta">
-        <span>当前版本 <b>v${escapeHtml(tokens.primitives.specVersion)}</b></span>
-        <span>内容校验 <code>${escapeHtml(deliveryMeta.tokenDigest.slice(0, 12))}</code></span>
-      </div>
       <section class="content-section">
-        ${sectionHeader("设计原则")}
-        <div class="principle-list">
-          <article><b>01</b><div><strong>先解决通用问题</strong><p>多个产品都会遇到的问题，统一放在基础、组件和页面规范中。</p></div></article>
-          <article><b>02</b><div><strong>规则必须能落到代码</strong><p>颜色、尺寸和状态使用变量表达，并由构建工具生成各端文件。</p></div></article>
-          <article><b>03</b><div><strong>产品差异单独说明</strong><p>产品名称只出现在差异页，不混入通用组件和基础规则。</p></div></article>
-        </div>
-      </section>
-      <section class="content-section">
-        ${sectionHeader("规范内容", "先看通用规则；只有需要处理品牌或业务差异时，才进入产品差异。")}
+        ${sectionHeader("从这里开始", "先查通用规则；只有品牌或业务确实不同，才进入产品差异。", "contents")}
         <div class="docs-index">
           <button data-page="color"><span><strong>基础规范</strong><small>颜色、字体、间距、圆角和动效</small></span><i>→</i></button>
-          <button data-page="buttons"><span><strong>组件</strong><small>组件的用途、状态、示例和设计变量</small></span><i>→</i></button>
+          <button data-page="components"><span><strong>组件</strong><small>看现有组件、用法、数值和交互示例</small></span><i>→</i></button>
           <button data-page="app-shell"><span><strong>页面结构</strong><small>组件如何组成应用框架、弹层和设置页</small></span><i>→</i></button>
           <button data-page="products"><span><strong>产品差异</strong><small>主题色、内容表达和产品特有规则</small></span><i>→</i></button>
         </div>
@@ -372,14 +367,13 @@ const componentPage = (
   <article class="document">
     ${pageHeaderFor(pageId)}
     <section class="content-section">
-      ${sectionHeader("什么时候使用")}
+      ${sectionHeader("用法")}
       <ul class="prose-list">${contract.usage.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
     </section>
     <section class="content-section">
-      ${sectionHeader("代码演示")}
+      ${sectionHeader("示例", "下面展示实现时需要覆盖的常用形态。")}
       <div class="component-preview">
         <div class="component-stage">${preview}</div>
-        <div class="component-caption"><strong>基本用法</strong><p>展示常用状态。点击变量表中的一行可查看来源和当前值。</p></div>
       </div>
     </section>
     <section class="content-section">
@@ -389,11 +383,56 @@ const componentPage = (
   </article>`;
 };
 
+function componentsOverview(): string {
+  const componentOrder: Array<keyof typeof componentContracts.components> = [
+    "surfaces",
+    "buttons",
+    "inputs",
+    "selection",
+    "navigation",
+    "list-rows",
+    "feedback",
+    "dialogs",
+    "menus",
+    "data-display",
+  ];
+  const entries = componentOrder.map(
+    (id) => [id, componentContracts.components[id]] as const,
+  );
+  return `
+    <article class="document">
+      ${pageHeaderFor("components")}
+      <section class="content-section">
+        ${sectionHeader("组件清单")}
+        <div class="component-catalog">
+          ${entries.map(([id, contract]) => {
+            return `<button type="button" data-page="${id}">
+              <span><strong>${escapeHtml(contract.name)}</strong><small>${escapeHtml(contract.summary)}</small></span>
+              <i>→</i>
+            </button>`;
+          }).join("")}
+        </div>
+      </section>
+    </article>`;
+}
+
+function surfacesPage(): string {
+  return componentPage(
+    "surfaces",
+    `<div class="surface-demo">
+      <article class="demo-surface base"><span>基础表面</span><strong>页面内容分区</strong><small>使用当前外观的内容背景和边框。</small></article>
+      <article class="demo-surface glass"><span>强玻璃表面</span><strong>固定界面层</strong><small>用于侧栏、底栏和需要透出背景的区域。</small></article>
+      <article class="demo-surface elevated"><span>浮层表面</span><strong>菜单与对话框</strong><small>使用更清楚的边框和层级。</small></article>
+    </div>`,
+  );
+}
+
 function buttonsPage(): string {
   return componentPage(
     "buttons",
     `<div class="demo-stack">
-      <div class="demo-group"><span>文字按钮</span><div class="button-line"><button class="primary">主要操作</button><button class="secondary">次要操作</button><button class="ghost">文字操作</button><button class="danger">删除</button><button class="primary" disabled>不可用</button></div></div>
+      <div class="demo-group"><span>按钮类型</span><div class="button-line"><button class="primary">主要操作</button><button class="secondary">次要操作</button><button class="ghost">文字操作</button><button class="danger">删除</button></div></div>
+      <div class="demo-group"><span>交互状态</span><div class="button-line"><button class="primary">默认</button><button class="primary demo-hover">悬停</button><button class="primary demo-pressed">按下</button><button class="primary" disabled>不可用</button></div></div>
       <div class="demo-group"><span>图标与工具按钮</span><div class="button-line"><button class="demo-icon-button" aria-label="收藏">☆</button><button class="demo-icon-button selected" aria-label="已收藏">★</button><button class="toolbar-button">↻ 重新载入</button><button class="demo-fab" aria-label="添加">＋</button></div></div>
     </div>`,
   );
@@ -500,6 +539,24 @@ function menusPage(): string {
         <button class="destructive"><i>删</i><span>清除记录</span></button>
       </div></div>
       <div class="demo-group"><span>移动端底部弹层</span><div class="sheet-frame"><div class="sheet"><i class="sheet-handle"></i><strong>选择操作</strong><button><span>添加到收藏</span><b>›</b></button><button><span>分享</span><b>›</b></button><button class="destructive"><span>删除</span></button></div></div></div>
+    </div>`,
+  );
+}
+
+function dataDisplayPage(): string {
+  return componentPage(
+    "data-display",
+    `<div class="data-display-demo">
+      <div class="demo-group"><span>卡片与状态</span><div class="data-cards">
+        <article><div class="demo-thumbnail">A</div><span><strong>项目名称</strong><small>刚刚更新 · 12 项内容</small></span><b class="demo-tag success">已同步</b></article>
+        <article><div class="demo-avatar">林</div><span><strong>协作记录</strong><small>3 位成员参与</small></span><b class="demo-tag warning">待确认</b></article>
+      </div></div>
+      <div class="demo-group"><span>表格</span><div class="demo-table">
+        <div class="demo-table-row demo-table-head"><span>名称</span><span>状态</span><span>更新时间</span></div>
+        <div class="demo-table-row"><strong>基础变量</strong><span><i class="status-dot success"></i>已生成</span><time>今天 10:24</time></div>
+        <div class="demo-table-row"><strong>组件契约</strong><span><i class="status-dot warning"></i>检查中</span><time>今天 09:18</time></div>
+        <div class="demo-table-row"><strong>页面规范</strong><span><i class="status-dot"></i>未修改</span><time>昨天 18:40</time></div>
+      </div></div>
     </div>`,
   );
 }
@@ -631,6 +688,8 @@ function renderPage(): string {
     case "typography": return typographyPage();
     case "spacing": return spacingPage();
     case "motion": return motionPage();
+    case "components": return componentsOverview();
+    case "surfaces": return surfacesPage();
     case "buttons": return buttonsPage();
     case "inputs": return inputsPage();
     case "selection": return selectionPage();
@@ -639,6 +698,7 @@ function renderPage(): string {
     case "feedback": return feedbackPage();
     case "dialogs": return dialogsPage();
     case "menus": return menusPage();
+    case "data-display": return dataDisplayPage();
     case "app-shell": return appShellPage();
     case "overlays": return overlaysPage();
     case "settings": return settingsPage();
@@ -650,20 +710,23 @@ function renderPage(): string {
 }
 
 const tocByPage: Partial<Record<PageId, Array<[string, string]>>> = {
-  overview: [["设计原则", "principles"], ["规范内容", "contents"], ["使用方式", "workflow"]],
+  overview: [["从这里开始", "contents"], ["使用方式", "workflow"]],
   "getting-started": [["修改设计", "edit"], ["怎么判断放在哪里", "placement"]],
   color: [["基础色板", "base-palette"], ["当前外观", "appearance"], ["使用规则", "rules"]],
   typography: [["字体层级", "type-scale"], ["规则", "rules"]],
   spacing: [["间距", "spacing"], ["圆角", "radius"]],
   motion: [["常用时长", "duration"], ["规则", "rules"]],
-  buttons: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  inputs: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  selection: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  navigation: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  "list-rows": [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  feedback: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  dialogs: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
-  menus: [["什么时候使用", "when-to-use"], ["代码演示", "examples"], ["设计变量", "design-tokens"]],
+  components: [["组件清单", "catalog"]],
+  surfaces: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  buttons: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  inputs: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  selection: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  navigation: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  "list-rows": [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  feedback: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  dialogs: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  menus: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  "data-display": [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
   "app-shell": [["结构示例", "examples"], ["规则", "rules"]],
   overlays: [["结构示例", "examples"], ["规则", "rules"]],
   settings: [["结构示例", "examples"], ["规则", "rules"]],
@@ -710,11 +773,30 @@ function bind(): void {
   root.querySelectorAll<HTMLElement>("[data-page]").forEach((element) => {
     element.addEventListener("click", () => {
       const page = element.dataset.page as PageId;
+      mobileNavOpen = false;
       history.replaceState(null, "", `#${page}`);
       update({ page });
       window.scrollTo({ top: 0 });
     });
   });
+  root.querySelector("#mobile-nav-toggle")?.addEventListener("click", () => {
+    mobileNavOpen = !mobileNavOpen;
+    render();
+    if (mobileNavOpen) {
+      requestAnimationFrame(() => root.querySelector<HTMLButtonElement>(".sidebar nav button.active")?.focus());
+    }
+  });
+  root.querySelector("#mobile-nav-backdrop")?.addEventListener("click", () => {
+    mobileNavOpen = false;
+    render();
+  });
+  root.onkeydown = (event) => {
+    if (event.key === "Escape" && mobileNavOpen) {
+      mobileNavOpen = false;
+      render();
+      requestAnimationFrame(() => root.querySelector<HTMLButtonElement>("#mobile-nav-toggle")?.focus());
+    }
+  };
   root.querySelector<HTMLSelectElement>("#skin")?.addEventListener("change", (event) => {
     update({ skin: (event.target as HTMLSelectElement).value as SkinId });
   });
@@ -765,7 +847,7 @@ function render(): void {
   const product = tokens.accents.products[state.product];
   if (!product.presets.some((preset) => preset.id === state.accent)) state.accent = product.default;
   applyTheme(state.skin, state.product, state.accent, state.reducedMotion);
-  root.innerHTML = `<div class="workbench ${state.inspectorOpen ? "with-inspector" : ""}">${sidebar()}<div class="workspace">${topbar()}<main class="content"><div class="doc-layout">${renderPage()}${pageToc()}</div></main></div>${inspector()}</div>`;
+  root.innerHTML = `<div class="workbench ${state.inspectorOpen ? "with-inspector" : ""} ${mobileNavOpen ? "mobile-nav-open" : ""}">${sidebar()}${mobileNavOpen ? '<button id="mobile-nav-backdrop" class="mobile-nav-backdrop" type="button" aria-label="关闭目录"></button>' : ""}<div class="workspace">${topbar()}<main class="content"><div class="doc-layout">${renderPage()}${pageToc()}</div></main></div>${inspector()}</div>`;
   bind();
 }
 

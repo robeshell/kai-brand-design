@@ -10,8 +10,42 @@
       "type": "object",
       "additionalProperties": {
         "type": "object",
-        "required": ["usage", "tokens"],
+        "required": ["name", "summary", "variants", "states", "accessibility", "usage", "tokens"],
         "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 },
+          "variants": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["name", "description"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "description": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "states": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["name", "description", "required"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "description": { "type": "string", "minLength": 1 },
+                "required": { "type": "boolean" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "accessibility": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
           "usage": {
             "type": "array",
             "minItems": 1,

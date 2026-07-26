@@ -8,6 +8,8 @@ export type PageId =
   | "typography"
   | "spacing"
   | "motion"
+  | "components"
+  | "surfaces"
   | "buttons"
   | "inputs"
   | "selection"
@@ -16,6 +18,7 @@ export type PageId =
   | "feedback"
   | "dialogs"
   | "menus"
+  | "data-display"
   | "app-shell"
   | "overlays"
   | "settings"
@@ -100,8 +103,13 @@ export interface TokenBundle {
   componentContracts: {
     contractVersion: string;
     components: Record<
-      Extract<PageId, "buttons" | "inputs" | "selection" | "navigation" | "list-rows" | "feedback" | "dialogs" | "menus">,
+      Extract<PageId, "surfaces" | "buttons" | "inputs" | "selection" | "navigation" | "list-rows" | "feedback" | "dialogs" | "menus" | "data-display">,
       {
+        name: string;
+        summary: string;
+        variants: Array<{ name: string; description: string }>;
+        states: Array<{ name: string; description: string; required: boolean }>;
+        accessibility: string[];
         usage: string[];
         tokens: Array<{ name: string; token: string; value: string }>;
       }

@@ -24,6 +24,25 @@ def sha256(content: str) -> str:
     return hashlib.sha256(content.encode()).hexdigest()
 
 
+def primitive_contract_value(primitives: dict, token: str) -> str | None:
+    """Return the display value for primitive-backed component references."""
+    parts = token.split(".")
+    current: object = primitives
+    for part in parts:
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current[part]
+    if isinstance(current, (int, float)):
+        unit = "px" if parts[0] in {"radii", "tapTargets", "typography"} else ""
+        return f"{current:g}{unit}"
+    if isinstance(current, dict) and "durationMs" in current:
+        return f"{current['durationMs']:g}ms"
+    if token == "layoutMetrics.sidebarWidth" and isinstance(current, dict):
+        values = [value for value in current.values() if isinstance(value, (int, float))]
+        return " / ".join(f"{value:g}" for value in values) + "px"
+    return None
+
+
 def distribution_outputs() -> tuple[dict[Path, str], str, str]:
     primitives, skins, accents, product_tokens, digest = load_tokens()
     validate(primitives, skins, accents, product_tokens)
@@ -47,9 +66,9 @@ def distribution_outputs() -> tuple[dict[Path, str], str, str]:
         (REPO / "contracts" / "components.json").read_text(encoding="utf-8")
     )
     required_pages = {
-        "overview", "getting-started", "color", "typography", "spacing", "motion",
+        "overview", "getting-started", "color", "typography", "spacing", "motion", "components", "surfaces",
         "buttons", "inputs", "selection", "navigation", "list-rows", "feedback",
-        "dialogs", "menus", "app-shell", "overlays", "settings", "products",
+        "dialogs", "menus", "data-display", "app-shell", "overlays", "settings", "products",
         "delivery", "qa",
     }
     if set(viewer_content.get("pages", {})) != required_pages:
@@ -62,16 +81,32 @@ def distribution_outputs() -> tuple[dict[Path, str], str, str]:
                 f"viewerContent.pages.{page_id}: expected [group, title, description]"
             )
     component_ids = {
-        "buttons", "inputs", "selection", "navigation",
-        "list-rows", "feedback", "dialogs", "menus",
+        "surfaces", "buttons", "inputs", "selection", "navigation",
+        "list-rows", "feedback", "dialogs", "menus", "data-display",
     }
     if set(component_contracts.get("components", {})) != component_ids:
         raise TokenValidationError("componentContracts.components: catalog is incomplete")
     for component_id, contract in component_contracts["components"].items():
-        if not contract.get("usage") or not contract.get("tokens"):
+        required_contract_fields = {
+            "name", "summary", "variants", "states",
+            "accessibility", "usage", "tokens",
+        }
+        if set(contract) != required_contract_fields:
             raise TokenValidationError(
-                f"componentContracts.components.{component_id}: usage and tokens are required"
+                f"componentContracts.components.{component_id}: contract fields are incomplete"
             )
+        for field in ("variants", "states", "accessibility", "usage", "tokens"):
+            if not contract[field]:
+                raise TokenValidationError(
+                    f"componentContracts.components.{component_id}.{field}: cannot be empty"
+                )
+        for row in contract["tokens"]:
+            expected = primitive_contract_value(primitives, row["token"])
+            if expected is not None and row["value"] != expected:
+                raise TokenValidationError(
+                    f"componentContracts.components.{component_id}.{row['token']}: "
+                    f"expected {expected}, got {row['value']}"
+                )
     bundle = json.dumps(
         {
             "primitives": primitives,
