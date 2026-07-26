@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.2.5（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
+**specVersion: 0.2.7（draft）** — 样式优化进行中，优化结论会回填本规范；回填完成并应用到各产品后升 1.0。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -108,3 +108,5 @@ python3 viewer/build.py   # tokens 改值后重跑即同步
 - **0.2.3**（2026-07-24）：`DESIGN.md` Components 段全量重写——按功能分 8 组（表面原语/按钮 7 变体/输入 6 控件/选择 2 件/列表 3 种/浮层 3 件/导航 2 件/反馈 6 件），每个组件带完整锚点值与状态映射，与 `components/*.md` 一一对应不再缺漏。
 - **0.2.4**（2026-07-24）：开刮（kaigua）接入——`tokens/accents.json` 登记产品轴（默认靛蓝 `#6673C7`）；建立 `products/kaigua/` L0 与分叉登记。
 - **0.2.5**（2026-07-26）：锚定菜单改内容撑开（min 160 / max 280，禁止定宽）；行高 46→36、标签 14→13.5、图标 19/24→17/22、行 padding 12h、壳上下 4；窄屏底部弹层规格不变。
+- **0.2.6**（2026-07-26）：侧栏 metrics 钉死——宽仅 216/236（废除列表轨 220）；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；品牌/外框 padding 与可选分区标题写死；禁止复用 list-row 默认规格。
+- **0.2.7**（2026-07-26）：主体框架钉死——壳层画布强制对角渐变（canvas→canvasHighlight→overlay）；侧栏/底栏强制 GlassSurface strong + chromeSurface（废除「模糊可省」软口）；移动 extendBody true；dock 上方产品条仅定接口、属产品层。

@@ -13,7 +13,9 @@
 - [ ] 输入框：r10、subtle 填充、聚焦 2px accent
 - [ ] 滑杆：轨道 3、拇指 r6；进度圈 24px/2px 且无硬编码色
 - [ ] 开关：轨道 40×24、拇指 18、选中 accent/onAccent、未选 border/secondary、无描边、无 `Switch.adaptive`
-- [ ] 底栏：56px、图标 21、标签 10.5 选中 w800
+- [ ] 底栏：56（嵌入 46）+SafeArea、图标 21、标签 10.5 选中 w800 accent；GlassSurface strong + chromeSurface；顶 hairline；阴影 blur 18 offset (0,−6)
+- [ ] 侧栏：宽 216/236（禁止其它定宽）；GlassSurface strong + chromeSurface；右 hairline；阴影 blur 6 offset (1,0)；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；选中 accent@0.10 胶囊 r10；品牌字 17 w800 −0.35；外框 padding 10/12/10/12；hover 前景 4.5%
+- [ ] 壳层画布：对角渐变 canvas → canvasHighlight → overlay（stops 0/0.46/1）；移动 extendBody true；底留白 140 / 桌面 96；壳层无 Material elevation
 - [ ] 对话框：maxWidth 520、barrier 黑 38%/62%；sheet：maxWidth 760、把手 38×4
 - [ ] 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 13.5；禁止定宽；<680px 自动退化为底部弹层
 - [ ] 字族 `.SF Pro Text` + 五个回退；页标题 26/28 w800 负字距 −0.55
@@ -27,8 +29,8 @@
 - [ ] 深夜皮肤：浮层 barrier 明显、玻璃面层次可读
 - [ ] 跟随系统：切换系统外观，App 即时跟随
 - [ ] 窄窗（<680）菜单变底部弹层；宽窗锚定弹层不错位（靠右边缘自动内收、底部自动上翻）
-- [ ] 桌面：hover 反馈可见、键盘 Tab 焦点环 2px accent、tooltip 450ms
-- [ ] 移动：底栏玻璃下内容可延伸、末行不被遮挡（底部留白 140）
+- [ ] 移动：底栏玻璃下内容可延伸（extendBody）、末行不被遮挡（底部留白 140）；壳层画布渐变可见、内容页未整面盖白
+- [ ] 桌面：侧栏为玻璃面（非实色块）；hover 反馈可见、键盘 Tab 焦点环 2px accent、tooltip 450ms
 - [ ] 对话框：矮内容收缩包裹、高内容仅内容区滚动
 - [ ] 空态/加载/错误三态符合反馈规范
 - [ ] 内容层（若有）：切换内容主题不影响 chrome；chrome 覆盖内容时可读

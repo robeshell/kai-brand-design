@@ -1,5 +1,5 @@
 ---
-version: "0.2.5"
+version: "0.2.7"
 name: kai-brand-design
 description: "A quiet, content-first glass interface system for the kai product family (kaiting music player, kaijuan reader). Neutral ramps and rules are unified; product accents are deliberately not."
 colors:
@@ -63,8 +63,10 @@ components:
   switch: { track: "40x24", thumb: 18, motion: "160ms easeOutCubic" }
   checkbox: { radius: 5, border: "1.4px", checked: "accent + onAccent check" }
   chip: { height: 32, radius: "{rounded.pill}", selected: "accent@0.09" }
-  sidebarRow: { minHeight: 40, selected: "accent@0.10 capsule", radius: "{rounded.control}" }
-  navBar: { height: 56, icon: 21, label: "{typography.navLabel}" }
+  sidebarRow: { height: 38, padding: "10h/2v", icon: 18, iconSlot: 32, label: 13.5, selected: "accent@0.10 capsule", radius: "{rounded.control}", hover: "foreground@0.045" }
+  sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface", shadow: "blur 6 offset (1,0)", padding: "10/12/10/12", brand: "17 w800 -0.35", brandMark: "optional 28 + gap 8", sectionLabel: "10.5 w800 muted +0.8, pad 10/13/10/3" }
+  navBar: { height: "56 / embedded 46", surface: "GlassSurface strong + chromeSurface", shadow: "blur 18 offset (0,-6)", icon: 21, label: "{typography.navLabel}" }
+  appShell: { canvas: "gradient canvas → canvasHighlight → overlay, stops 0/0.46/1", extendBody: true, contentBottomPad: "140 mobile / 96 desktop" }
   snackbar: { behavior: floating, surface: "overlay + border", radius: "{rounded.menu}", width: "220 centered >=420w", duration: "1.4s" }
   tooltip: { surface: "overlay + border", radius: "{rounded.tooltip}", padding: "10h/7v", delay: "450ms", show: "3s" }
   emptyState: { maxWidth: 420, icon: 30, title: "16 w600", note: "12 secondary" }
@@ -157,26 +159,30 @@ components:
 
 ### Grid & Container
 
-- 桌面壳：侧栏（216 medium / 236 wide）+ 内容区；移动壳：底栏 + `extendBody` 内容延伸到玻璃下。
+- **壳层画布（强制）**：整窗对角渐变 `canvas → canvasHighlight → overlay`，stops `0 / 0.46 / 1`；内容页不得另铺纯白底盖住画布。
+- 桌面壳：侧栏（216 medium / 236 wide）+ 内容区；移动壳：底栏 + **`extendBody: true`** 内容延伸到玻璃下。
+- 常驻 chrome（侧栏 / 底栏）= `GlassSurface` strong + `chromeSurface`；禁止实色 Container 顶替。
 - 标题栏透明叠加在最上方不占布局；macOS 避让交通灯 38pt（自定义 chrome 78），Windows 自绘 44px。
+- 完整壳规范见 `patterns/app-shell.md`。
 
 ### Whitespace Philosophy
 
-留白即分隔——优先用间距与 hairline 分区，不用色块与卡片套卡片。分组卡片只在设置类页面出现，内容页保持画布平坦。
+留白即分隔——优先用间距与 hairline 分区，不用色块与卡片套卡片。分组卡片只在设置类页面出现，内容页保持画布平坦（透出壳层渐变）。
 
 ## Elevation & Depth
 
 | Level | Treatment | Use |
 |---|---|---|
-| 0 画布 | 无阴影无边框 | 页面背景、内容 |
+| 0 画布 | 对角渐变（无阴影无边框） | 壳层页面底 |
 | 1 分隔 | hairline 1px | 行间、区间分隔 |
 | 2 卡片 | hairline 描边（设置卡）或 token 阴影 ×shadowScale（封面 ≥96px） | 设置分组卡、封面 |
-| 3 浮面 | strongSurface + border + token 阴影 ×shadowScale + 模糊 | 对话框、菜单、弹层、底栏、迷你播放器 |
+| 3 浮面 / chrome | strongSurface + border + token 阴影 ×shadowScale + 模糊 | 对话框、菜单、弹层、**侧栏、底栏**、迷你播放器 |
 
 ### Decorative Depth
 
-- 模糊按面选用：浮面模糊；**重复的行/卡片不模糊**（`blur: false`）；blur=0 的皮肤自动跳过 BackdropFilter。
+- 浮面与常驻 chrome 模糊；**重复的行/卡片不模糊**（`blur: false`）；blur=0 的皮肤自动跳过 BackdropFilter。
 - 阴影只来自 glass token 并乘 `effects.shadowScale`；纯净皮肤 shadowScale=0 自动无影。
+- 禁止手写「侧栏免模糊」——仅皮肤 token 驱动。
 
 ## Shapes
 
@@ -243,8 +249,9 @@ components:
 
 ### Navigation — 底栏 / 侧栏
 
-- **`nav-bar`（底栏）** — 高 56（嵌入态 46）+ SafeArea；`chromeSurface`（strongSurface@80%）+ 顶 hairline；阴影 blur 18 offset (0,−6)。图标 21、标签 10.5（选中 w800 accent / 未选 w600 onSurfaceVariant）；标签颜色过渡 160ms easeOutCubic。目的地 3–5 个、图标 + 2–4 字短标签；选中/未选图标可同形或双态，尺寸一致。底栏常驻，内容底部留白按壳规范。
-- **`side-rail`（侧栏）** — 宽 216（medium）/ 236（wide），产品可选图标轨（开听）或列表轨（开卷），token 一致。`chromeSurface` + 右 hairline，全高延伸至标题栏下方（避让交通灯）。品牌字 17 w800 −0.35。行高 ≥40、行圆角 10（control 档）；选中行：accent 10% 胶囊底 + accent 图标（18–20）+ primary 标签 w700；未选行：secondary 图标与标签 w500；hover 前景 4.5%。侧栏不透明堆叠内容时模糊可省（无内容从其下滚过）。
+- **`nav-bar`（底栏）** — 高 **56**（上方有产品条时嵌入态 **46**）+ SafeArea；`GlassSurface` strong + `chromeSurface` + 顶 hairline；阴影 blur 18 offset (0,−6)。图标 21、标签 10.5（选中 w800 accent / 未选 w600 onSurfaceVariant）；标签颜色过渡 160ms easeOutCubic。目的地 3–5 个、图标 + 2–4 字短标签；选中/未选图标可同形或双态，尺寸一致。底栏常驻 + **`extendBody: true`**；内容底留白按壳规范。**禁止**实色 Container 顶替玻璃底栏。
+- **`side-rail`（侧栏）** — 宽 **216（medium）/ 236（wide）**，禁止其它定宽。`GlassSurface` **strong** + `chromeSurface` + 右 hairline；阴影 blur **6** offset **(1, 0)**；全高延伸至标题栏下方（顶避让 titlebarInset）。外框 padding `10/12/10/12`；品牌区 padding `10/2/10/12`；品牌字 **17 w800 −0.35**（可选品牌标 28×28 + 间距 8）。行：**高 38**、padding **10h/2v**、圆角 10；图标 **18** 槽宽 **32** 间距 10；标签 **13.5**（选中 primary w700 / 未选 secondary w500）；选中 accent **10%** 胶囊 + accent 图标；hover 前景 **4.5%**。可选分区标题：10.5 w800 muted 字距 +0.8、padding `10/13/10/3`。信息架构（分组与否）产品自定，**行解剖、宽度、玻璃材质不得改**。默认皮肤必须模糊；禁止手写免模糊。**禁止**复用 list-row 默认 metrics、用加大 vertical padding 代替行高、图标无槽贴边、实色 Container 顶替玻璃。
+- 壳层画布与双端布局总规见 `patterns/app-shell.md`。
 
 ### Feedback — 轻提示 / 空态 / 加载 / 滚动条 / 进度条
 
@@ -271,6 +278,7 @@ components:
 - 不用平台自适应开关（`Switch.adaptive` / Cupertino 开关）；不用 Material elevation。
 - 不在品牌层写产品特数值（accents 登记表、L0 接口、参考实现指针除外）。
 - 不自造断点——壳切换只由窗口分级驱动。
+- 不把内容页整面实色底盖住壳层画布渐变；不用实色 Container 顶替侧栏/底栏玻璃面。
 
 ## Responsive Behavior
 
