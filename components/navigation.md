@@ -12,7 +12,7 @@
 |---|---|
 | 栏高 | **56** + SafeArea；上方叠产品条时嵌入态 **46** + SafeArea |
 | 图标 | **21** |
-| 标签 | **10.5**；选中 w800 / 未选 w600 |
+| 标签 | **10.5**；选中 w600 / 未选 w500 |
 | 项内边距 | 3h |
 | 表面 | `GlassSurface` strong + `chromeSurface`（strongSurface @80%） |
 | 顶部分隔 | 顶 hairline |
@@ -50,13 +50,13 @@
 | 外框 padding | `10, 12, 10, 12` |
 | 顶避让 | SafeArea / MediaQuery 顶 = `titlebarInset`（macOS 38 / Windows 44） |
 | 品牌区 padding | `10, 2, 10, 12` |
-| 品牌字 | 17 w800，负字距 −0.35，primary |
+| 品牌字 | 17 w600，负字距 −0.35，primary |
 | 品牌标（可选） | 28×28 + 与字间距 8；无标时只保留文字 |
 | 行高 | **38**（定值，不是下限） |
 | 行 padding | **10h / 2v** |
 | 行圆角 | 10（control 档） |
 | 图标 | **18**，槽宽 **32**（居中），与标签间距 10 |
-| 标签 | **13.5**；选中 primary w700 / 未选 secondary w500 |
+| 标签 | **13.5**；选中 primary w600 / 未选 secondary w500 |
 | 选中底 | accent **10%** 胶囊 |
 | 选中图标 | accent |
 | hover | 前景 **4.5%** |
@@ -66,7 +66,7 @@
 
 | 部位 | 值 |
 |---|---|
-| 字号 / 字重 | 10.5 w800 |
+| 字号 / 字重 | 10.5 w600 |
 | 颜色 | muted |
 | 字距 | +0.8 |
 | padding | `10, 13, 10, 3` |
@@ -86,5 +86,5 @@
 
 ## 验收锚点
 
-- 底栏：56（嵌入 46）+SafeArea、图标 21、标签 10.5 选中 w800 accent；`GlassSurface` strong + chromeSurface；顶 hairline；阴影 blur 18 offset (0,−6)；
-- 侧栏：宽 216/236；`GlassSurface` strong + chromeSurface；右 hairline；阴影 blur 6 offset (1,0)；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；选中 accent 10% 胶囊 r10；品牌字 17 w800 −0.35；外框 padding 10/12/10/12。
+- 底栏：56（嵌入 46）+SafeArea、图标 21、标签 10.5 选中 w600 accent；`GlassSurface` strong + chromeSurface；顶 hairline；阴影 blur 18 offset (0,−6)；
+- 侧栏：宽 216/236；`GlassSurface` strong + chromeSurface；右 hairline；阴影 blur 6 offset (1,0)；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；选中 accent 10% 胶囊 r10；品牌字 17 w600 −0.35；外框 padding 10/12/10/12。

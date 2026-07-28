@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/primitives.schema.json",
-  "specVersion": "0.4.4",
+  "specVersion": "0.4.5",
   "basePalette": {
     "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
     "mainBackground": "#F7F9FC",
@@ -30,11 +30,11 @@
     "fontFamily": "system-ui",
     "fontFamilyFallback": [],
     "weights": {
-      "comment": "标题 strong=w700；display=w800 仅选中/当前歌词/monogram；禁止页头与 hero 用 w800",
+      "comment": "精致字重：strong=w600 标题与选中；emphasis=w500 行/按钮；禁止 w700+",
       "body": 400,
-      "emphasis": 600,
-      "strong": 700,
-      "display": 800
+      "emphasis": 500,
+      "strong": 600,
+      "display": 600
     },
     "tracking": {
       "headlineLarge": -0.25,

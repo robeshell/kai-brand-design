@@ -9,18 +9,18 @@
 - [ ] 全局 `splashFactory: NoSplash.splashFactory`、`applyElevationOverlayColor: false`、`surfaceTint: transparent`
 - [ ] 圆角：对话框 20 / 弹层 18 / 菜单 12 / 卡片 14 / 控件 10 / 按钮与 chip 胶囊
 - [ ] 按钮：最小 36、胶囊、iconSize 17；IconButton 40 正圆、图标 20
-- [ ] chip / ChoiceStrip：高 32、选中 accent@0.09 底 + accent 字 **w700**（颜色承担强调，字重不必 w800）、无边框无 checkmark
+- [ ] chip / ChoiceStrip：高 32、选中 accent@0.09 底 + accent 字 **w600**、未选 w500、无边框无 checkmark
 - [ ] 列表行：minHeight 54、标题 13.5 w600、副题 11.5
 - [ ] 输入框：r10、subtle 填充、聚焦 2px accent 且无外侧 outline
 - [ ] 滑杆：轨道 3、拇指 r6；进度圈 24px/2px 且无硬编码色
 - [ ] 开关：轨道 40×24、拇指 18、选中 accent/onAccent、未选 border/secondary、无描边、无 `Switch.adaptive`
-- [ ] 底栏：56（嵌入 46）+SafeArea、图标 21、标签 10.5 选中 w800 accent；三主题均走 GlassSurface strong + chromeSurface；纯净主题由 token 自动零模糊、零投影；顶 hairline
-- [ ] 侧栏：宽 216/236（禁止其它定宽）；三主题均走 GlassSurface strong + chromeSurface；右 hairline；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；选中 accent@0.10 胶囊 r10；品牌字 17 w800 −0.35；外框 padding 10/12/10/12；hover 前景 4.5%
+- [ ] 底栏：56（嵌入 46）+SafeArea、图标 21、标签 10.5 选中 **w600** accent / 未选 w500；三主题均走 GlassSurface strong + chromeSurface；纯净主题由 token 自动零模糊、零投影；顶 hairline
+- [ ] 侧栏：宽 216/236（禁止其它定宽）；三主题均走 GlassSurface strong + chromeSurface；右 hairline；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；选中 accent@0.10 胶囊 r10；品牌字 17 **w600** −0.35；外框 padding 10/12/10/12；hover 前景 4.5%
 - [ ] 壳层画布：默认主题以右侧 `#F7F9FC`、左侧 `#F3F5F8` 为底层基色；三主题均使用 canvas → canvasHighlight → overlay；移动 extendBody true；底留白 140 / 桌面 96；壳层无 Material elevation
 - [ ] 桌面主窗：默认 1280×800、最小 1024×700（逻辑/content）；小屏钳制不得低于 min
 - [ ] 对话框：maxWidth 520、barrier 黑 38%/62%；sheet：maxWidth 760、把手 38×4
 - [ ] 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 13.5；禁止定宽；<680px 自动退化为底部弹层
-- [ ] 字族平台默认（不钉 `.SF Pro Text`、不强制 fallback）；页标题 26/28 **w700** 负字距 ≈ −0.15～−0.25；**w800 仅**底栏/索引选中、当前歌词、monogram、队列当前行
+- [ ] 字族平台默认（不钉 `.SF Pro Text`、不强制 fallback）；页标题 26/28 **w600** 负字距 ≈ −0.15～−0.25；**禁止 w700+**；选中/当前/monogram 同为 w600 靠色区分
 - [ ] 代码中无字面色值泄漏（grep `Color(0x` 应只出现在 theme 层与内容层扩展）
 - [ ] 旧外观存储迁移有单元测试
 

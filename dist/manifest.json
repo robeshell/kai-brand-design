@@ -2,27 +2,27 @@
   "files": {
     "css/kaigua/brand.generated.css": {
       "bytes": 3709,
-      "sha256": "8d98e4c49395462749e6f596673434ada9dce2024f8df0f8aad06dcda09932e9"
+      "sha256": "70269e766fce4730614a4cf4581d712d8ff7cd41a3b6472d5909898ca9789721"
     },
     "flutter/kaijuan/brand_tokens.g.dart": {
       "bytes": 6561,
-      "sha256": "55879f1fce1d3af600681026840afa43be31448c71eaffbb8a399a097b7870f8"
+      "sha256": "ad980edbf7abe11f01dc603a8342d5b21dfcaee943694248541f0226a818d78a"
     },
     "flutter/kaiting/brand_tokens.g.dart": {
       "bytes": 7426,
-      "sha256": "a26c7ee76ac94b83ed660636908dda03478c3972fced9bc9cbe119e3f8b84664"
+      "sha256": "df5ce51fe7de69ca6698745cae880cb91f9ae17f89ee10c2d218c527e102b7c6"
     },
     "release/kai-design.lock.json": {
       "bytes": 179,
-      "sha256": "dbc21a18aeef7cf24ece26c5e6aba22e64dee8949ff1a170224e0f6c8c59d1be"
+      "sha256": "6cd8c6188ceea433ca11dd79cffa3d9fd1b1f7e84ec9ac26ec7964ff209c17b3"
     },
     "spec/DESIGN.md": {
-      "bytes": 26373,
-      "sha256": "e9ddf0702b6b8dad06cfa0ebc79e67dd515ede9697b69a85c9776a535f79cd0e"
+      "bytes": 26328,
+      "sha256": "4b83fd650c419040e0c0e9fe1cdd8db9d3457bab4c90090cee245ff8aa2bbed1"
     },
     "spec/README.md": {
-      "bytes": 14495,
-      "sha256": "b1f1ea27902c43bffb89843cb5c303ba2e336adf4fbd25827a651bac0adc1250"
+      "bytes": 14748,
+      "sha256": "6b6aae98c7cd7589250da50339b61ce1aeaca3775ecc00d36af41e2f3f75dc44"
     },
     "spec/components/_template.md": {
       "bytes": 1204,
@@ -30,11 +30,11 @@
     },
     "spec/components/buttons.md": {
       "bytes": 1953,
-      "sha256": "34f69cf61f1a52c4854bdd495d771e412c6d55acb1c2bd80040b0477005b5b66"
+      "sha256": "5fb576ce5f9298c4988593f051635100100973506fc0a34a23b48d7a021d99f3"
     },
     "spec/components/choice-chips.md": {
       "bytes": 1329,
-      "sha256": "6758ac84e9caf45b22d296ea729c37ef0ead0d0e566603e92720e35c4693490c"
+      "sha256": "18bc48eaede51f9a6ab94fd91218e77c9927ae1b750a6154b31a7deb29f8e038"
     },
     "spec/components/data-display.md": {
       "bytes": 1319,
@@ -42,7 +42,7 @@
     },
     "spec/components/dialogs.md": {
       "bytes": 2022,
-      "sha256": "649b12f5d8426580516484e162be4c67c358b9dbadc61f95e1de90ed60e7afc1"
+      "sha256": "3d18fb4edae0b20f06ae1d73acfb1b9a303011d19502b110cf3183814b73e2d6"
     },
     "spec/components/feedback.md": {
       "bytes": 2648,
@@ -50,7 +50,7 @@
     },
     "spec/components/inputs.md": {
       "bytes": 2327,
-      "sha256": "457eb13c81d7810a8d8b2d5a67eeabfe53cac15753a81255f4b387ff661e32fd"
+      "sha256": "862e064510e5ea661dce2e21d2c027ef887256337ee73b8df1501bdd1f745deb"
     },
     "spec/components/list-rows.md": {
       "bytes": 1435,
@@ -58,7 +58,7 @@
     },
     "spec/components/navigation.md": {
       "bytes": 4047,
-      "sha256": "b36ab646d3e807d196070c9199efbb984e901c187a4e036c19bc339c94157e3d"
+      "sha256": "9678c0d58ccb623d6a43a22fdfd1d54f465d9151c7acf9703ba0929fefa2f61f"
     },
     "spec/components/sheets-and-menus.md": {
       "bytes": 2426,
@@ -81,20 +81,20 @@
       "sha256": "2d1a0821cfff1a2e72ed23f1554d3cd0d641e0cc3a53311a40c032089e188a71"
     },
     "spec/foundations/typography.md": {
-      "bytes": 4242,
-      "sha256": "f86d103b4da02f9099728bdc251b5e5546c61eb7ab81cd35fc7fa901472e1c5c"
+      "bytes": 4327,
+      "sha256": "32c92768f68e39c919c272a367d12add1ebe5f393e13a1cda9c16942cf82c283"
     },
     "spec/implementation/acceptance-checklist.md": {
-      "bytes": 3585,
-      "sha256": "8363d5c1e7c3e2c7fb4d414f46cd2e05f7bb949e1047a20fdab6b8549bc25fd0"
+      "bytes": 3568,
+      "sha256": "0bb89d6837e7b47a8222580bc279d0ee738372c6a40bf749c770dde6f7619977"
     },
     "spec/implementation/adoption-matrix.md": {
       "bytes": 2140,
       "sha256": "99a65ee175a1e1ee2f976cbafa430688a6a267a6bf424624f0079968b5b293a9"
     },
     "spec/implementation/flutter.md": {
-      "bytes": 4261,
-      "sha256": "b38415979da83ca910f0707b0540a9699f962c0660ec88c7ef7ebf8c7023c847"
+      "bytes": 4240,
+      "sha256": "4c3b80753ad4d1679c9507d958748249e61ee7ed0195f067ec79ea53ebfc7bf2"
     },
     "spec/implementation/token-pipeline.md": {
       "bytes": 4242,
@@ -102,7 +102,7 @@
     },
     "spec/patterns/app-shell.md": {
       "bytes": 6580,
-      "sha256": "8142c49a660a882bd863a083f3c90e6cec069f1a633fe5409d4a1407fbaed411"
+      "sha256": "db436a6ebe47dc65cb67ddbdf040f3800eba32f7fb709fd75b80f4254e2e2f1f"
     },
     "spec/patterns/overlays.md": {
       "bytes": 1556,
@@ -110,7 +110,7 @@
     },
     "spec/patterns/settings-page.md": {
       "bytes": 3883,
-      "sha256": "d71a032575e88b0db638883401c20a4b6c6efc7a2d8a710a29227e85bc53d125"
+      "sha256": "e471868f2e9fa08875ed86ebdeb5a5c44b12c0ec64a00d61432841fcd6327b6f"
     },
     "spec/products/kaigua/README.md": {
       "bytes": 1739,
@@ -153,8 +153,8 @@
       "sha256": "ac4f19957338821afadab53cb84c0296488be377909392e9db2c2e3997c1ef52"
     },
     "spec/products/kaiting/patterns/now-playing.md": {
-      "bytes": 4399,
-      "sha256": "b3de49f342b7abe08448d3568ee6e78deaca2a17579c6704b57d832dcd3f4355"
+      "bytes": 4405,
+      "sha256": "3519bcfd7d327ffda0c0936b6cc1de4447d92c71f8c498c41ea9104ab5125406"
     },
     "spec/products/kaiting/tokens.md": {
       "bytes": 1907,
@@ -166,11 +166,11 @@
     },
     "tokens/kai.meta.json": {
       "bytes": 114,
-      "sha256": "d889230165a2fa3a7b0faa5dbd92c026156d686713715273efbae4fb42de00c3"
+      "sha256": "b13f09349a0b7ec193d58b24b4aeff2c55298833aebc3caa97f01cd4920f27c9"
     },
     "tokens/kai.tokens.json": {
-      "bytes": 43512,
-      "sha256": "7ad056dd1f20c44b109e8a0f0391bc44f43eddb80f8060b9a50232218c9fbce5"
+      "bytes": 43499,
+      "sha256": "3bd07c0e32501fba156aca1a828ab7364c69c1ab52f0f79699eec4c063064056"
     },
     "viewer/assets/app.css": {
       "bytes": 38578,
@@ -178,7 +178,7 @@
     },
     "viewer/assets/app.js": {
       "bytes": 65483,
-      "sha256": "f42dda1de5f0ced1e49e6e4855eecd6a40a7ab50d83240119c9adfaff0938229"
+      "sha256": "a572bbe5945f728ee5be7f7159a9b54ef8fdd53f7239250e6cb703175a994aaa"
     },
     "viewer/index.html": {
       "bytes": 523,
@@ -186,6 +186,6 @@
     }
   },
   "name": "kai-brand-design",
-  "specVersion": "0.4.4",
-  "tokenDigest": "79c96e37e78d4344a2ba60be490269d3681fd1701f0e33af061edfcbf1a091c0"
+  "specVersion": "0.4.5",
+  "tokenDigest": "05dd9d6c1df2d95970b150e34dc112e18755de30c206911ae5bd02e8e1ffbcba"
 }

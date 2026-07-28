@@ -1061,7 +1061,7 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.4.4",
+    "specVersion": "0.4.5",
     "tapTargets": {
       "buttonMin": 36,
       "chipHeight": 32,
@@ -1096,10 +1096,10 @@
       },
       "weights": {
         "body": 400,
-        "comment": "标题 strong=w700；display=w800 仅选中/当前歌词/monogram；禁止页头与 hero 用 w800",
-        "display": 800,
-        "emphasis": 600,
-        "strong": 700
+        "comment": "精致字重：strong=w600 标题与选中；emphasis=w500 行/按钮；禁止 w700+",
+        "display": 600,
+        "emphasis": 500,
+        "strong": 600
       }
     }
   },

@@ -10,7 +10,7 @@
 | 圆角 | 10（control 档） |
 | 边框 | 常态 border；聚焦 2px accent；错误 error（聚焦 2px）；不使用外侧 outline |
 | 内边距 | 14h / 14v，isDense |
-| 标签 | secondary w600；浮动标签 accent w700 |
+| 标签 | secondary w500；浮动标签 accent w600 |
 | 提示 | secondary 70% |
 | 前后图标 | secondary |
 

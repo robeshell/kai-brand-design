@@ -69,7 +69,7 @@ components:
   checkbox: { radius: 5, border: "1.4px", checked: "accent + onAccent check" }
   chip: { height: 32, radius: "{rounded.pill}", selected: "accent@0.09" }
   sidebarRow: { height: 38, padding: "10h/2v", icon: 18, iconSlot: 32, label: 13.5, selected: "accent@0.10 capsule", radius: "{rounded.control}", hover: "foreground@0.045" }
-  sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", padding: "10/12/10/12", brand: "17 w800 -0.35", brandMark: "optional 28 + gap 8", sectionLabel: "10.5 w800 muted +0.8, pad 10/13/10/3" }
+  sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", padding: "10/12/10/12", brand: "17 w600 -0.35", brandMark: "optional 28 + gap 8", sectionLabel: "10.5 w600 muted +0.8, pad 10/13/10/3" }
   navBar: { height: "56 / embedded 46", surface: "GlassSurface strong + chromeSurface", icon: 21, label: "{typography.navLabel}" }
   appShell: { defaultCanvasBase: "#F7F9FC", defaultSideBase: "#F3F5F8", allSkins: "gradient canvas → canvasHighlight → overlay, stops 0/0.46/1; strong glass chrome", extendBody: true, contentBottomPad: "140 mobile / 96 desktop" }
   snackbar: { behavior: floating, surface: "overlay no border", radius: "{rounded.pill}", width: "hug content max viewport-40", padding: "18h/11v", text: "14 w600", duration: "1.6s", bottom: "36 >=420w / 18 narrow" }
@@ -91,7 +91,7 @@ components:
 **Key Characteristics:**
 
 - **基础色板 × 产品强调色正交**——浅色基准使用右侧冷白、左侧浅灰和珊瑚参考主色；产品强调色在 L0 选择，切换皮肤时保持不变。
-- **字重驱动层级**——标题 w700；**w800 仅选中 / 当前歌词 / monogram**；w900 禁用；**禁止钉死 `.SF Pro Text`**。
+- **精致字重**——标题 / 选中封顶 **w600**；行与按钮 **w500**；**禁止 w700+**；**禁止钉死 `.SF Pro Text`**。
 - **组件只读语义层**——任何组件不得硬编码颜色/透明度/圆角字面量，否则换皮肤（纯净皮肤 blur=0）即破。
 - **0.5 字号网格**——壳层字号只取 10.5/11.5/12.5/13.5 等半档值。
 
@@ -144,24 +144,24 @@ components:
 
 | Token | Size | Weight | Tracking | Use |
 |---|---|---|---|---|
-| heroDesktop | 28 | **700** | −0.3 | 专辑 / 艺人 / 合集桌面 hero |
-| pageTitle | 26–28 | **700** | −0.15 | 设置页头、用户库页头 |
-| heroImmersive / nowPlayingTitle | 24 | **700** | −0.25 | 移动 hero、正在播放曲名 |
-| titleLarge | 阶梯 | **700** | −0.1 | 对话框 / sheet 标题 |
-| rowTitle | 13.5 | 600–700 | 0 | 行标题 |
-| sectionLabel | 12–20 | **700** | 0 | 分区小标题（「专辑」「歌词」） |
+| heroDesktop | 28 | **600** | −0.3 | 专辑 / 艺人 / 合集桌面 hero |
+| pageTitle | 26–28 | **600** | −0.15 | 设置页头、用户库页头 |
+| heroImmersive / nowPlayingTitle | 24 | **600** | −0.25 | 移动 hero、正在播放曲名 |
+| titleLarge | 阶梯 | **600** | −0.1 | 对话框 / sheet 标题 |
+| rowTitle | 13.5 | **500** | 0 | 行标题 |
+| sectionLabel | 12–20 | **600** | 0 | 分区小标题（「专辑」「歌词」） |
 | rowSubtitle | 11.5 | 400–500 | 0 | 副题、元信息 |
-| chipLabel | 12 | 未选 600 / **选中 700 + accent** | 0 | ChoiceStrip / Chip（色强调） |
-| navLabel | 10.5 | 未选 600 / **选中 800** | 0 | 底栏标签 |
-| lyricActive | 18–22 | **800** | 0 | 仅当前歌词行 |
-| monogram | 随圆头 | **800** | −0.4 | 艺人字母头像 |
+| chipLabel | 12 | 未选 500 / **选中 600 + accent** | 0 | ChoiceStrip / Chip（色强调） |
+| navLabel | 10.5 | 未选 500 / **选中 600** | 0 | 底栏标签 |
+| lyricActive | 18–22 | **600** | 0 | 仅当前歌词行（其余 w400） |
+| monogram | 随圆头 | **600** | −0.4 | 艺人字母头像 |
 
 ### Principles
 
-- **标题 = w700**（页头、hero、sheet、曲名、分区标题）。**w800 仅**：选中态、当前歌词、monogram、队列正在播放行。
+- **标题 = w600**；选中 / 当前 / monogram 同档 **w600**，靠色区分。**禁止 w700+**。
 - 标题负字距缓和（≈ −0.1～−0.3）；正文与行文字不加字距。
-- 层级靠字重与颜色，不靠字号堆叠——壳层正文/UI 集中在 11.5–14。
-- 内容 hero 允许 24–28 字号，**字重仍 w700**；展示文字不得用 accent；hero 艺人名 15 w600 secondary。
+- 层级靠颜色与字号，不靠粗体——壳层正文/UI 集中在 11.5–14。
+- 内容 hero 允许 24–28 字号，**字重仍 w600**；展示文字不得用 accent；hero 艺人名 15 w500–600 secondary。
 - 截断：行标题单行省略；说明最多两行；对话框标题单行省略。
 
 ## Layout
@@ -223,12 +223,12 @@ components:
 
 - **`glass-surface`** — 一切浮面的原语：`base` / `strong` 两档填充（取自 `glass.surface` / `glass.strongSurface`）+ `glass.border` 描边 + token 阴影 × `effects.shadowScale` +（可选）`glass.blur` 模糊。blur=0 的皮肤（纯净）自动跳过 BackdropFilter，shadowScale=0 自动免投影。浮面按场景用模糊，**重复的行/卡片不模糊**。
 - **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔，左右缩进 14，自动插入（不手动写 Divider）；子块标签 12.5 w600 secondary，padding 14/12/14/2，左对齐。
-- **皮肤预览卡** — 124×80、r12、hairline 描边；内部 0.74×0.64 elevated 小卡（r7）+ accent 短条 13×4 + 两条假文字（0.78/0.52 宽、3.5 高、primaryText@0.22 / secondaryText@0.32）；选中 accent 2px 描边 + 下方标签 accent w700，未选 hairline + secondary w500（12px）。不放 check 角标。
+- **皮肤预览卡** — 124×80、r12、hairline 描边；内部 0.74×0.64 elevated 小卡（r7）+ accent 短条 13×4 + 两条假文字（0.78/0.52 宽、3.5 高、primaryText@0.22 / secondaryText@0.32）；选中 accent 2px 描边 + 下方标签 accent w600，未选 hairline + secondary w500（12px）。不放 check 角标。
 - **主题色板** — 28px 圆点横排，间距 12；选中 1.5px primary 描边 + 中心 8px onAccent 圆点；未选无描边（自定义彩虹渐变点外带 hairline）。不放 check 图标、不加投影。
 
 ### Buttons — 安静胶囊，不是实心大色块
 
-- **`button-filled`** — pill 胶囊、最小 36、padding 14h/7v、labelMedium w700、图标 17。状态：default 前景 4.5% 底 + accent 前景 / hover 7.5% / pressed 11% / disabled 前景 2.2% + secondary 38%。主操作一屏一个。
+- **`button-filled`** — pill 胶囊、最小 36、padding 14h/7v、labelMedium w500、图标 17。状态：default 前景 4.5% 底 + accent 前景 / hover 7.5% / pressed 11% / disabled 前景 2.2% + secondary 38%。主操作一屏一个。
 - **`button-outlined`** — 同形制；default 前景 2.5% / hover 5.5% / pressed 8.5%；前景 accent，用于次操作。
 - **`button-text`** — 同形制；default 透明 / hover 5.5% / pressed 8.5%；前景 accent，最低姿态。
 - **`button-destructive`** — error@8% 底 + error 文字；hover 12% / pressed 16% / disabled 2.5%。
@@ -239,7 +239,7 @@ components:
 
 ### Inputs — 文本 / 滑杆 / 开关 / 勾选 / 下拉
 
-- **`text-field`** — r10（control 档）、subtle 填充（前景 4.5% light / 5.5% dark）、内边距 14h/14v isDense；常态 border 描边，聚焦 2px accent，错误 error（聚焦 2px）；标签 secondary w600，浮动标签 accent w700；提示文字 secondary 70%。搜索框可有独立更矮的紧凑变体，但填充/圆角/聚焦规则不变。**禁止 M1 风格无填充下划线输入框**。
+- **`text-field`** — r10（control 档）、subtle 填充（前景 4.5% light / 5.5% dark）、内边距 14h/14v isDense；常态 border 描边，聚焦 2px accent，错误 error（聚焦 2px）；标签 secondary w500，浮动标签 accent w600；提示文字 secondary 70%。搜索框可有独立更矮的紧凑变体，但填充/圆角/聚焦规则不变。**禁止 M1 风格无填充下划线输入框**。
 - **`slider`** — 轨道高 3：激活 accent / 未激活 border；拇指半径 6 圆、accent；按压 overlay accent 12% 半径 14；不显示数值标签。只读进度条：轨道 3、无拇指或拇指 5、复用同语言。**禁止拇指带阴影/elevation**。
 - **`switch`** — 轨道 40×24 pill 999，无描边；拇指 18 正圆，轨道内边距 3。选中：轨道 accent、拇指 onAccent；未选：轨道 border、拇指 secondary。颜色 + 位置过渡 160ms easeOutCubic；触控目标 ≥40（透明 padding 外扩）。**禁止 `Switch.adaptive`**——macOS/iOS 得到系统绿 Cupertino 开关，且不吃主题。
 - **`checkbox`** — 圆角 5、1.4px border 描边；选中 accent 底 + onAccent 勾；未选 muted 空心；compact 密度。
@@ -248,7 +248,7 @@ components:
 
 ### Choice & Selection — 选择条 / CheckRow
 
-- **`choice-strip`** — 高度 32 pill 胶囊条、padding 11h、间距 8、可选图标 15（前导 6）。状态：default 前景 2.5% 底 + secondary 字 w600 / selected accent 9% 底 + accent 字 w700 / disabled 前景 2.5% + muted 45%。横排滚动（默认）或 Wrap；选中过渡 160ms；单选语义。阅读器覆盖在内容上的场景：前景可取内容色板（已登记分叉），形状/高度/间距不变。**优先用 ChoiceStrip**；仅在语义必须是 Chip 控件时用 Material Chip（Theme 层已配成同语言：pill、无 checkmark、选中 accent 9%）。
+- **`choice-strip`** — 高度 32 pill 胶囊条、padding 11h、间距 8、可选图标 15（前导 6）。状态：default 前景 2.5% 底 + secondary 字 w500 / selected accent 9% 底 + accent 字 w600 / disabled 前景 2.5% + muted 45%。横排滚动（默认）或 Wrap；选中过渡 160ms；单选语义。阅读器覆盖在内容上的场景：前景可取内容色板（已登记分叉），形状/高度/间距不变。**优先用 ChoiceStrip**；仅在语义必须是 Chip 控件时用 Material Chip（Theme 层已配成同语言：pill、无 checkmark、选中 accent 9%）。
 - **`check-row`** — list-row 变体：leading 为 20px 勾选图标（选中 accent 实心 / 未选 muted 空心）；`selected` 与勾选态一致；点击整行切换。
 
 ### Lists — 列表行 / 菜单行
@@ -259,14 +259,14 @@ components:
 
 ### Overlays — 对话框 / 底部弹层 / 菜单
 
-- **`dialog`** — 强玻璃面 r20、maxWidth 520（确认/提示类收至 400）、barrier 38%（浅）/ 62%（深）、视口内边距 20h/24v。标题区 padding 24/22/20/16、titleLarge **w700** 单行省略；内容区 padding 24/0/24/20、bodyMedium secondary；**内容超高时内容区独立滚动，对话框整体不滚**（shrink-wrap：maxHeight = 视口 − 48，内容区 Flexible + SingleChildScrollView）。按钮区 20/14/20/20 OverflowBar 右对齐间距 10；destructive 确认用 destructive 样式；文本输入流 autofocus + Enter 提交。**禁止 AlertDialog 默认灰面与 elevation、禁止对话框内第二个 accent 主按钮**。
+- **`dialog`** — 强玻璃面 r20、maxWidth 520（确认/提示类收至 400）、barrier 38%（浅）/ 62%（深）、视口内边距 20h/24v。标题区 padding 24/22/20/16、titleLarge **w600** 单行省略；内容区 padding 24/0/24/20、bodyMedium secondary；**内容超高时内容区独立滚动，对话框整体不滚**（shrink-wrap：maxHeight = 视口 − 48，内容区 Flexible + SingleChildScrollView）。按钮区 20/14/20/20 OverflowBar 右对齐间距 10；destructive 确认用 destructive 样式；文本输入流 autofocus + Enter 提交。**禁止 AlertDialog 默认灰面与 elevation、禁止对话框内第二个 accent 主按钮**。
 - **`sheet`** — 顶角 r18、把手 38×4 胶囊（secondary 38–45%，距顶 7）、maxWidth 760 居中（简单选项列表 560）、阴影 blur 28 × scale offset (0,−8)、barrier 同对话框。表面 strongSurface + border，内容区顶 padding 14 避把手。
 - **`menu`** — 同一 `MenuAction<T>` 数据模型（value / label / icon / subtitle? / selected / enabled / destructive / dividerBefore）两种自适应呈现：<680px → 底部弹层（行高 ≥52、padding 20h、最高 72% 视口、SafeArea）；≥680px → 锚定玻璃弹层（宽度随内容 min 160 / max 280、禁止定宽、壳上下 padding 4、r12、阴影 blur 24 offset (0,8)、自动上下翻避免越界）。触发器 `MenuButton`：默认 more_horiz 21px 图标钮（支持自定义 child、hover 前景 4%），无可用项时禁用。**禁止裸用 Material PopupMenuButton 默认样式；禁止菜单内嵌套滚动视图不收缩；禁止锚定菜单定宽**。
 
 ### Navigation — 底栏 / 侧栏
 
 - **`nav-bar`（底栏）** — 高 **56**（上方有产品条时嵌入态 **46**）+ SafeArea；三主题统一走 `GlassSurface` strong + `chromeSurface`；顶 hairline。纯净主题通过 token 自动零模糊、零投影。图标 21、标签 10.5；底栏常驻，内容底留白按壳规范。
-- **`side-rail`（侧栏）** — 宽 **216（medium）/ 236（wide）**，禁止其它定宽。三主题统一走 `GlassSurface` strong + `chromeSurface`；右 hairline。默认主题底层基色为 `#F3F5F8`。外框 padding `10/12/10/12`；品牌字 17 w800 −0.35；行高 38、圆角 10、图标 18、标签 13.5、选中 accent 10% 胶囊。
+- **`side-rail`（侧栏）** — 宽 **216（medium）/ 236（wide）**，禁止其它定宽。三主题统一走 `GlassSurface` strong + `chromeSurface`；右 hairline。默认主题底层基色为 `#F3F5F8`。外框 padding `10/12/10/12`；品牌字 17 w600 −0.35；行高 38、圆角 10、图标 18、标签 13.5、选中 accent 10% 胶囊。
 - 壳层画布与双端布局总规见 `patterns/app-shell.md`。
 
 ### Feedback — 轻提示 / 空态 / 加载 / 滚动条 / 进度条
@@ -285,7 +285,7 @@ components:
 - 改设计先改本仓库规范（连同 changelog），运行 `make validate test build check`，再通过 `kai_design.py sync` 同步产品。
 - 用文字三档与 derivedAlphas 规范档表达弱化和禁用。
 - 新组件先判层级归属：通用进品牌层，单产品进 `products/<product>/`，第二个产品需要时提升。
-- 用缓和负字距、字重阶梯（标题 w700；w800 仅选中/当前）、0.5 字号网格；字体走平台默认。
+- 用缓和负字距、精致字重（封顶 w600；行/按钮 w500）、0.5 字号网格；字体走平台默认。
 
 ### Don't
 

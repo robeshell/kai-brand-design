@@ -27,7 +27,7 @@ lib/core/theme/
 1. **ThemeExtension 承载语义层**：`GlassTheme`（11 字段）、`SkinEffects`（8 字段），含 `copyWith` 与 `lerp`；
 2. **强调色注入 ColorScheme**（推荐 kaijuan 模型）：`ColorScheme.fromSeed(seedColor: accent).copyWith(primary: accent, onPrimary: 亮度估算, surfaceTint: transparent, surfaceContainer* ← 坡道, outline/outlineVariant ← border/hairline)`。**不要**用开听的静态变量突变模型（`SoundColors.accent = …`）——那是历史包袱；
 3. `ThemeData` 全局：`useMaterial3`、`applyElevationOverlayColor: false`、`splashFactory: NoSplash.splashFactory`、`highlightColor/splashColor: transparent`、**不设置 fontFamily**（平台默认）、`extensions: [glass, effects]`；
-4. TextTheme 按 `foundations/typography.md` 覆写（headline/title/hero **一律 w700** + 缓和负字距、bodySmall 染 secondary）；**w800 仅**底栏选中、索引当前字母、当前歌词行、monogram、队列正在播放行——禁止页头/hero 用 w800；ChoiceStrip 选中用 accent + w700。
+4. TextTheme 按 `foundations/typography.md` 覆写（headline/title/hero **一律 w600** + 缓和负字距、bodySmall 染 secondary）；**禁止 w700+**；选中 / monogram / 当前歌词也是 w600（靠色区分）；行标题与按钮 **w500**；ChoiceStrip 选中 = accent + w600。
 
 ## 第 2 步：ThemeData 子主题清单（22 项，逐项勾）
 

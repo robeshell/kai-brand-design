@@ -7,7 +7,7 @@
 
 | 按钮 | 形状 | 最小尺寸 | 内边距 | 文字 | 图标 |
 |---|---|---|---|---|---|
-| Filled / Elevated / Outlined / Text | 胶囊（pill） | 36×36 | 14h/7v（TextButton 12h/8v） | labelMedium w700 | 17 |
+| Filled / Elevated / Outlined / Text | 胶囊（pill） | 36×36 | 14h/7v（TextButton 12h/8v） | labelMedium w500 | 17 |
 | IconButton | 正圆 | 40×40 | — | — | 20 |
 | ToolbarButton | 胶囊 | 高 32 | 8–10h | 12 w600 secondary | 16 secondary |
 | FAB | 正圆 | 默认 | — | — | accent |
