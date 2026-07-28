@@ -22,16 +22,16 @@ colors:
   accentKaiting: "#FF5A4D"
   accentKaijuan: "#EA580C"
 typography:
-  fontFamily: ".SF Pro Text"
-  fallback: ["PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Roboto", "sans-serif"]
-  pageTitle: { size: "26-28", weight: 800, tracking: -0.55 }
+  fontFamily: "system default (no ThemeData.fontFamily pin)"
+  fallback: []
+  pageTitle: { size: "26-28", weight: 700, tracking: -0.15 }
   heroDesktop: { size: 38, weight: 800, tracking: -0.8 }
   heroImmersive: { size: "28-34", weight: 800, tracking: -0.55 }
-  titleLarge: { weight: 800, tracking: -0.25 }
+  titleLarge: { weight: 700, tracking: -0.1 }
   rowTitle: { size: 13.5, weight: 600 }
   rowSubtitle: { size: 11.5, weight: 400, color: "{colors.textSecondary}" }
   sectionLabel: { size: 12.5, weight: 600, color: "{colors.textSecondary}" }
-  navLabel: { size: 10.5, weight: "600-800" }
+  navLabel: { size: 10.5, weight: "600-700" }
   chipLabel: { size: 12, weight: "600-700" }
 rounded:
   control: 10
@@ -89,7 +89,7 @@ components:
 **Key Characteristics:**
 
 - **基础色板 × 产品强调色正交**——浅色基准使用右侧冷白、左侧浅灰和珊瑚参考主色；产品强调色在 L0 选择，切换皮肤时保持不变。
-- **字重驱动层级**——w600→w700→w800 + primary→secondary→muted 颜色档表达主次，不靠字号堆叠；w900 全局禁用。
+- **字重驱动层级**——壳层 w600→w700、内容展示可 w800 + primary→secondary→muted 颜色档表达主次，不靠字号堆叠；w900 全局禁用；**禁止钉死 `.SF Pro Text`**。
 - **组件只读语义层**——任何组件不得硬编码颜色/透明度/圆角字面量，否则换皮肤（纯净皮肤 blur=0）即破。
 - **0.5 字号网格**——壳层字号只取 10.5/11.5/12.5/13.5 等半档值。
 
@@ -136,26 +136,26 @@ components:
 
 ### Font Family
 
-`.SF Pro Text`，回退 `PingFang SC → Microsoft YaHei → Noto Sans CJK SC → Roboto → sans-serif`。不打包字体文件，全平台系统字体。中英文混排不额外加空格。
+**平台默认系统字体**——`ThemeData` 不设置 `fontFamily`，不钉 `.SF Pro Text`，不打包字体文件。中英文混排不额外加空格。
 
 ### Hierarchy
 
 | Token | Size | Weight | Tracking | Use |
 |---|---|---|---|---|
 | heroDesktop | 38 | 800 | −0.8 | 沉浸页桌面 hero（内容层扩展） |
-| pageTitle | 26–28 | 800 | −0.55 | 页标题、设置页头 |
+| pageTitle | 26–28 | 700 | −0.15 | 页标题、设置页头（壳层） |
 | heroImmersive | 28–34 | 800 | −0.55 | 沉浸头 / 移动 hero / 正在播放曲名 27 |
-| titleLarge | 阶梯 | 800 | −0.25 | 对话框标题 |
+| titleLarge | 阶梯 | 700 | −0.1 | 对话框标题（壳层） |
 | rowTitle | 13.5 | 600–700 | 0 | 行标题、导航项 |
 | sectionLabel | 12.5 | 600 | 0 | 分区/子块标签（secondary 色） |
 | rowSubtitle | 11.5 | 400–500 | 0 | 副题、元信息（secondary/muted，行高 1.45） |
 | chipLabel | 12 | 600–700 | 0 | chip、小按钮 |
-| navLabel | 10.5 | 选中800/未选600 | 0 | 底栏标签 |
+| navLabel | 10.5 | 选中700/未选600 | 0 | 底栏标签 |
 
 ### Principles
 
-- 负字距只取三档：≥30px −0.8；24–29 −0.55；titleLarge −0.25。正文与行文字不加字距，**负字距档位不可发明**。
-- 层级靠字重与颜色档，不靠字号堆叠——壳层正文/UI 集中在 11.5–14 区间。
+- 壳层负字距缓和（title ≈ −0.1～−0.25）；内容层沉浸标题才用 −0.55 / −0.8。正文与行文字不加字距。
+- 层级靠字重与颜色档，不靠字号堆叠——壳层正文/UI 集中在 11.5–14 区间；壳层标题封顶 w700。
 - 展示层级（hero、曲名、歌词行 20–22）是内容层扩展，字重仍封顶 w800；**展示文字不得用 accent**；同页艺人名/元信息走壳层三档（hero 艺人名定档 15 w600 secondary）。
 - 截断：行标题单行省略；说明文字最多两行；对话框标题单行省略。
 
@@ -280,7 +280,7 @@ components:
 - 改设计先改本仓库规范（连同 changelog），运行 `make validate test build check`，再通过 `kai_design.py sync` 同步产品。
 - 用文字三档与 derivedAlphas 规范档表达弱化和禁用。
 - 新组件先判层级归属：通用进品牌层，单产品进 `products/<product>/`，第二个产品需要时提升。
-- 用负字距三档、字重阶梯、0.5 字号网格。
+- 用壳层缓和负字距、字重阶梯（壳层 ≤w700 / 内容展示 ≤w800）、0.5 字号网格；字体走平台默认。
 
 ### Don't
 

@@ -1069,14 +1069,8 @@
       "listRowMin": 46
     },
     "typography": {
-      "fontFamily": ".SF Pro Text",
-      "fontFamilyFallback": [
-        "PingFang SC",
-        "Microsoft YaHei",
-        "Noto Sans CJK SC",
-        "Roboto",
-        "sans-serif"
-      ],
+      "fontFamily": "system-ui",
+      "fontFamilyFallback": [],
       "sizes": {
         "chipLabel": 12,
         "navLabel": 10.5,
@@ -1089,14 +1083,16 @@
         "sectionSubtitle": 12.5
       },
       "tracking": {
-        "headlineLarge": -0.8,
-        "headlineMedium": -0.55,
-        "pageTitle": -0.55,
-        "titleLarge": -0.25
+        "displayHero": -0.8,
+        "displayImmersive": -0.55,
+        "headlineLarge": -0.25,
+        "headlineMedium": -0.15,
+        "pageTitle": -0.15,
+        "titleLarge": -0.1
       },
       "weights": {
         "body": 400,
-        "comment": "层级靠字重驱动（w600→w700→w800）+ 颜色（primary→secondary→muted），不靠字号堆叠",
+        "comment": "壳层标题 strong=w700；内容层展示 display=w800；层级靠字重+颜色，不靠字号堆叠",
         "display": 800,
         "emphasis": 600,
         "strong": 700
