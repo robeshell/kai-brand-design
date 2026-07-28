@@ -225,8 +225,10 @@
         "加载和进度使用统一尺寸与强调色，不单独硬编码。"
       ],
       "tokens": [
-        { "name": "轻提示圆角", "token": "radii.menu", "value": "12px" },
-        { "name": "轻提示时长", "token": "component.feedback.snackbarDuration", "value": "2.2s" },
+        { "name": "轻提示圆角", "token": "radii.pill", "value": "999px" },
+        { "name": "轻提示时长", "token": "component.feedback.snackbarDuration", "value": "1.6s" },
+        { "name": "轻提示内边距", "token": "component.feedback.snackbarPadding", "value": "18h / 11v" },
+        { "name": "轻提示字号", "token": "component.feedback.snackbarText", "value": "14 w600" },
         { "name": "提示延迟", "token": "component.feedback.tooltipDelay", "value": "450ms" },
         { "name": "加载圈", "token": "component.feedback.spinner", "value": "24px / 2px" }
       ]

@@ -17,12 +17,12 @@
       "sha256": "620eedb757180b616ca6aeffe4963cfd7c6da8b3bf3ac253dbdbddf6e2af1d04"
     },
     "spec/DESIGN.md": {
-      "bytes": 25771,
-      "sha256": "f66e7e68a925f84b378af50ea75d09be4ead1b6d425824846287aeb144f69e26"
+      "bytes": 26064,
+      "sha256": "8c0f1b3dbdffbbcb3bc4cbe2872612b07af2a65f2992d9a127b920cc41b80885"
     },
     "spec/README.md": {
-      "bytes": 13503,
-      "sha256": "1c6a3d7bfde967c6a861a10f3d1b74658bbe42b893216e2d072074db739debb0"
+      "bytes": 13777,
+      "sha256": "1abdb3aa758ea40127db8b0156c31dba2466a69362765da7a79316ad58e2bb21"
     },
     "spec/components/_template.md": {
       "bytes": 1204,
@@ -45,8 +45,8 @@
       "sha256": "7f1102d7bdb4742bc539fe3ea0de156c785ed7a8319627c4f2b809ffb000d762"
     },
     "spec/components/feedback.md": {
-      "bytes": 1749,
-      "sha256": "e850686faa6608d778a54e53e187e26b824d314836641be791dd1842bf16c402"
+      "bytes": 2648,
+      "sha256": "7e7dc32eecff9f5e13d360438f30f6eb9badfdd160744079338c3ce6bae2e729"
     },
     "spec/components/inputs.md": {
       "bytes": 2327,
@@ -69,16 +69,16 @@
       "sha256": "f37041e22974ba2f579121c5f59a7d22746c437e79ee4f6efb27fdc2711206c3"
     },
     "spec/contracts/components.json": {
-      "bytes": 24362,
-      "sha256": "ff8bad545f2fde9c28d36cbfa291f43e917d166b8566afa8254c9aa733d54760"
+      "bytes": 24653,
+      "sha256": "5545a3473d972b3a2d053d71de53bb9129579be94f93616a2c825e8e05671812"
     },
     "spec/foundations/color.md": {
       "bytes": 4130,
       "sha256": "d68472312e09d09c0335bb346049195b6a40db32e905a5e735e5fb9c69cc7e96"
     },
     "spec/foundations/shape-and-motion.md": {
-      "bytes": 2969,
-      "sha256": "84a80d033868fb5c6600f08bb8556dd683b943e1df74f98a96c411d64f91312c"
+      "bytes": 2984,
+      "sha256": "2d1a0821cfff1a2e72ed23f1554d3cd0d641e0cc3a53311a40c032089e188a71"
     },
     "spec/foundations/typography.md": {
       "bytes": 3061,
@@ -169,16 +169,16 @@
       "sha256": "0cf93b601ba20a42a74dbb970bce3adce74c0b5c2cff9dddfe61580457421960"
     },
     "tokens/kai.tokens.json": {
-      "bytes": 43156,
-      "sha256": "30ad670d249eb2548d5e67bd6d31e55932b7c5cdd7828e4815786e15f7b4dca5"
+      "bytes": 43467,
+      "sha256": "8c0e80e621ca66502c2fe7e55c2fcf4d52acde3bf469d54dfaad134adac81ccd"
     },
     "viewer/assets/app.css": {
-      "bytes": 38600,
-      "sha256": "1dfea40c6e8e9507823f68bc71d3238e3b6b34c3dece1e2f9c296299542cbf44"
+      "bytes": 38578,
+      "sha256": "744996d9498c01a78e7b55d908becc377c9578a77e48555617b3d96d133de69f"
     },
     "viewer/assets/app.js": {
-      "bytes": 65315,
-      "sha256": "430d1cf1af2b0e479dac71b4b6919bb2e071669437823db399f78100da7c3130"
+      "bytes": 65483,
+      "sha256": "229c4552616740e86718322a5129e93c9cd76fa34e089e438f7725b81ad869f3"
     },
     "viewer/index.html": {
       "bytes": 523,

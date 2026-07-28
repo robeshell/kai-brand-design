@@ -1,18 +1,32 @@
 # 反馈（SnackBar / Tooltip / 空态 / 加载 / 滚动条 / 进度指示）
 
-- **参考实现**：kaiting `sound_components.dart → SoundEmptyState`、`sound_theme.dart`；kaijuan `app_components.dart → AppEmptyState`、`app_overlays.dart → showAppSnackBar / AppTooltip`。
+- **参考实现**：kaiting `sound_components.dart → showSoundSnackBar / SoundEmptyState`、`sound_theme.dart`；kaijuan `app_components.dart → AppEmptyState`、`app_overlays.dart → showAppSnackBar / AppTooltip`。
 
 ## SnackBar（轻提示）
 
+居中、**宽度随文案收缩**的胶囊提示；**无描边**，仅轻阴影。
+
 | 部位 | 值 |
 |---|---|
-| 形态 | floating，overlay 面 + border，r12（menu 档） |
-| 文字 | bodyMedium primary；action accent |
-| 时长 | 2.2s（轻提示） |
-| 桌面呈现 | 居中窄条（宽 220，窗口 <420 时收缩），距底 36 |
-| 移动呈现 | 左右 16、距底 18 |
+| 形态 | floating；内层 **StadiumBorder 胶囊**（pill 档）；**无 hairline border** |
+| 宿主 | 透明底、elevation 0、无描边 shape；只负责 margin 与居中 |
+| 面 | `snackBarTheme.backgroundColor`，缺省 `inverseSurface@0.94` |
+| 阴影 | 轻投影（Material elevation 3，`shadowColor` black@0.22）；非全局 elevation 体系 |
+| 文字 | 14 w600、height 1.3、letterSpacing −0.1；水平居中；最多 2 行省略 |
+| 字色 | `snackBarTheme.contentTextStyle` / `onInverseSurface` |
+| 内边距 | 18h / 11v |
+| 宽度 | **随文案 hug**；`maxWidth = 视口宽 − 40`；宿主左右 margin 20 |
+| 时长 | **1.6s** |
+| 桌面呈现 | 水平居中，距底 **36**（窗口宽 ≥420） |
+| 移动呈现 | 水平居中，距底 **18**（窗口宽 <420） |
 
-规则：新提示顶掉旧提示（clearSnackBars）；不用 action 时保持纯文本一行；下滑关闭。
+规则：
+
+- 新提示顶掉旧提示（`clearSnackBars`）；可下滑关闭（`DismissDirection.down`）。
+- 默认纯文本；不用 action 时不要硬塞操作按钮。
+- **禁止**固定 220 定宽窄条、禁止带描边的 r12 方条、禁止不带 margin 的 fixed SnackBar（会断言失败）。
+
+参考实现：kaiting `showSoundSnackBar`。
 
 ## Tooltip
 
@@ -44,6 +58,6 @@ accent 色、轨道透明；仅用于确定/不确定进度，不用作分隔线
 
 ## 验收锚点
 
-- snackbar overlay 面 r12 非纯黑条；
+- snackbar 居中胶囊、无描边、宽度随文案、时长 1.6s；
 - 加载圈 24px/2px 无硬编码色；
 - 空态 maxWidth 420、图标 30px muted。

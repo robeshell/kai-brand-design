@@ -497,7 +497,7 @@ function feedbackPage(): string {
   return componentPage(
     "feedback",
     `<div class="feedback-demo">
-      <div class="feedback-item"><span>轻提示</span><div class="snackbar">设置已保存 <button>撤销</button></div></div>
+      <div class="feedback-item"><span>轻提示</span><div class="snackbar">已切换为随机播放</div></div>
       <div class="feedback-item"><span>工具提示</span><div class="tooltip-sample"><button class="demo-icon-button">?</button><b>查看使用说明</b></div></div>
       <div class="feedback-item wide"><span>空态与加载</span><div class="empty-state"><i>◇</i><strong>还没有内容</strong><p>添加第一项后会显示在这里。</p><button class="secondary">添加内容</button></div><div class="loading-state"><i></i><span>正在载入</span></div></div>
       <div class="feedback-item wide"><span>进度</span><div class="linear-progress"><i style="width:62%"></i></div><small>已完成 62%</small></div>

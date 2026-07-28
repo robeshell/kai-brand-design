@@ -70,7 +70,7 @@ components:
   sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", padding: "10/12/10/12", brand: "17 w800 -0.35", brandMark: "optional 28 + gap 8", sectionLabel: "10.5 w800 muted +0.8, pad 10/13/10/3" }
   navBar: { height: "56 / embedded 46", surface: "GlassSurface strong + chromeSurface", icon: 21, label: "{typography.navLabel}" }
   appShell: { defaultCanvasBase: "#F7F9FC", defaultSideBase: "#F3F5F8", allSkins: "gradient canvas → canvasHighlight → overlay, stops 0/0.46/1; strong glass chrome", extendBody: true, contentBottomPad: "140 mobile / 96 desktop" }
-  snackbar: { behavior: floating, surface: "overlay + border", radius: "{rounded.menu}", width: "220 centered >=420w", duration: "1.4s" }
+  snackbar: { behavior: floating, surface: "overlay no border", radius: "{rounded.pill}", width: "hug content max viewport-40", padding: "18h/11v", text: "14 w600", duration: "1.6s", bottom: "36 >=420w / 18 narrow" }
   tooltip: { surface: "overlay + border", radius: "{rounded.tooltip}", padding: "10h/7v", delay: "450ms", show: "3s" }
   emptyState: { maxWidth: 420, icon: 30, title: "16 w600", note: "12 secondary" }
   spinner: { size: 24, stroke: 2 }
@@ -266,7 +266,7 @@ components:
 
 ### Feedback — 轻提示 / 空态 / 加载 / 滚动条 / 进度条
 
-- **`snackbar`** — floating、overlay 面 + border、r12（menu 档）；文字 bodyMedium primary、action accent；≥420px 宽窗居中 220 窄条距底 36，窄窗左右 16 距底 18；时长 1.4s，**新提示顶掉旧提示**（clearSnackBars），下滑关闭；不用 action 时保持纯文本一行。**不带 margin 的 fixed Snackbar 会导致断言失败**。
+- **`snackbar`** — floating 居中**胶囊**（`StadiumBorder` / pill 档）、**无描边**、仅轻阴影（elevation 3 / black@0.22）；面用 snackBarTheme / inverseSurface@0.94；文字 **14 w600** 居中（最多 2 行）；内边距 18h/11v；**宽度随文案 hug**（max = 视口 − 40，宿主左右 margin 20）；≥420px 距底 36、窄窗距底 18；时长 **1.6s**，**新提示顶掉旧提示**（clearSnackBars），下滑关闭；默认纯文本。**禁止**固定 220 定宽与 hairline border 方条；**不带 margin 的 fixed Snackbar 会导致断言失败**。
 - **`tooltip`** — overlay 面 + border、r8、10h/7v 内边距、bodySmall 染 primary；延迟 450ms、展示 3s；message 为空时不挂 tooltip；中文文案，仅桌面指向设备依赖它。
 - **`empty-state`** — 30px muted 描线图标（weight 300）/ 14 / 16 w600 标题（primary 88%）/ 6 / 12 说明（muted 76%，行高 1.45）；maxWidth 420，居中；可选 tonal 行动钮。
 - **`spinner`** — 24px、stroke 2；accent 由 progressIndicatorTheme 供给，**禁止硬编码颜色**。按钮内 busy 态用 onPrimary 色。
