@@ -1061,7 +1061,7 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.4.0",
+    "specVersion": "0.4.4",
     "tapTargets": {
       "buttonMin": 36,
       "chipHeight": 32,

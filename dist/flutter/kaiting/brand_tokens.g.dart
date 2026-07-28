@@ -1,11 +1,11 @@
 // GENERATED FILE — DO NOT EDIT.
 // Source: kai-brand-design/tokens/*.json
-// specVersion: 0.4.0 · sha256: e1be076d55fc10b5a1907b05b1dce10a0326b901158828c12d30ccf28ba4aa0a
+// specVersion: 0.4.4 · sha256: 79c96e37e78d4344a2ba60be490269d3681fd1701f0e33af061edfcbf1a091c0
 
 import 'package:flutter/material.dart';
 
-const kaiBrandSpecVersion = '0.4.0';
-const kaiBrandTokenDigest = 'e1be076d55fc10b5a1907b05b1dce10a0326b901158828c12d30ccf28ba4aa0a';
+const kaiBrandSpecVersion = '0.4.4';
+const kaiBrandTokenDigest = '79c96e37e78d4344a2ba60be490269d3681fd1701f0e33af061edfcbf1a091c0';
 
 abstract final class KaiBrandBasePalette {
   static const mainBackground = Color(0xFFF7F9FC);

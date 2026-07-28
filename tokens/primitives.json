@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/primitives.schema.json",
-  "specVersion": "0.4.0",
+  "specVersion": "0.4.4",
   "basePalette": {
     "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
     "mainBackground": "#F7F9FC",

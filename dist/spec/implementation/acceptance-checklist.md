@@ -9,7 +9,7 @@
 - [ ] 全局 `splashFactory: NoSplash.splashFactory`、`applyElevationOverlayColor: false`、`surfaceTint: transparent`
 - [ ] 圆角：对话框 20 / 弹层 18 / 菜单 12 / 卡片 14 / 控件 10 / 按钮与 chip 胶囊
 - [ ] 按钮：最小 36、胶囊、iconSize 17；IconButton 40 正圆、图标 20
-- [ ] chip：高 32、选中 accent@0.09 底 + accent 字 w700、无边框无 checkmark
+- [ ] chip / ChoiceStrip：高 32、选中 accent@0.09 底 + accent 字 **w700**（颜色承担强调，字重不必 w800）、无边框无 checkmark
 - [ ] 列表行：minHeight 54、标题 13.5 w600、副题 11.5
 - [ ] 输入框：r10、subtle 填充、聚焦 2px accent 且无外侧 outline
 - [ ] 滑杆：轨道 3、拇指 r6；进度圈 24px/2px 且无硬编码色
@@ -20,7 +20,7 @@
 - [ ] 桌面主窗：默认 1280×800、最小 1024×700（逻辑/content）；小屏钳制不得低于 min
 - [ ] 对话框：maxWidth 520、barrier 黑 38%/62%；sheet：maxWidth 760、把手 38×4
 - [ ] 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 13.5；禁止定宽；<680px 自动退化为底部弹层
-- [ ] 字族 `.SF Pro Text` + 五个回退；页标题 26/28 w800 负字距 −0.55
+- [ ] 字族平台默认（不钉 `.SF Pro Text`、不强制 fallback）；页标题 26/28 **w700** 负字距 ≈ −0.15～−0.25；**w800 仅**底栏/索引选中、当前歌词、monogram、队列当前行
 - [ ] 代码中无字面色值泄漏（grep `Color(0x` 应只出现在 theme 层与内容层扩展）
 - [ ] 旧外观存储迁移有单元测试
 

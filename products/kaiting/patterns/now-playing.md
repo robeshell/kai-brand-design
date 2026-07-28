@@ -1,7 +1,7 @@
 # 正在播放模式（开听）
 
 > 参考实现：`kaiting/lib/presentation/screens/now_playing_screen.dart`、`widgets/vinyl_record_art.dart`、`widgets/mini_player.dart`、`widgets/playback_queue_sheet.dart`、`widgets/progress_scrubber.dart`。
-> 排版层级（曲名 27 w800 −0.55、歌词行 20–22 当前行 w800）已在品牌层 `foundations/typography.md → 内容层展示层级` 登记，本篇不重复。
+> 排版层级（曲名 **24 w700 −0.25**、歌词行 18–22 当前行 **w800** / 其余 w700）已在品牌层 `foundations/typography.md → 内容层展示层级` 登记，本篇不重复。
 
 正在播放是开听的沉浸页：封面/黑胶是**内容层**（可取色、可有产品特有造型），其余 chrome（文本三档、按钮、进度、浮层）全部走品牌 token。
 

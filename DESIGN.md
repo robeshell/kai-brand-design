@@ -151,7 +151,7 @@ components:
 | rowTitle | 13.5 | 600–700 | 0 | 行标题 |
 | sectionLabel | 12–20 | **700** | 0 | 分区小标题（「专辑」「歌词」） |
 | rowSubtitle | 11.5 | 400–500 | 0 | 副题、元信息 |
-| chipLabel | 12 | 未选 600 / **选中 800** | 0 | chip |
+| chipLabel | 12 | 未选 600 / **选中 700 + accent** | 0 | ChoiceStrip / Chip（色强调） |
 | navLabel | 10.5 | 未选 600 / **选中 800** | 0 | 底栏标签 |
 | lyricActive | 18–22 | **800** | 0 | 仅当前歌词行 |
 | monogram | 随圆头 | **800** | −0.4 | 艺人字母头像 |
@@ -259,7 +259,7 @@ components:
 
 ### Overlays — 对话框 / 底部弹层 / 菜单
 
-- **`dialog`** — 强玻璃面 r20、maxWidth 520（确认/提示类收至 400）、barrier 38%（浅）/ 62%（深）、视口内边距 20h/24v。标题区 padding 24/22/20/16、titleLarge w800 单行省略；内容区 padding 24/0/24/20、bodyMedium secondary；**内容超高时内容区独立滚动，对话框整体不滚**（shrink-wrap：maxHeight = 视口 − 48，内容区 Flexible + SingleChildScrollView）。按钮区 20/14/20/20 OverflowBar 右对齐间距 10；destructive 确认用 destructive 样式；文本输入流 autofocus + Enter 提交。**禁止 AlertDialog 默认灰面与 elevation、禁止对话框内第二个 accent 主按钮**。
+- **`dialog`** — 强玻璃面 r20、maxWidth 520（确认/提示类收至 400）、barrier 38%（浅）/ 62%（深）、视口内边距 20h/24v。标题区 padding 24/22/20/16、titleLarge **w700** 单行省略；内容区 padding 24/0/24/20、bodyMedium secondary；**内容超高时内容区独立滚动，对话框整体不滚**（shrink-wrap：maxHeight = 视口 − 48，内容区 Flexible + SingleChildScrollView）。按钮区 20/14/20/20 OverflowBar 右对齐间距 10；destructive 确认用 destructive 样式；文本输入流 autofocus + Enter 提交。**禁止 AlertDialog 默认灰面与 elevation、禁止对话框内第二个 accent 主按钮**。
 - **`sheet`** — 顶角 r18、把手 38×4 胶囊（secondary 38–45%，距顶 7）、maxWidth 760 居中（简单选项列表 560）、阴影 blur 28 × scale offset (0,−8)、barrier 同对话框。表面 strongSurface + border，内容区顶 padding 14 避把手。
 - **`menu`** — 同一 `MenuAction<T>` 数据模型（value / label / icon / subtitle? / selected / enabled / destructive / dividerBefore）两种自适应呈现：<680px → 底部弹层（行高 ≥52、padding 20h、最高 72% 视口、SafeArea）；≥680px → 锚定玻璃弹层（宽度随内容 min 160 / max 280、禁止定宽、壳上下 padding 4、r12、阴影 blur 24 offset (0,8)、自动上下翻避免越界）。触发器 `MenuButton`：默认 more_horiz 21px 图标钮（支持自定义 child、hover 前景 4%），无可用项时禁用。**禁止裸用 Material PopupMenuButton 默认样式；禁止菜单内嵌套滚动视图不收缩；禁止锚定菜单定宽**。
 

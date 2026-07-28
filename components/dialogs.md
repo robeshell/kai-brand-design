@@ -7,7 +7,7 @@
 
 ```
 ┌─ GlassSurface(strong, r20, shadow 34×scale) ─────────┐
-│ 标题区   padding 24,22,20,16  titleLarge w800        │
+│ 标题区   padding 24,22,20,16  titleLarge w700        │
 │ 内容区   padding 24,0,24,20   bodyMedium secondary   │
 │          （独立滚动，收缩包裹）                         │
 │ 按钮区   padding 20,14,20,20  OverflowBar 右对齐      │
