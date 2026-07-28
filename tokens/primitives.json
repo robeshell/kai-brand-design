@@ -30,7 +30,7 @@
     "fontFamily": "system-ui",
     "fontFamilyFallback": [],
     "weights": {
-      "comment": "壳层标题 strong=w700；内容层展示 display=w800；层级靠字重+颜色，不靠字号堆叠",
+      "comment": "标题 strong=w700；display=w800 仅选中/当前歌词/monogram；禁止页头与 hero 用 w800",
       "body": 400,
       "emphasis": 600,
       "strong": 700,
@@ -41,14 +41,18 @@
       "headlineMedium": -0.15,
       "titleLarge": -0.1,
       "pageTitle": -0.15,
-      "displayHero": -0.8,
-      "displayImmersive": -0.55
+      "heroDesktop": -0.3,
+      "heroImmersive": -0.25,
+      "nowPlayingTitle": -0.25
     },
     "sizes": {
       "pageTitle": [
         26,
         28
       ],
+      "heroDesktop": 28,
+      "heroImmersive": 24,
+      "nowPlayingTitle": 24,
       "rowTitle": 13.5,
       "rowSubtitle": 11.5,
       "navLabel": 10.5,
