@@ -1,5 +1,5 @@
 ---
-version: "0.6.0"
+version: "0.6.1"
 name: kai-brand-design
 description: "A quiet, content-first interface system with a cool-white content canvas, a soft gray side rail, and a coral reference primary. Product accents stay stable across skins."
 colors:

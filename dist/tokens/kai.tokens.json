@@ -1854,7 +1854,7 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.6.0",
+    "specVersion": "0.6.1",
     "typography": {
       "componentRoles": {
         "buttonLabel": "label",
@@ -1862,7 +1862,7 @@
         "dialogTitle": "sectionTitle",
         "inputText": "body",
         "listSubtitle": "bodySecondary",
-        "listTitle": "body",
+        "listTitle": "label",
         "metadata": "caption",
         "mobileNavigation": "captionSmall",
         "pageTitle": "pageTitle",
