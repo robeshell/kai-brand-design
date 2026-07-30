@@ -59,7 +59,7 @@ components:
   optionSheet: { maxWidth: 560 }
   menu: { width: "hug, min 160 / max 280", radius: "{rounded.menu}", paddingV: 4, adaptiveBelow: 680 }
   menuRow: { height: "{platformProfile.metrics.controlHeight}", label: "{platformProfile.typeScale.label}", selected: "foreground@0.055 + accent + check" }
-  listRow: { height: "{platformProfile.metrics.listRowSingle/listRowDouble}", title: "{platformProfile.typeScale.body}", subtitle: "{platformProfile.typeScale.secondary}" }
+  listRow: { height: "{platformProfile.metrics.listRowSingle/listRowDouble}", title: "{platformProfile.typeScale.listTitle}", subtitle: "{platformProfile.typeScale.bodySecondary}" }
   checkRow: { leading: "checkbox icon 20, accent filled / muted hollow" }
   settingsGroup: { radius: "{rounded.card}", fill: "surfaceContainerLow@0.72", border: "{colors.hairline}", dividerIndent: 14 }
   textField: { radius: "{rounded.control}", fill: subtle, height: "{platformProfile.metrics.controlHeight}", text: "{platformProfile.typeScale.body}", focusBorder: "2px accent, no outer outline" }
@@ -69,7 +69,7 @@ components:
   chip: { hitTarget: "{platformProfile.metrics.minimumInteractiveTarget}", radius: "{rounded.pill}", selected: "accent@0.09" }
   sidebarRow: { height: "{desktopProfile.metrics.controlHeight}", label: "{desktopProfile.typeScale.body}", selected: "accent@0.10 capsule", radius: "{rounded.control}", hover: "foreground@0.045" }
   sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", row: "{desktopProfile.metrics.controlHeight}", label: "{desktopProfile.typeScale.body}" }
-  navBar: { target: "{mobileProfile.metrics.minimumInteractiveTarget}", surface: "GlassSurface strong + chromeSurface", label: "{mobileProfile.typeScale.small}" }
+  navBar: { target: "{mobileProfile.metrics.minimumInteractiveTarget}", surface: "GlassSurface strong + chromeSurface", label: "{mobileProfile.typeScale.captionSmall}" }
   appShell: { defaultCanvasBase: "#F7F9FC", defaultSideBase: "#F3F5F8", allSkins: "gradient canvas → canvasHighlight → overlay, stops 0/0.46/1; strong glass chrome", extendBody: true, contentBottomPad: "140 mobile / 96 desktop" }
   snackbar: { behavior: floating, surface: "overlay no border", radius: "{rounded.pill}", width: "hug content max viewport-40", padding: "18h/11v", text: "14 w600", duration: "1.6s", bottom: "36 >=420w / 18 narrow" }
   tooltip: { surface: "overlay + border", radius: "{rounded.tooltip}", padding: "10h/7v", delay: "450ms", show: "3s" }
@@ -92,7 +92,7 @@ components:
 - **基础色板 × 产品强调色正交**——浅色基准使用右侧冷白、左侧浅灰和珊瑚参考主色；产品强调色在 L0 选择，切换皮肤时保持不变。
 - **精致字重**——标题 / 选中封顶 **w600**；行与按钮 **w500**；**禁止 w700+**；**禁止钉死 `.SF Pro Text`**。
 - **组件只读语义层**——任何组件不得硬编码颜色/透明度/圆角字面量，否则换皮肤（纯净皮肤 blur=0）即破。
-- **平台排版**——组件只使用语义角色，字号、行高和交互尺寸由当前平台 Profile 提供。
+- **平台排版**——组件只使用语义角色，字号、行高和交互尺寸由当前平台 Profile 提供。壳层字号只取平台 token 表整档值，禁止 .5 半档硬编码。
 
 ## Colors
 
@@ -141,7 +141,7 @@ components:
 
 ### Semantic roles
 
-组件只请求 `display / pageTitle / sectionTitle / title / body / secondary / label / caption / small`。
+组件只请求语义角色（`display / pageTitle / sectionTitle / title / body / secondary / label / caption / small`），字号、行高和交互尺寸由当前平台 Profile 提供。
 
 | Profile | 正文 | 页标题 | 交互目标 |
 |---|---:|---:|---:|
@@ -153,10 +153,10 @@ components:
 
 ### Principles
 
-- 字重只用 400 / 500 / 600；**禁止 w700+**。
+- 字重只用 400 / 500 / 600；**禁止 w700+**；标题与选中 **w600**，行/按钮 **w500**。
 - 移动端支持系统字体缩放；文本变大时控件允许增高，禁止裁切。
-- 行标题用 `body`，副题用 `secondary`，按钮用 `label`；组件中不写平台字号。
-- 完整数值、来源和组件映射见 `foundations/typography.md`。
+- 层级靠颜色与字号，不靠粗体。
+- 组件中不写平台字号——完整数值、来源和组件映射见 `foundations/typography.md`。
 
 ## Layout
 
@@ -217,7 +217,7 @@ components:
 ### Surfaces — 表面原语
 
 - **`glass-surface`** — 一切浮面的原语：`base` / `strong` 两档填充（取自 `glass.surface` / `glass.strongSurface`）+ `glass.border` 描边 + token 阴影 × `effects.shadowScale` +（可选）`glass.blur` 模糊。blur=0 的皮肤（纯净）自动跳过 BackdropFilter，shadowScale=0 自动免投影。浮面按场景用模糊，**重复的行/卡片不模糊**。
-- **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔；子块标签使用当前 Profile 的 `caption` w600。
+- **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔，左右缩进 14，自动插入（不手动写 Divider）；子块标签使用当前 Profile 的 `caption` w600，padding 14/12/14/2，左对齐。
 - **皮肤预览卡** — 124×80、r12、hairline 描边；内部 0.74×0.64 elevated 小卡（r7）+ accent 短条 13×4 + 两条假文字（0.78/0.52 宽、3.5 高、primaryText@0.22 / secondaryText@0.32）；选中 accent 2px 描边 + 下方标签 accent w600，未选 hairline + secondary w500（12px）。不放 check 角标。
 - **主题色板** — 28px 圆点横排，间距 12；选中 1.5px primary 描边 + 中心 8px onAccent 圆点；未选无描边（自定义彩虹渐变点外带 hairline）。不放 check 图标、不加投影。
 
@@ -259,7 +259,7 @@ components:
 - 改设计先改本仓库规范（连同 changelog），运行 `make validate test build check`，再通过 `kai_design.py sync` 同步产品。
 - 用文字三档与 derivedAlphas 规范档表达弱化和禁用。
 - 新组件先判层级归属：通用进品牌层，单产品进 `products/<product>/`，第二个产品需要时提升。
-- 用缓和负字距、精致字重（封顶 w600；行/按钮 w500）、0.5 字号网格；字体走平台默认。
+- 用缓和负字距、精致字重（封顶 w600；行/按钮 w500）、整数字号网格；字体走平台默认。
 
 ### Don't
 
