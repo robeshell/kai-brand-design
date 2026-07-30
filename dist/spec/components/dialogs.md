@@ -1,53 +1,52 @@
-# 对话框（Dialog）
+# 对话框与模态任务
 
-- **用途**：确认、文本输入、表单、详情。
-- **参考实现**：kaiting `sound_components.dart → SoundDialog`；kaijuan `app_components.dart → AppDialog`、`app_overlays.dart → showAppConfirmDialog / showAppTextPrompt`。
+对话框只用于必须暂时中断当前流程的确认、输入或短任务。Mobile 与 Desktop 各使用一套模态视觉，关闭、返回、焦点和系统窗口行为按平台适配。
 
-## 解剖
+## 组件 Profile
 
-```
-┌─ GlassSurface(strong, r20, shadow 34×scale) ─────────┐
-│ 标题区   padding 24,22,20,16  titleLarge w600        │
-│ 内容区   padding 24,0,24,20   bodyMedium secondary   │
-│          （独立滚动，收缩包裹）                         │
-│ 按钮区   padding 20,14,20,20  OverflowBar 右对齐      │
-└──────────────────────────────────────────────────────┘
-```
-
-## Metrics
-
-| 部位 | 值 |
+| Profile | 推荐容器 |
 |---|---|
-| 圆角 | 20（dialog 档） |
-| maxWidth | 520（确认/提示类 400） |
-| 视口内边距 | 20h / 24v |
-| 按钮间距 | 10 |
+| `mobile` | Kai Dialog、Bottom Sheet 或独立页面，按任务强度选择 |
+| `desktop` | Kai Dialog、Popover 或独立窗口 |
 
-## Token 映射
+不能只按屏幕宽度把所有桌面对话框变成 Bottom Sheet。
 
-| 部位 | token |
-|---|---|
-| 表面 | glass.strongSurface + glass.border + glass.shadow |
-| 标题 | textTheme.titleLarge |
-| 内容 | textTheme.bodyMedium 染 secondary |
-| barrier | black 38%（浅）/ 62%（深） |
+## 共同结构
 
-## 状态与交互
+1. 具体标题；
+2. 必要说明或字段；
+3. 影响与风险；
+4. 主要操作和取消操作。
 
-- 标题单行省略；内容超高时**内容区**滚动（对话框整体不滚）。
-- 确认流返回 bool；文本输入流返回 String?，输入框 autofocus，Enter 提交。
-- destructive 确认按钮用 destructive 样式（error 8% 底）。
+同一 Component Profile 的按钮顺序保持一致；Escape、系统返回和窗口关闭交给平台适配层。
 
-## 实现要点（踩坑记录）
+## 品牌覆盖
 
-**BackdropFilter 包裹会使对话框继承路由的松散全高约束**，把矮内容拉高（表格类内容尤其明显）。表面必须 shrink-wrap：约束 maxHeight = 视口 − 48，内容区 Flexible + 独立 SingleChildScrollView。
+- 标题、正文和帮助文字角色；
+- accent、error 和表面层级；
+- 图标语义；
+- 允许范围内的圆角与玻璃材质。
 
-## 禁止事项
+## 状态与行为
 
-- 禁止 AlertDialog 默认灰面与 elevation；
-- 禁止对话框内出现第二个 accent 主按钮。
+- 打开后焦点进入合理控件，关闭后回到触发位置；
+- 背景不可操作，标题与容器建立可访问关联；
+- 提交中保持尺寸并阻止重复提交；
+- 错误靠近字段显示，保留用户输入；
+- 内容过高时只滚动内容区；
+- 破坏性操作明确说明对象和后果。
 
-## 验收锚点
+## 禁止
 
-- r20、maxWidth 520、barrier 38%/62%；
-- 矮内容对话框高度 = 内容高度（不被撑满）。
+- 不用 Dialog 展示普通说明或长篇文档；
+- 不把 Mobile 与 Desktop 强行做成同一种容器；
+- 不把简单选择包装成确认对话框；
+- 不在手机上显示窄小桌面对话框，也不在桌面照搬手机 Sheet；
+- 不覆盖平台焦点管理和系统返回。
+
+## 验收
+
+- 当前平台使用正确模态容器；
+- 键盘、返回、焦点恢复和屏幕阅读器可用；
+- 风险、主要操作和取消路径清楚；
+- 品牌样式未改变平台模态语义。

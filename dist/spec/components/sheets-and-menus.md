@@ -1,58 +1,54 @@
-# 底部弹层与菜单（BottomSheet / Menu）
+# 菜单、Popover 与 Sheet
 
-- **用途**：移动优先的操作集合、详情面板、上下文菜单。
-- **参考实现**：kaiting `sound_components.dart → showSoundBottomSheet / SoundMenuButton / showSoundMenu`；kaijuan `app_components.dart → showAppBottomSheet / AppMenuButton / showAppMenu`。
+这组组件承载与触发位置相关的短操作、选择或辅助内容。具体容器按平台和任务决定，不使用统一断点把所有菜单强制变成 Bottom Sheet。
 
-## 底部弹层（BottomSheet）
+## 选择顺序
 
-### Metrics
+1. 与触发位置直接相关的短操作：Menu / Context Menu；
+2. 少量选择：平台 Picker、Pop-up、ComboBox 或 Dropdown；
+3. 与当前内容相关的辅助信息：Popover / Flyout；
+4. 移动端需要较大操作空间的短任务：Sheet；
+5. 复杂或长任务：独立页面、Dialog 或窗口。
 
-| 部位 | 值 |
+## 平台映射
+
+| Profile | 推荐 |
 |---|---|
-| 圆角 | 顶角 18（sheet 档） |
-| 拖拽把手 | 38×4 胶囊，secondary 38–45%，距顶 7 |
-| maxWidth | 760（宽屏居中） |
-| 阴影 | blur 28 × scale，offset (0,−8) |
-| barrier | black 38%（浅）/ 62%（深） |
+| `appleMobile` | Menu、Context Menu、Popover、Sheet |
+| `androidMobile` | Dropdown Menu、Context Menu、Modal Bottom Sheet |
+| `macDesktop` | Menu、Context Menu、Popover；保留菜单栏命令 |
+| `windowsDesktop` | MenuFlyout、ContextFlyout、TeachingTip |
+| `linuxDesktop` | Menu、Popover、Context Menu |
 
-### Token 映射
+## 品牌覆盖
 
-表面 = glass.strongSurface + glass.border；内容区顶 padding 14（避开把手）。
+- 菜单项图标和文字层级；
+- accent、error 和当前项语义；
+- 表面、边框和材质 token；
+- 允许范围内的圆角。
 
-## 菜单（Menu）——自适应，同一数据模型两种呈现
+平台保留菜单尺寸、键盘移动、子菜单、关闭方式、锚点、窗口边缘避让和系统命令习惯。
 
-**数据模型**：`MenuAction<T>{ value, label, icon, subtitle?, selected, enabled, destructive, dividerBefore }`。
+## 共同规则
 
-| 窗口宽度 | 呈现 |
-|---|---|
-| < 680 | 底部弹层（行高 ≥52，padding 20h，最高 72% 视口，SafeArea） |
-| ≥ 680 | 锚定玻璃弹层：宽度随内容（min 160 / max 280），禁止定宽；壳上下 padding 4；r12（menu 档）；shadow blur 24 offset (0,8)；自动上下翻 |
+- 高频或重要操作靠前，逻辑相关项分组；
+- 选中项使用勾选或明确文字，不只靠颜色；
+- 危险操作与普通操作分组并写清对象；
+- 打开后焦点进入，关闭后回到触发位置；
+- 支持平台对应的方向键、Enter、Escape、返回和右键；
+- 菜单过长时重新组织，不把所有命令堆进一个容器。
 
-### 菜单行
+## 禁止
 
-| 部位 | 值 |
-|---|---|
-| 行高 | 宽屏锚定 36 / 窄屏底部弹层 ≥52 |
-| 行左右 padding | 锚定 12h；底部弹层 20h |
-| 图标 | 锚定 17px 槽宽 22；底部弹层 19px 槽宽 24 |
-| 标签 | 锚定 13.5 w600；底部弹层 14 w600；副题 11.5 secondary |
-| 选中 | 前景 5.5% 底 + accent 前景 + 右侧 check（锚定 16 / 弹层 18） |
-| destructive | error 前景 |
-| 分隔 | dividerBefore → hairline（indent 与行左右 padding 对齐：锚定 12 / 弹层 16） |
-| 菜单标题 | 12–12.5 w600 secondary + hairline 分隔 |
+- 不在 macOS、Windows 和 Linux 窄窗中自动使用手机 Bottom Sheet；
+- 不用固定 680px 断点代替平台和输入模式判断；
+- 不覆盖系统菜单栏、右键和键盘习惯；
+- 不为统一圆角自绘一套失去系统行为的菜单；
+- 不把复杂表单塞进短操作菜单。
 
-### 触发器（MenuButton）
+## 验收
 
-- 默认 more_horiz 21px 图标钮；支持自定义 child（hover 前景 4%）。
-- 无可用项时禁用。
-
-## 禁止事项
-
-- 禁止裸用 Material PopupMenuButton 默认样式（主题已配，但自适应菜单优先）；
-- 禁止菜单内嵌套滚动视图不收缩（ListView 必须 shrinkWrap）；
-- 禁止锚定菜单定宽（必须内容撑开 + min/max 约束）。
-
-## 验收锚点
-
-- sheet 顶角 r18、把手 38×4、maxWidth 760；
-- 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 13.5；<680px 自动退化为底部弹层。
+- 容器符合当前平台和任务类型；
+- 锚点、边缘避让、键盘和焦点恢复正确；
+- 品牌样式只影响允许覆盖部分；
+- 危险、选中和禁用状态有非颜色提示。

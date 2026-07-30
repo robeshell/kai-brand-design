@@ -1,20 +1,20 @@
 # 形状 · 阴影 · 分隔 · 动效 · 交互状态层
 
-> 数值见 `tokens/primitives.json`（radii / motion / derivedAlphas / tapTargets）。
+> 数值见 `tokens/primitives.json`（radii / motion / derivedAlphas / componentProfiles）。
 
 ## 圆角
 
 | 刻度 | 值 | 用途 |
 |---|---|---|
-| control | 10 | 按钮（配合 pill）、输入框、小控件、导航指示器 |
+| control | 10 | 品牌容器、小控件和允许覆盖形状的平台控件 |
 | card | 14 | 卡片、封面框、设置分组卡 |
-| menu | 12 | 菜单、弹层 |
-| sheet | 18 | 底部弹层（仅顶角） |
-| dialog | 20 | 对话框 |
-| pill | 999 | 胶囊：按钮、chip、滑杆、滚动条、拖拽把手、轻提示（SnackBar） |
+| menu | 12 | 品牌自有菜单或辅助浮层 |
+| sheet | 18 | 品牌移动 Sheet（仅顶角） |
+| dialog | 20 | 品牌自有 Dialog 容器 |
+| pill | 999 | Chip、进度轨道、滚动条和拖拽把手 |
 | checkbox / tooltip | 5 / 8 | 特例 |
 
-规则：嵌套圆角外大内小（外 14 内 10 级差）；图片封面随容器卡片档。
+规则：嵌套圆角外大内小。平台组件优先使用系统形状；以上刻度只在平台允许品牌覆盖或自有容器中使用。
 
 ## 阴影与深度
 
@@ -35,21 +35,28 @@
 
 ## 交互状态层（State Layer）
 
-全局 **NoSplash**：禁水波纹与 highlight 色块；反馈一律用透明度叠加：
+状态语义统一，反馈方式按平台：
 
 | 状态 | 叠加 |
 |---|---|
-| hovered | 前景 5.5–6.5% |
-| pressed | 前景 10% |
-| focused | accent 16% 叠加 + 2px accent 描边（键盘） |
+| hovered | 仅桌面指向设备；使用平台 Hover 或轻状态层 |
+| pressed | 保留 Apple 按压、Android Material 状态层和桌面按下反馈 |
+| focused | 使用平台焦点视觉；品牌提供 accent |
 | disabled | 前景/文字 38–48% 透明度，不叠加 |
 | selected | 面：前景 5–5.5%；指示：accent 系（见配色规范） |
 
-destructive 三档：rest error 8% / hover·focus 12% / pressed 16%（文字 error 本色）。
+品牌状态 alpha 只作为允许覆盖时的颜色来源，不能替代平台的触控、焦点和高对比度能力。
 
-## 触控目标
+## 交互目标
 
-按钮 ≥36px、图标钮 40px 正圆、列表行 ≥46px、chip 32px 高。桌面不缩小目标，用 hover 反馈补偿精度。
+交互目标不再使用一套全平台数值。组件读取当前 `platformProfile.metrics.minimumInteractiveTarget`：
+
+- iOS / iPadOS：44pt；
+- Android：48dp；
+- macOS：28pt；
+- Windows / Linux：32px。
+
+视觉尺寸可以小于交互目标，但命中区域必须满足当前 Mobile / Desktop Profile。完整尺寸表见 `foundations/layout-and-density.md`。
 
 ## 动效
 
@@ -69,7 +76,7 @@ destructive 三档：rest error 8% / hover·focus 12% / pressed 16%（文字 err
 |---|---|---|
 | 列表激活 | 单击选中、双击/Enter 激活 | 单击激活 |
 | 次级操作 | 右键 = 长按菜单 | 长按菜单 |
-| tooltip | 450ms 悬停 | 不用 |
-| 焦点环 | 键盘导航必须可见 | 不显示 |
+| tooltip | 使用平台推荐延迟 | 不依赖 |
+| 焦点视觉 | 键盘导航必须可见并跟随系统 | 由平台辅助功能决定 |
 
-菜单呈现按宽度自适应（<680px 底部弹层 / ≥680px 锚定弹层），见 `patterns/overlays.md`。
+Menu、Popover、Flyout 和 Sheet 按平台与任务选择，不能仅用窗口宽度决定，见 `components/sheets-and-menus.md`。

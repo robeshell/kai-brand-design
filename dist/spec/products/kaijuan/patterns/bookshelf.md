@@ -23,7 +23,7 @@
 | 卡片比例 | 整卡约 0.58（封面 + 标题/元信息） |
 | 封面圆角 | 产品 `cover.radius` r12；普通 UI 卡片仍为品牌 card r14 |
 | 阴影 | 仅封面软抬升；读皮肤 shadowScale；纯净皮肤自动无影 |
-| 标题 | 单行省略；壳层 rowTitle 体系 |
+| 标题 | 单行省略；使用当前 Profile 的 `body` |
 | 多选 | 封面角标使用 accent 填充 check；不加粗边框包围整张封面 |
 
 列表态使用品牌 ListRow 语义，不把网格卡 metrics 生搬到列表。
@@ -44,7 +44,7 @@
 
 ## 空态与管理态
 
-- 空态使用品牌 EmptyState（icon 30、标题 16 w600、说明 12 secondary、maxWidth 420）；
+- 空态使用品牌 EmptyState（display 图标、sectionTitle、bodySecondary、maxWidth 420）；
 - 导入是空书库的主行动；无搜索结果提供清除筛选，而不是再次导入；
 - 多选操作通过浮动/底部操作条承载，表面 strong 玻璃、顶角 r18；
 - 封面本身不常驻「…」按钮；管理从长按、右键或多选进入。

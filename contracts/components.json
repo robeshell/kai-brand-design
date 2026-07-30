@@ -1,5 +1,5 @@
 {
-  "contractVersion": "0.2.0",
+  "contractVersion": "0.4.0",
   "components": {
     "surfaces": {
       "name": "表面与容器",
@@ -32,7 +32,7 @@
     },
     "buttons": {
       "name": "按钮",
-      "summary": "触发操作，按重要程度区分主要、次要、文字、危险和图标按钮。",
+      "summary": "触发明确操作；Mobile 与 Desktop 各有一套按钮视觉，平台层只适配输入和系统行为。",
       "variants": [
         { "name": "主要按钮", "description": "当前区域最重要且最希望用户完成的操作。" },
         { "name": "次要按钮", "description": "与主要操作并列，但优先级更低。" },
@@ -44,7 +44,7 @@
         { "name": "默认", "description": "显示完整标签和当前层级。", "required": true },
         { "name": "悬停", "description": "背景加深，不能改变尺寸。", "required": true },
         { "name": "按下", "description": "背景进一步加深，反馈立即出现。", "required": true },
-        { "name": "键盘聚焦", "description": "显示清楚的外侧焦点环。", "required": true },
+        { "name": "键盘聚焦", "description": "使用当前平台的焦点视觉，品牌提供强调色。", "required": true },
         { "name": "加载", "description": "保留按钮宽度并阻止重复提交。", "required": true },
         { "name": "禁用", "description": "降低对比度且不可触发。", "required": true }
       ],
@@ -54,19 +54,19 @@
         "键盘操作和指针操作必须触发同一结果。"
       ],
       "usage": [
-        "主要按钮用于当前区域最重要的操作。",
+        "按产品形态使用 Kai Mobile 或 Kai Desktop Button。",
         "危险操作必须使用明确动词，并提供确认或撤销。",
         "不要用按钮代替导航链接。"
       ],
       "tokens": [
-        { "name": "控件圆角", "token": "radii.control", "value": "10px" },
-        { "name": "按钮最小高度", "token": "tapTargets.buttonMin", "value": "36px" },
+        { "name": "品牌圆角倾向", "token": "radii.control", "value": "10px" },
+        { "name": "按钮高度", "token": "componentProfiles.*.metrics.controlHeight", "value": "Mobile 48 · Desktop 36" },
         { "name": "状态动效", "token": "motion.uiStandard", "value": "160ms" }
       ]
     },
     "inputs": {
       "name": "输入框",
-      "summary": "收集或修改文本、选项和连续数值，标签、帮助和错误信息属于同一个控件。",
+      "summary": "收集或修改文本、选项和连续数值；保留平台编辑、选择、输入法和焦点能力。",
       "variants": [
         { "name": "文本输入", "description": "输入短文本或单个值。" },
         { "name": "搜索输入", "description": "筛选当前内容，支持清除。" },
@@ -77,7 +77,7 @@
       "states": [
         { "name": "默认", "description": "显示标签、输入面和当前值。", "required": true },
         { "name": "悬停", "description": "边框对比度轻微提高。", "required": true },
-        { "name": "键盘聚焦", "description": "控件自身显示 2px 强调色边框，不增加外侧 outline。", "required": true },
+        { "name": "键盘聚焦", "description": "保留平台焦点能力，输入容器可同步使用强调色。", "required": true },
         { "name": "输入有误", "description": "错误边框和修正说明同时出现。", "required": true },
         { "name": "只读", "description": "内容可选择复制，但不可修改。", "required": true },
         { "name": "禁用", "description": "不可聚焦，并说明不可用原因。", "required": true }
@@ -88,14 +88,14 @@
         "输入目的明确时提供正确的自动填充语义。"
       ],
       "usage": [
-        "标签写清楚需要填写什么，不要只依赖占位文字。",
+        "优先使用当前平台的 TextField、SearchField、TextBox 或 Entry。",
         "错误提示放在输入框附近，并说明如何修正。",
         "不可编辑和只读状态需要清楚区分。"
       ],
       "tokens": [
         { "name": "输入框圆角", "token": "radii.control", "value": "10px" },
-        { "name": "输入文字", "token": "typography.sizes.rowTitle", "value": "13.5px" },
-        { "name": "焦点边框", "token": "component.input.focusBorder", "value": "2px · 无外侧 outline" }
+        { "name": "输入文字", "token": "componentProfiles.*.typeScale.body", "value": "Mobile 17/24 · Desktop 14/20" },
+        { "name": "品牌焦点色", "token": "component.input.brandFocus", "value": "accent · 保留平台焦点行为" }
       ]
     },
     "selection": {
@@ -133,10 +133,11 @@
     },
     "navigation": {
       "name": "导航",
-      "summary": "切换主要目的地，桌面侧栏、移动底栏和页内标签共享当前项语义。",
+      "summary": "切换主要目的地；目的地语义统一，Tab Bar、Navigation Bar、Rail、Sidebar 和 NavigationView 按平台映射。",
       "variants": [
-        { "name": "桌面侧栏", "description": "宽屏中的一级目的地和分组。" },
-        { "name": "移动底栏", "description": "窄屏中 3–5 个一级目的地。" },
+        { "name": "Apple 导航", "description": "iPhone Tab Bar；iPad 根据空间选择 Tab Bar 或 Sidebar。" },
+        { "name": "Android 导航", "description": "紧凑窗口 Navigation Bar；大屏转换为 Rail 或 Drawer。" },
+        { "name": "桌面导航", "description": "macOS Sidebar、Windows NavigationView 或 Linux Sidebar/View Switcher。" },
         { "name": "页内标签", "description": "同一页面内平级内容的切换。" }
       ],
       "states": [
@@ -153,14 +154,14 @@
       ],
       "usage": [
         "当前项必须清楚可见，同一组中只有一个当前项。",
-        "桌面侧栏和移动底栏共享目的地，但尺寸不同。",
+        "目的地和路由一致，具体控件形态由当前平台决定。",
         "不要把普通操作混进主导航。"
       ],
       "tokens": [
         { "name": "侧栏宽度", "token": "layoutMetrics.sidebarWidth", "value": "216 / 236px" },
-        { "name": "桌面导航文字", "token": "typography.sizes.rowTitle", "value": "13.5px" },
-        { "name": "移动导航文字", "token": "typography.sizes.navLabel", "value": "10.5px" },
-        { "name": "选中背景", "token": "component.navigation.selection", "value": "accent 10%" },
+        { "name": "桌面导航文字", "token": "componentProfiles.desktop.typeScale.body", "value": "14/20" },
+        { "name": "移动导航文字", "token": "componentProfiles.mobile.typeScale.captionSmall", "value": "11/16" },
+        { "name": "当前项强调", "token": "component.navigation.selection", "value": "accent · 指示器形态按平台" },
         { "name": "侧栏材质", "token": "component.navigation.chrome", "value": "GlassSurface strong" }
       ]
     },
@@ -191,17 +192,17 @@
         "选中态使用勾选或文字表达，不使用大面积强调色填充。"
       ],
       "tokens": [
-        { "name": "普通行高度", "token": "component.listRow.minHeight", "value": "54px" },
-        { "name": "设置行高度", "token": "component.listRow.settingsHeight", "value": "64px" },
+        { "name": "单行高度", "token": "componentProfiles.*.metrics.listRowSingle", "value": "Mobile 52 · Desktop 40" },
+        { "name": "双行高度", "token": "componentProfiles.*.metrics.listRowDouble", "value": "Mobile 68 · Desktop 52" },
         { "name": "控件圆角", "token": "radii.control", "value": "10px" },
-        { "name": "标题字号", "token": "typography.sizes.rowTitle", "value": "13.5px" }
+        { "name": "标题字号", "token": "componentProfiles.*.typeScale.body", "value": "按 Mobile / Desktop 映射" }
       ]
     },
     "feedback": {
       "name": "反馈",
-      "summary": "说明操作结果、加载进度、空内容和错误，让用户知道当前发生了什么。",
+      "summary": "覆盖加载、进度、空内容、部分完成、错误和后台任务；展示范围与容器按平台选择。",
       "variants": [
-        { "name": "轻提示", "description": "短暂显示已完成的结果，可提供撤销。" },
+        { "name": "短结果反馈", "description": "使用当前平台对应的短反馈，可在适用时提供撤销。" },
         { "name": "工具提示", "description": "解释图标或不熟悉的短标签。" },
         { "name": "空状态", "description": "解释为什么没有内容，并给出下一步。" },
         { "name": "加载与进度", "description": "表示等待或可计算的完成程度。" },
@@ -220,22 +221,19 @@
         "错误信息不能只靠颜色表达。"
       ],
       "usage": [
-        "短暂完成结果使用轻提示；需要用户处理的问题不要自动消失。",
+        "短结果反馈使用当前平台对应组件，不把所有平台统一成 Snackbar。",
         "空态说明为什么没有内容，并在有明确下一步时提供操作。",
         "加载和进度使用统一尺寸与强调色，不单独硬编码。"
       ],
       "tokens": [
-        { "name": "轻提示圆角", "token": "radii.pill", "value": "999px" },
-        { "name": "轻提示时长", "token": "component.feedback.snackbarDuration", "value": "1.6s" },
-        { "name": "轻提示内边距", "token": "component.feedback.snackbarPadding", "value": "18h / 11v" },
-        { "name": "轻提示字号", "token": "component.feedback.snackbarText", "value": "14 w600" },
-        { "name": "提示延迟", "token": "component.feedback.tooltipDelay", "value": "450ms" },
-        { "name": "加载圈", "token": "component.feedback.spinner", "value": "24px / 2px" }
+        { "name": "反馈文字", "token": "componentProfiles.*.typeScale.body", "value": "按 Mobile / Desktop 映射" },
+        { "name": "状态颜色", "token": "derivedAlphas.status", "value": "success / warning / error / info" },
+        { "name": "进度强调", "token": "component.feedback.progressAccent", "value": "当前产品 accent" }
       ]
     },
     "dialogs": {
       "name": "对话框",
-      "summary": "要求用户确认、输入或完成短任务，并把注意力暂时集中到一个明确范围。",
+      "summary": "承载必须暂时中断当前流程的确认、输入或短任务；模态容器和按钮行为按平台选择。",
       "variants": [
         { "name": "确认对话框", "description": "确认有明显影响或不可逆的操作。" },
         { "name": "输入对话框", "description": "完成一个字段或少量字段的短任务。" },
@@ -254,23 +252,24 @@
         "支持 Escape 关闭；破坏性流程仍需明确取消入口。"
       ],
       "usage": [
-        "需要用户确认不可逆操作，或完成一段短任务时使用。",
+        "先按平台选择 Sheet、Dialog、ContentDialog、Popover 或独立窗口。",
         "简单选择优先使用菜单，不要把对话框当作普通信息卡片。",
         "内容过高时只滚动内容区，标题和按钮区保持可见。"
       ],
       "tokens": [
-        { "name": "对话框圆角", "token": "radii.dialog", "value": "20px" },
-        { "name": "最大宽度", "token": "component.dialog.maxWidth", "value": "520px" },
+        { "name": "品牌圆角倾向", "token": "radii.dialog", "value": "20px" },
+        { "name": "桌面内容上限", "token": "component.dialog.desktopMaxWidth", "value": "520px · 移动端使用平台容器" },
         { "name": "遮罩", "token": "component.dialog.barrier", "value": "black 38% / 62%" },
         { "name": "按钮间距", "token": "component.dialog.actionGap", "value": "10px" }
       ]
     },
     "menus": {
       "name": "菜单与底部弹层",
-      "summary": "承载与触发位置相关的短操作列表，并在窄屏切换为底部弹层。",
+      "summary": "承载与触发位置相关的短操作、选择或辅助内容；Menu、Popover、Flyout 和 Sheet 按平台与任务选择。",
       "variants": [
-        { "name": "锚定菜单", "description": "宽屏中靠近触发位置显示的短操作列表。" },
-        { "name": "底部弹层", "description": "窄屏中使用更大行高和安全区域的操作列表。" },
+        { "name": "平台菜单", "description": "Menu、Context Menu 或 MenuFlyout，保留平台键盘和命令习惯。" },
+        { "name": "辅助浮层", "description": "Popover、Flyout 或 TeachingTip。" },
+        { "name": "移动 Sheet", "description": "只在移动端需要较大操作空间的短任务中使用。" },
         { "name": "选择菜单", "description": "显示当前选择，并允许切换。" }
       ],
       "states": [
@@ -287,15 +286,82 @@
       ],
       "usage": [
         "与触发位置相关的短操作列表使用锚定菜单。",
-        "窄屏自动切换为底部弹层，并保留安全区域。",
+        "根据平台、输入模式和任务选择容器，不只根据窗口宽度判断。",
         "菜单宽度由内容决定，长列表需要限制高度并允许滚动。"
       ],
       "tokens": [
         { "name": "菜单圆角", "token": "radii.menu", "value": "12px" },
-        { "name": "菜单宽度", "token": "component.menu.width", "value": "160–280px" },
-        { "name": "菜单行高", "token": "component.menu.rowHeight", "value": "36px" },
-        { "name": "弹层顶角", "token": "radii.sheet", "value": "18px" },
-        { "name": "拖拽把手", "token": "component.sheet.handle", "value": "38×4px" }
+        { "name": "菜单最小宽度", "token": "componentMetrics.menu.minWidth", "value": "160" },
+        { "name": "菜单最大宽度", "token": "componentMetrics.menu.maxWidth", "value": "280" },
+        { "name": "菜单行高", "token": "componentProfiles.*.metrics.controlHeight", "value": "按 Mobile / Desktop 映射" },
+        { "name": "移动 Sheet 顶角", "token": "radii.sheet", "value": "18px" },
+        { "name": "平台行为", "token": "component.menu.platformBehavior", "value": "keyboard / focus / anchor / safe area" }
+      ]
+    },
+    "icons": {
+      "name": "图标",
+      "summary": "使用平台系统图标和统一尺寸表达对象、状态与操作；命中区域由按钮提供。",
+      "variants": [
+        { "name": "紧凑图标", "description": "表格、工具栏和行尾状态。" },
+        { "name": "常规图标", "description": "按钮、输入框和列表行。" },
+        { "name": "大图标", "description": "移动主要操作和少量展示。" },
+        { "name": "双态图标", "description": "使用 fill/outline 表达当前项，但保持同一隐喻。" }
+      ],
+      "states": [
+        { "name": "默认", "description": "使用当前语义前景色。", "required": true },
+        { "name": "悬停", "description": "反馈由承载按钮提供，不单独缩放图标。", "required": true },
+        { "name": "键盘聚焦", "description": "焦点显示在承载按钮上。", "required": true },
+        { "name": "选中", "description": "可使用实心图形并配合文字或指示器。", "required": true },
+        { "name": "禁用", "description": "随承载控件降低对比度。", "required": true }
+      ],
+      "accessibility": [
+        "纯装饰图标不进入可访问树。",
+        "纯图标操作必须由按钮提供可访问名称。",
+        "状态不能只靠图标颜色表达。"
+      ],
+      "usage": [
+        "优先使用当前平台系统图标，不为已有隐喻重复造图。",
+        "同一产品保持 rounded/outlined 风格一致。",
+        "图标视觉尺寸与点击目标分离。"
+      ],
+      "tokens": [
+        { "name": "紧凑尺寸", "token": "iconography.sizes.compact", "value": "16" },
+        { "name": "常规尺寸", "token": "iconography.sizes.regular", "value": "20" },
+        { "name": "大尺寸", "token": "iconography.sizes.large", "value": "24" },
+        { "name": "展示尺寸", "token": "iconography.sizes.display", "value": "32" }
+      ]
+    },
+    "app-bars": {
+      "name": "顶栏与标签",
+      "summary": "组织页面标题、页面级操作、筛选工具和页内平级导航。",
+      "variants": [
+        { "name": "页面头", "description": "页面标题、说明和主要操作。" },
+        { "name": "工具栏", "description": "搜索、筛选、排序和视图切换。" },
+        { "name": "标签", "description": "切换同一页面内平级内容。" },
+        { "name": "面包屑", "description": "桌面端显示文件夹或层级路径。" }
+      ],
+      "states": [
+        { "name": "默认", "description": "标题和操作按优先级排列。", "required": true },
+        { "name": "悬停", "description": "工具按钮出现轻状态层。", "required": true },
+        { "name": "键盘聚焦", "description": "每个工具和标签都有独立焦点。", "required": true },
+        { "name": "当前", "description": "标签使用文字与指示器共同表达。", "required": true },
+        { "name": "多选", "description": "页面头切换为批量操作栏。", "required": false },
+        { "name": "禁用", "description": "不可用操作保留位置并说明原因。", "required": true }
+      ],
+      "accessibility": [
+        "页面只保留一个一级标题。",
+        "标签使用 tablist/tab/tabpanel 语义或平台等价能力。",
+        "工具栏键盘顺序与视觉顺序一致。"
+      ],
+      "usage": [
+        "标题只说明当前页面，不放无用统计和成熟度信息。",
+        "主要操作最多一个，低频操作进入更多菜单。",
+        "空间不足时先收起低频操作，再允许工具栏换行。"
+      ],
+      "tokens": [
+        { "name": "页面标题", "token": "componentProfiles.*.typeScale.pageTitle", "value": "按 Mobile / Desktop 映射" },
+        { "name": "工具高度", "token": "componentProfiles.*.metrics.controlHeight", "value": "按 Mobile / Desktop 映射" },
+        { "name": "常规图标", "token": "iconography.sizes.regular", "value": "20" }
       ]
     },
     "data-display": {
@@ -325,7 +391,7 @@
       ],
       "tokens": [
         { "name": "卡片圆角", "token": "radii.card", "value": "14px" },
-        { "name": "标题字号", "token": "typography.sizes.rowTitle", "value": "13.5px" },
+        { "name": "标题字号", "token": "componentProfiles.*.typeScale.body", "value": "按 Mobile / Desktop 映射" },
         { "name": "轻背景", "token": "derivedAlphas.subtleFill", "value": "foreground 4.5%" }
       ]
     }

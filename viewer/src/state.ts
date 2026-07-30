@@ -1,6 +1,7 @@
 import type {
   InspectorTarget,
   PageId,
+  PlatformId,
   ProductId,
   SkinId,
   ViewportId,
@@ -12,6 +13,7 @@ export interface AppState {
   product: ProductId;
   accent: string;
   viewport: ViewportId;
+  platform: PlatformId;
   reducedMotion: boolean;
   inspectorOpen: boolean;
   inspectorTarget?: InspectorTarget;
@@ -23,6 +25,7 @@ const defaults: AppState = {
   product: "kaiting",
   accent: "coral",
   viewport: "fluid",
+  platform: "macDesktop",
   reducedMotion: false,
   inspectorOpen: false,
 };

@@ -1,14 +1,13 @@
 export type SkinId = "system" | "default" | "pure" | "deep-night";
 export type ProductId = "kaiting" | "kaijuan" | "kaigua";
+export type PlatformId =
+  | "appleMobile"
+  | "androidMobile"
+  | "macDesktop"
+  | "windowsDesktop"
+  | "linuxDesktop";
 export type ViewportId = "fluid" | "mobile" | "tablet" | "medium" | "wide";
-export type PageId =
-  | "overview"
-  | "getting-started"
-  | "color"
-  | "typography"
-  | "spacing"
-  | "motion"
-  | "components"
+export type ComponentId =
   | "surfaces"
   | "buttons"
   | "inputs"
@@ -18,10 +17,32 @@ export type PageId =
   | "feedback"
   | "dialogs"
   | "menus"
+  | "icons"
+  | "app-bars"
+  | "data-display";
+export type PageId =
+  | "overview"
+  | "color"
+  | "platforms"
+  | "typography"
+  | "spacing"
+  | "motion"
+  | "components"
+  | "buttons"
+  | "inputs"
+  | "selection"
+  | "navigation"
+  | "list-rows"
+  | "feedback"
+  | "dialogs"
+  | "menus"
+  | "icons"
+  | "app-bars"
   | "data-display"
   | "app-shell"
-  | "overlays"
-  | "settings"
+  | "content-browser"
+  | "task-workspace"
+  | "status-system"
   | "products"
   | "delivery"
   | "qa";
@@ -53,6 +74,28 @@ export interface ProductAccent {
   presets: AccentPreset[];
 }
 
+export interface PlatformTextStyle {
+  fontSize: number;
+  lineHeight: number;
+  fontWeight: number;
+  letterSpacing: number;
+}
+
+export interface PlatformProfile {
+  label: string;
+  platforms: string[];
+  unit: string;
+  inputMode: string;
+  fontFamily: string;
+  scaling: string;
+  reference: {
+    name: string;
+    url: string;
+  };
+  typeScale: Record<string, PlatformTextStyle>;
+  metrics: Record<string, number>;
+}
+
 export interface TokenBundle {
   primitives: {
     specVersion: string;
@@ -63,16 +106,22 @@ export interface TokenBundle {
     };
     spacing: Record<string, number | string>;
     radii: Record<string, number>;
-    typography: {
-      fontFamily: string;
-      fontFamilyFallback: string[];
-      weights: Record<string, number | string>;
-      tracking: Record<string, number>;
-      sizes: Record<string, number | number[]>;
+    iconography: {
+      policy: string;
+      sizes: Record<string, number>;
+      opticalStroke: Record<string, number>;
     };
+    typography: {
+      fontPolicy: Record<string, unknown>;
+      weights: Record<string, number | string>;
+      componentRoles: Record<string, string>;
+    };
+    componentProfiles: Record<"mobile" | "desktop", PlatformProfile>;
+    platformProfiles: Record<string, PlatformProfile>;
     motion: Record<string, Record<string, number | string>>;
     breakpoints: Record<string, unknown>;
     layoutMetrics: Record<string, Record<string, number | string>>;
+    componentMetrics: Record<string, Record<string, number>>;
     derivedAlphas: Record<string, unknown>;
   };
   skins: {
@@ -103,7 +152,7 @@ export interface TokenBundle {
   componentContracts: {
     contractVersion: string;
     components: Record<
-      Extract<PageId, "surfaces" | "buttons" | "inputs" | "selection" | "navigation" | "list-rows" | "feedback" | "dialogs" | "menus" | "data-display">,
+      ComponentId,
       {
         name: string;
         summary: string;

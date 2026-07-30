@@ -5,6 +5,7 @@ import {
   inspect,
   navigation,
   navigationGroups,
+  platformComponentGuidance,
   productMeta,
   resolveSkin,
   tokens,
@@ -12,11 +13,12 @@ import {
   viewportWidths,
 } from "./data";
 import { loadState, saveState, type AppState } from "./state";
-import { applyTheme, installPrimitiveVariables } from "./theme";
+import { applyPlatformProfile, applyTheme, installPrimitiveVariables } from "./theme";
 import type {
   InspectorTarget,
   PageId,
   ProductId,
+  PlatformId,
   SkinId,
 } from "./types";
 
@@ -74,7 +76,10 @@ const sectionIds: Record<string, string> = {
   "怎么判断放在哪里": "placement",
   "当前外观": "appearance",
   "使用规则": "rules",
-  "字体层级": "type-scale",
+  "平台 Profile": "platform-profile",
+  "语义字体表": "semantic-type",
+  "组件映射": "component-map",
+  "平台尺寸": "platform-metrics",
   "规则": "rules",
   "间距": "spacing",
   "圆角": "radius",
@@ -160,14 +165,17 @@ function topbar(): string {
       <div class="top-title">
         <button id="mobile-nav-toggle" class="mobile-nav-button" type="button"
           aria-label="${mobileNavOpen ? "关闭目录" : "打开目录"}"
-          aria-expanded="${mobileNavOpen}" aria-controls="site-navigation">K</button>
+          aria-expanded="${mobileNavOpen}" aria-controls="site-navigation">${mobileNavOpen ? "×" : "☰"}</button>
         <span><small>${escapeHtml(pageInfo().label)}</small><strong>${escapeHtml(pageInfo().label)}</strong></span>
       </div>
       <div class="top-actions">
         <label class="search"><span>⌕</span><input id="nav-search" type="search" placeholder="搜索目录"></label>
-        <label class="select-control"><span>外观</span><select id="skin">
+        <label class="select-control skin-control"><span>外观</span><select id="skin">
           ${option("system", "跟随系统", state.skin)}
           ${tokens.skins.presets.map((skin) => option(skin.id, skin.name, state.skin)).join("")}
+        </select></label>
+        <label class="select-control platform-control"><span>平台</span><select id="platform">
+          ${Object.entries(tokens.primitives.platformProfiles).map(([id, profile]) => option(id, profile.label, state.platform)).join("")}
         </select></label>
         <button id="motion" class="icon-button ${state.reducedMotion ? "active" : ""}" type="button" title="减少动态效果">≈</button>
         <span class="top-version">v${escapeHtml(tokens.primitives.specVersion)}</span>
@@ -180,49 +188,31 @@ function overview(): string {
     <article class="document">
       ${pageHeaderFor("overview")}
       <section class="content-section">
-        ${sectionHeader("从这里开始", "先查通用规则；只有品牌或业务确实不同，才进入产品差异。", "contents")}
+        ${sectionHeader("从这里开始", "先选 Mobile 或 Desktop 组件，再处理平台行为、APP 结构和状态。产品特有内容最后处理。", "contents")}
         <div class="docs-index">
           <button data-page="color"><span><strong>基础规范</strong><small>颜色、字体、间距、圆角和动效</small></span><i>→</i></button>
-          <button data-page="components"><span><strong>组件</strong><small>看现有组件、用法、数值和交互示例</small></span><i>→</i></button>
-          <button data-page="app-shell"><span><strong>页面结构</strong><small>组件如何组成应用框架、弹层和设置页</small></span><i>→</i></button>
+          <button data-page="components"><span><strong>组件基础</strong><small>移动、桌面组件和完整组件入口</small></span><i>→</i></button>
+          <button data-page="content-browser"><span><strong>APP 结构</strong><small>内容浏览与任务工作台两个主结构</small></span><i>→</i></button>
+          <button data-page="status-system"><span><strong>状态与反馈</strong><small>加载、进度、空数据、结果和错误</small></span><i>→</i></button>
           <button data-page="products"><span><strong>产品差异</strong><small>主题色、内容表达和产品特有规则</small></span><i>→</i></button>
         </div>
       </section>
       <section class="content-section">
-        ${sectionHeader("使用方式")}
-        <ol class="prose-steps compact-steps">
-          <li><b>查规则</b><span>先确认基础规范和现有组件能否解决问题。</span></li>
-          <li><b>改源文件</b><span>修改 <code>tokens/</code>、<code>components/</code> 或 <code>patterns/</code>，不要改生成文件。</span></li>
-          <li><b>生成并检查</b><span>运行构建和检查，再把结果同步到产品工程。</span></li>
-        </ol>
-        <button class="text-link" data-page="getting-started">查看完整使用说明 →</button>
-      </section>
-    </article>`;
-}
-
-function gettingStarted(): string {
-  return `
-    <article class="document">
-      ${pageHeaderFor("getting-started")}
-      <section class="content-section">
-        ${sectionHeader("修改设计")}
+        ${sectionHeader("修改与输出", "", "workflow")}
         <ol class="prose-steps">
-          <li><b>找到对应位置。</b><span>颜色和尺寸在 <code>tokens/</code>，组件规则在 <code>components/</code>，页面规则在 <code>patterns/</code>。</span></li>
-          <li><b>修改源文件。</b><span>不要直接修改 <code>dist/</code> 或产品工程中的生成文件。</span></li>
-          <li><b>运行检查。</b><pre><code>make validate test build check</code></pre></li>
-          <li><b>同步产品。</b><pre><code>python3 tool/kai_design.py sync</code></pre></li>
+          <li><b>找到源文件。</b><span>数值改 <code>tokens/</code>，组件改 <code>components/</code>，结构和状态改 <code>patterns/</code>。</span></li>
+          <li><b>完成检查。</b><pre><code>make validate test build check</code></pre></li>
+          <li><b>同步到产品。</b><pre><code>python3 tool/kai_design.py sync</code></pre></li>
         </ol>
       </section>
       <section class="content-section">
-        ${sectionHeader("怎么判断放在哪里")}
+        ${sectionHeader("规则放哪里", "", "placement")}
         <div class="decision-table">
-          <div><strong>多个产品都会用</strong><span>放到基础、组件或页面规范</span></div>
-          <div><strong>只有一个产品需要</strong><span>放到产品差异中</span></div>
-          <div><strong>第二个产品也需要了</strong><span>把规则提升为通用规范</span></div>
-          <div><strong>产品暂时无法跟进</strong><span>登记原因和待处理事项</span></div>
+          <div><strong>跨产品共用</strong><span>放入基础、组件、结构或状态规范</span></div>
+          <div><strong>单个产品特有</strong><span>放入产品差异，不污染通用规范</span></div>
+          <div><strong>开始复用</strong><span>第二个产品需要时再提升为通用规则</span></div>
         </div>
       </section>
-      ${note("记住", "产品代码是规范的使用方，不是另一份规范。")}
     </article>`;
 }
 
@@ -284,28 +274,122 @@ function colorPage(): string {
     </article>`;
 }
 
+const typeRoleLabels: Record<string, string> = {
+  displayLarge: "展示大标题",
+  pageTitle: "页面标题",
+  sectionTitle: "分区标题",
+  title: "组件标题",
+  body: "正文 / 列表标题",
+  bodySecondary: "次级正文 / 列表副题",
+  label: "按钮与控件标签",
+  caption: "辅助信息",
+  captionSmall: "极小标签",
+};
+
+const metricLabels: Record<string, string> = {
+  minimumInteractiveTarget: "最小交互目标",
+  controlHeight: "常规控件高度",
+  compactControlHeight: "紧凑控件高度",
+  listRowSingle: "单行列表",
+  listRowDouble: "双行列表",
+  pageGutter: "页面边距",
+  sectionGap: "分区间距",
+  controlGap: "控件间距",
+  iconTextGap: "图标文字间距",
+};
+
+function platformsPage(): string {
+  const profiles = Object.entries(tokens.primitives.platformProfiles);
+  const componentProfiles = Object.entries(tokens.primitives.componentProfiles);
+  const activePlatform = tokens.primitives.platformProfiles[state.platform];
+  const guidance = platformComponentGuidance[state.platform];
+  return `
+    <article class="document">
+      ${pageHeaderFor("platforms")}
+      <section class="content-section">
+        ${sectionHeader("组件 Profile", "产品组件只读取这两套数值。", "component-profile")}
+        <div class="platform-profile-grid component-profile-grid">
+          ${componentProfiles.map(([id, profile]) => `<article class="platform-profile-card">
+            <div><span>${escapeHtml(profile.inputMode)}</span><code>${escapeHtml(id)}</code></div>
+            <h3>${escapeHtml(profile.label)}</h3>
+            <p>${escapeHtml(profile.platforms.join(" · "))}</p>
+            <dl>
+              <div><dt>正文</dt><dd>${profile.typeScale.body.fontSize} / ${profile.typeScale.body.lineHeight}</dd></div>
+              <div><dt>控件</dt><dd>${profile.metrics.controlHeight} ${escapeHtml(profile.unit)}</dd></div>
+              <div><dt>列表</dt><dd>${profile.metrics.listRowSingle} / ${profile.metrics.listRowDouble}</dd></div>
+            </dl>
+          </article>`).join("")}
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("官方基准", "用于确认两套组件没有低于目标平台的可用性要求。", "platform-profile")}
+        <div class="platform-profile-grid">
+          ${profiles.map(([id, profile]) => `<article class="platform-profile-card">
+            <div><span>${escapeHtml(profile.inputMode)}</span><code>${escapeHtml(id)}</code></div>
+            <h3>${escapeHtml(profile.label)}</h3>
+            <p>${escapeHtml(profile.fontFamily)}</p>
+            <dl>
+              <div><dt>正文</dt><dd>${profile.typeScale.body.fontSize} / ${profile.typeScale.body.lineHeight}</dd></div>
+              <div><dt>交互目标</dt><dd>${profile.metrics.minimumInteractiveTarget} ${escapeHtml(profile.unit)}</dd></div>
+              <div><dt>缩放</dt><dd>${escapeHtml(profile.scaling)}</dd></div>
+            </dl>
+            <a href="${escapeHtml(profile.reference.url)}" target="_blank" rel="noreferrer">${escapeHtml(profile.reference.name)}</a>
+          </article>`).join("")}
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader(`${activePlatform.label} 行为适配`, "切换顶部平台查看。组件视觉不会随这里换皮。", "behavior")}
+        <div class="platform-behavior-grid">
+          <article><strong>导航</strong><p>${escapeHtml(guidance.navigation)}</p></article>
+          <article><strong>系统栏</strong><p>${escapeHtml(guidance.bars)}</p></article>
+          <article><strong>弹层</strong><p>${escapeHtml(guidance.presentation)}</p></article>
+          <article><strong>输入</strong><p>${escapeHtml(guidance.interaction)}</p></article>
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("使用规则")}
+        <ul class="prose-list">
+          <li>组件读取 Mobile 或 Desktop Profile，不读取五个平台的视觉数值。</li>
+          <li>平台 Profile 只负责系统字体、缩放、命中目标和行为验收。</li>
+          <li>窗口宽度只改变布局；不能因为窗口变宽就把移动字号换成桌面字号。</li>
+          <li>返回、安全区、键鼠、窗口和系统弹层仍按运行平台适配。</li>
+        </ul>
+      </section>
+    </article>`;
+}
+
 function typographyPage(): string {
-  const rows = [
-    ["页面大标题", "48 / 56", "700", "每页最多一个"],
-    ["区块标题", "28 / 36", "650", "用于分隔主要内容"],
-    ["正文", "16 / 26", "400", "说明文字和长内容"],
-    ["辅助文字", "13 / 18", "500", "状态、版本和补充信息"],
-  ];
+  const profiles = Object.entries(tokens.primitives.componentProfiles);
+  const roles = Object.keys(typeRoleLabels);
   return `
     <article class="document">
       ${pageHeaderFor("typography")}
       <section class="content-section">
-        ${sectionHeader("字体层级")}
-        <div class="type-table">
-          ${rows.map(([name, size, weight, usage], index) => `<div class="type-sample type-${index}">
-            <span><strong>${name}</strong><code>${size} · ${weight}</code></span>
-            <p>${usage}</p>
-          </div>`).join("")}
+        ${sectionHeader("语义字体表", "同一语义只输出 Mobile 与 Desktop 两套数值。")}
+        <div class="platform-table-wrap">
+          <table class="platform-table type-scale-table">
+            <thead><tr><th>角色</th>${profiles.map(([, profile]) => `<th>${escapeHtml(profile.label)}</th>`).join("")}</tr></thead>
+            <tbody>
+              ${roles.map((role) => `<tr>
+                <th>${typeRoleLabels[role]}<code>${role}</code></th>
+                ${profiles.map(([, profile]) => {
+                  const style = profile.typeScale[role];
+                  return `<td><strong>${style.fontSize} / ${style.lineHeight}</strong><span>w${style.fontWeight}${style.letterSpacing ? ` · ${style.letterSpacing}` : ""}</span></td>`;
+                }).join("")}
+              </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("组件映射")}
+        <div class="role-map-grid">
+          ${Object.entries(tokens.primitives.typography.componentRoles).map(([component, role]) => `<div><code>${component}</code><span>→</span><strong>${typeRoleLabels[role] ?? role}</strong></div>`).join("")}
         </div>
       </section>
       <section class="content-section">
         ${sectionHeader("规则")}
-        <ul class="prose-list"><li>优先使用系统字体，避免额外下载字体影响启动。</li><li>正文最小 16px，辅助文字最小 13px。</li><li>展示文字不能使用主题色。</li><li>一段内容中最多出现三个文字层级。</li></ul>
+        <ul class="prose-list"><li>界面使用平台系统字体与系统缩放；内容字体只能在产品层登记。</li><li>字号与行高必须成对使用，不能只复制字号。</li><li>iOS/iPadOS 正文不得低于默认 17pt；Android 主正文使用 16/24sp。</li><li>辅助信息可以更小，但不得代替正文或列表标题。</li><li>200% 字体缩放时保留同样的信息与操作。</li></ul>
       </section>
     </article>`;
 }
@@ -330,6 +414,17 @@ function spacingPage(): string {
         ${sectionHeader("间距")}
         <div class="spacing-visual">${spacingRows.map((row) => `<div><code>${row.token}</code><i style="width:${row.value}"></i><span>${row.value}</span></div>`).join("")}</div>
         ${tokenTable(spacingRows)}
+      </section>
+      <section class="content-section">
+        ${sectionHeader("平台尺寸", "基础网格共享，组件高度和交互目标按平台输出。")}
+        <div class="platform-table-wrap">
+          <table class="platform-table">
+            <thead><tr><th>尺寸</th>${Object.values(tokens.primitives.platformProfiles).map((profile) => `<th>${escapeHtml(profile.label)}</th>`).join("")}</tr></thead>
+            <tbody>
+              ${Object.keys(metricLabels).map((metric) => `<tr><th>${metricLabels[metric]}<code>${metric}</code></th>${Object.values(tokens.primitives.platformProfiles).map((profile) => `<td><strong>${profile.metrics[metric]}</strong><span>${escapeHtml(profile.unit)}</span></td>`).join("")}</tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
       </section>
       <section class="content-section">
         ${sectionHeader("圆角")}
@@ -359,33 +454,19 @@ function motionPage(): string {
 const componentPage = (
   pageId: PageId,
   preview: string,
-): string => {
-  const contract = componentContracts.components[
-    pageId as keyof typeof componentContracts.components
-  ];
-  return `
+): string => `
   <article class="document">
     ${pageHeaderFor(pageId)}
     <section class="content-section">
-      ${sectionHeader("用法")}
-      <ul class="prose-list">${contract.usage.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-    </section>
-    <section class="content-section">
-      ${sectionHeader("示例", "下面展示实现时需要覆盖的常用形态。")}
+      ${sectionHeader("预览", "", "preview")}
       <div class="component-preview">
         <div class="component-stage">${preview}</div>
       </div>
     </section>
-    <section class="content-section">
-      ${sectionHeader("设计变量")}
-      ${tokenTable(contract.tokens, "contracts/components.json", "这是结构化组件契约中的验收锚点。")}
-    </section>
   </article>`;
-};
 
 function componentsOverview(): string {
   const componentOrder: Array<keyof typeof componentContracts.components> = [
-    "surfaces",
     "buttons",
     "inputs",
     "selection",
@@ -394,16 +475,34 @@ function componentsOverview(): string {
     "feedback",
     "dialogs",
     "menus",
+    "icons",
+    "app-bars",
     "data-display",
   ];
   const entries = componentOrder.map(
     (id) => [id, componentContracts.components[id]] as const,
   );
+  const family = state.platform.endsWith("Mobile") ? "mobile" : "desktop";
   return `
     <article class="document">
       ${pageHeaderFor("components")}
       <section class="content-section">
-        ${sectionHeader("组件清单")}
+        ${sectionHeader("两套组件", "切换顶部平台会选择对应组件，但同一端内不会换皮。", "families")}
+        <div class="component-family-grid component-foundation-families">
+          <article class="${family === "mobile" ? "active" : ""}"><header><strong>Mobile</strong><span>iOS · Android</span></header>${componentSpecimen("mobile", true)}</article>
+          <article class="${family === "desktop" ? "active" : ""}"><header><strong>Desktop</strong><span>macOS · Windows · Linux</span></header>${componentSpecimen("desktop", true)}</article>
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("基础表面", "页面、固定栏和浮层只使用这三层。", "surfaces")}
+        <div class="surface-demo">
+          <article class="demo-surface base"><span>页面与容器</span><strong>Surface</strong><small>普通内容和分组。</small></article>
+          <article class="demo-surface glass"><span>侧栏与底栏</span><strong>Glass</strong><small>固定界面层。</small></article>
+          <article class="demo-surface elevated"><span>菜单与对话框</span><strong>Elevated</strong><small>临时浮层。</small></article>
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("全部组件", "", "catalog")}
         <div class="component-catalog">
           ${entries.map(([id, contract]) => {
             return `<button type="button" data-page="${id}">
@@ -416,23 +515,50 @@ function componentsOverview(): string {
     </article>`;
 }
 
-function surfacesPage(): string {
-  return componentPage(
-    "surfaces",
-    `<div class="surface-demo">
-      <article class="demo-surface base"><span>基础表面</span><strong>页面内容分区</strong><small>使用当前外观的内容背景和边框。</small></article>
-      <article class="demo-surface glass"><span>强玻璃表面</span><strong>固定界面层</strong><small>用于侧栏、底栏和需要透出背景的区域。</small></article>
-      <article class="demo-surface elevated"><span>浮层表面</span><strong>菜单与对话框</strong><small>使用更清楚的边框和层级。</small></article>
-    </div>`,
-  );
+function componentSpecimen(family: "mobile" | "desktop", compact = false): string {
+  const compactClass = compact ? " compact" : "";
+  if (family === "mobile") {
+    return `<div class="platform-specimen kai-mobile-specimen${compactClass}">
+      <div class="device-phone">
+        <div class="phone-status"><b>9:41</b><span>● ◒ ▰</span></div>
+        <header class="mobile-app-bar"><button aria-label="菜单">☰</button><strong>资料库</strong><button aria-label="更多">•••</button></header>
+        <main>
+          <label class="specimen-field"><span>⌕</span><input placeholder="搜索内容"></label>
+          <div class="material-chips"><b>全部</b><span>最近</span><span>收藏</span></div>
+          <div class="specimen-list">
+            <article><i>文</i><span><strong>设计记录</strong><small>今天更新</small></span><button aria-label="更多">⋮</button></article>
+            <article><i>集</i><span><strong>我的收藏</strong><small>12 个项目</small></span><button aria-label="更多">⋮</button></article>
+          </div>
+          <button class="specimen-primary">新建项目</button>
+        </main>
+        <nav class="ios-tab-bar"><b><i>⌂</i>首页</b><span><i>▦</i>资料库</span><span><i>⌕</i>搜索</span><span><i>○</i>我的</span></nav>
+      </div>
+    </div>`;
+  }
+  return `<div class="platform-specimen desktop-specimen kai-desktop-specimen${compactClass}">
+    <div class="device-window">
+      <header class="kai-windowbar"><strong>◈　资料库</strong><div><button>—</button><button>□</button><button>×</button></div></header>
+      <div class="desktop-body">
+        <aside><b>⌂　主页</b><span>▦　全部项目</span><span>◷　最近使用</span><span>♡　收藏</span><small>位置</small><span>☁　云端</span><span>⚙　设置</span></aside>
+        <main>
+          <div class="windows-command"><button class="specimen-primary">＋ 新建</button><button>⌄ 排序</button><button>⋯</button><label>⌕ <input placeholder="搜索资料库"></label></div>
+          <h3>全部项目</h3>
+          <div class="desktop-table"><header><span>名称</span><span>修改时间</span><span>状态</span></header><article><i>文</i><strong>设计记录</strong><span>今天 14:32</span><b>已同步</b></article><article><i>集</i><strong>我的收藏</strong><span>昨天 18:05</span><b>本机</b></article></div>
+          <div class="windows-info"><span>ⓘ　内容已同步</span><button>关闭</button></div>
+        </main>
+      </div>
+    </div>
+  </div>`;
 }
 
 function buttonsPage(): string {
+  const desktop = state.platform.endsWith("Desktop");
   return componentPage(
     "buttons",
     `<div class="demo-stack">
-      <div class="demo-group"><span>按钮类型</span><div class="button-line"><button class="primary">主要操作</button><button class="secondary">次要操作</button><button class="ghost">文字操作</button><button class="danger">删除</button></div></div>
-      <div class="demo-group"><span>交互状态</span><div class="button-line"><button class="primary">默认</button><button class="primary demo-hover">悬停</button><button class="primary demo-pressed">按下</button><button class="primary" disabled>不可用</button></div></div>
+      <div class="demo-group"><span>层级</span><div class="button-line"><button class="primary">主要操作</button><button class="secondary">次要操作</button><button class="ghost">文字操作</button><button class="danger">删除</button></div></div>
+      <div class="demo-group"><span>尺寸</span><div class="button-line button-sizes"><button class="primary compact">紧凑</button><button class="primary">常规</button><button class="primary large">强调操作</button></div></div>
+      <div class="demo-group"><span>状态</span><div class="button-line"><button class="primary">默认</button>${desktop ? `<button class="primary demo-hover">悬停</button>` : ""}<button class="primary demo-pressed">按下</button><button class="primary" disabled>不可用</button></div></div>
       <div class="demo-group"><span>图标与工具按钮</span><div class="button-line"><button class="demo-icon-button" aria-label="收藏">☆</button><button class="demo-icon-button selected" aria-label="已收藏">★</button><button class="toolbar-button">↻ 重新载入</button><button class="demo-fab" aria-label="添加">＋</button></div></div>
     </div>`,
   );
@@ -468,14 +594,14 @@ function selectionPage(): string {
 }
 
 function navigationPage(): string {
+  const mobile = state.platform === "appleMobile" || state.platform === "androidMobile";
   return componentPage(
     "navigation",
     `<div class="nav-preview">
-      <div class="demo-group"><span>页内标签</span><div class="tabs"><button class="active">总览</button><button>组件</button><button>记录</button></div></div>
-      <div class="navigation-pair">
-        <div class="demo-group"><span>桌面侧栏</span><div class="side-nav-demo"><button class="active">设置</button><button>外观</button><button>关于</button></div></div>
-        <div class="demo-group"><span>移动底栏</span><div class="bottom-nav-demo"><button class="active"><b>⌂</b><span>首页</span></button><button><b>◇</b><span>内容</span></button><button><b>⚙</b><span>设置</span></button></div></div>
-      </div>
+      ${mobile
+        ? `<div class="demo-group"><span>Mobile 底部导航</span><div class="bottom-nav-demo"><button class="active"><b>⌂</b><span>首页</span></button><button><b>◇</b><span>内容</span></button><button><b>⚙</b><span>设置</span></button></div></div>`
+        : `<div class="demo-group"><span>Desktop 侧栏</span><div class="side-nav-demo"><button class="active">内容</button><button>任务</button><button>收藏</button><button>设置</button></div></div>`}
+      <div class="demo-group"><span>页内平级切换</span><div class="tabs"><button class="active">全部</button><button>最近</button><button>收藏</button></div></div>
     </div>`,
   );
 }
@@ -494,10 +620,11 @@ function listRowsPage(): string {
 }
 
 function feedbackPage(): string {
+  const platformFeedback = state.platform.endsWith("Mobile") ? "Mobile 轻提示" : "Desktop 状态通知";
   return componentPage(
     "feedback",
     `<div class="feedback-demo">
-      <div class="feedback-item"><span>轻提示</span><div class="snackbar">已切换为随机播放</div></div>
+      <div class="feedback-item"><span>${platformFeedback}</span><div class="snackbar">已保存更改</div></div>
       <div class="feedback-item"><span>工具提示</span><div class="tooltip-sample"><button class="demo-icon-button">?</button><b>查看使用说明</b></div></div>
       <div class="feedback-item wide"><span>空态与加载</span><div class="empty-state"><i>◇</i><strong>还没有内容</strong><p>添加第一项后会显示在这里。</p><button class="secondary">添加内容</button></div><div class="loading-state"><i></i><span>正在载入</span></div></div>
       <div class="feedback-item wide"><span>进度</span><div class="linear-progress"><i style="width:62%"></i></div><small>已完成 62%</small></div>
@@ -507,10 +634,11 @@ function feedbackPage(): string {
 }
 
 function dialogsPage(): string {
+  const family = state.platform.endsWith("Mobile") ? "Mobile" : "Desktop";
   return componentPage(
     "dialogs",
     `<div class="demo-stack">
-      <div class="demo-group"><span>确认对话框</span><div class="dialog-demo">
+      <div class="demo-group"><span>${family} 确认对话框</span><div class="dialog-demo">
         <div class="dialog-backdrop"></div>
         <article>
           <header><h3>删除这条记录？</h3><button class="demo-icon-button" aria-label="关闭">×</button></header>
@@ -520,7 +648,7 @@ function dialogsPage(): string {
       </div></div>
       <div class="demo-group"><span>输入对话框</span><div class="prompt-dialog">
         <h3>重命名</h3>
-        <label><span>名称</span><input value="设计规范"></label>
+        <label class="error"><span>名称</span><input value=""><small>名称不能为空</small></label>
         <footer><button class="secondary">取消</button><button class="primary">保存</button></footer>
       </div></div>
     </div>`,
@@ -528,17 +656,42 @@ function dialogsPage(): string {
 }
 
 function menusPage(): string {
+  const mobile = state.platform === "appleMobile" || state.platform === "androidMobile";
   return componentPage(
     "menus",
     `<div class="menu-demo">
-      <div class="demo-group"><span>锚定菜单</span><div class="anchored-menu">
+      <div class="demo-group"><span>${mobile ? "Mobile" : "Desktop"} 菜单</span><div class="anchored-menu">
         <header>排序方式</header>
         <button class="selected"><i>↕</i><span>最近修改</span><b>✓</b></button>
         <button><i>字</i><span>按名称</span></button>
         <hr>
         <button class="destructive"><i>删</i><span>清除记录</span></button>
       </div></div>
-      <div class="demo-group"><span>移动端底部弹层</span><div class="sheet-frame"><div class="sheet"><i class="sheet-handle"></i><strong>选择操作</strong><button><span>添加到收藏</span><b>›</b></button><button><span>分享</span><b>›</b></button><button class="destructive"><span>删除</span></button></div></div></div>
+      ${mobile ? `<div class="demo-group"><span>Mobile 底部弹层</span><div class="sheet-frame"><div class="sheet"><i class="sheet-handle"></i><strong>选择操作</strong><button><span>添加到收藏</span><b>›</b></button><button><span>分享</span><b>›</b></button><button class="destructive"><span>删除</span></button></div></div></div>` : `<div class="demo-group"><span>Desktop 右键菜单</span><div class="anchored-menu shortcut-menu"><button class="focused"><i>↗</i><span>打开</span><kbd>Enter</kbd></button><button><i>✎</i><span>重命名</span><kbd>F2</kbd></button><button><i>⧉</i><span>复制</span><kbd>⌘C</kbd></button><hr><button class="destructive"><i>删</i><span>移到废纸篓</span><kbd>⌫</kbd></button></div></div>`}
+    </div>`,
+  );
+}
+
+function iconsPage(): string {
+  const sizes = tokens.primitives.iconography.sizes;
+  return componentPage(
+    "icons",
+    `<div class="demo-stack">
+      <div class="demo-group"><span>语义尺寸</span><div class="icon-scale-demo">
+        ${Object.entries(sizes).map(([name, size]) => `<article><i style="width:${size}px;height:${size}px;font-size:${Math.max(12, size - 2)}px">◇</i><strong>${escapeHtml(name)}</strong></article>`).join("")}
+      </div></div>
+      <div class="demo-group"><span>按钮状态</span><div class="button-line"><button class="demo-icon-button" aria-label="搜索">⌕</button><button class="demo-icon-button selected" aria-label="已筛选">▽</button><button class="demo-icon-button demo-pressed" aria-label="更多">•••</button><button class="demo-icon-button" disabled aria-label="不可用">＋</button></div></div>
+    </div>`,
+  );
+}
+
+function appBarsPage(): string {
+  return componentPage(
+    "app-bars",
+    `<div class="demo-stack">
+      <div class="demo-group"><span>页面头与主要操作</span><div class="page-header-demo"><div><h3>资料库</h3><p>浏览、筛选和管理全部内容。</p></div><button class="primary">添加内容</button></div></div>
+      <div class="demo-group"><span>工具栏</span><div class="toolbar-demo"><label>⌕ <input value="设计规范" aria-label="搜索"></label><button class="secondary">筛选</button><button class="secondary">最近修改</button><span></span><button class="demo-icon-button" aria-label="网格视图">▦</button><button class="demo-icon-button" aria-label="列表视图">☷</button></div></div>
+      <div class="demo-group"><span>页内标签</span><div class="tabs"><button class="active">全部</button><button>进行中</button><button>已完成</button></div></div>
     </div>`,
   );
 }
@@ -575,27 +728,78 @@ function patternPage(
 }
 
 function appShellPage(): string {
+  const guidance = platformComponentGuidance[state.platform];
   return patternPage(
     "app-shell",
-    `<div class="shell"><aside><b>K</b><button class="active">总览</button><button>内容</button><button>收藏</button><button>设置</button></aside><main><header><strong>页面标题</strong><button class="primary">新建</button></header><section><article></article><article></article><article></article></section><div></div></main></div>`,
-    ["桌面主窗口默认 1280×800，最小 1024×700。", "侧栏只放主要目的地，不复用普通列表行尺寸。", "内容区负责滚动，固定导航不跟随内容移动。"],
+    `<div class="shell platform-shell"><aside><b>K</b><button class="active">内容</button><button>任务</button><button>收藏</button><button>设置</button></aside><main><header><span><small>当前平台</small><strong>${escapeHtml(tokens.primitives.platformProfiles[state.platform].label)}</strong></span><button class="primary">添加</button></header><section><article></article><article></article><article></article></section><footer>${escapeHtml(guidance.navigation)}</footer></main></div>`,
+    ["顶级目的地保持一致，导航控件按当前平台映射。", "内容区负责滚动，固定导航不跟随内容移动。", "窗口、键盘、返回和安全区域遵循平台，不由品牌层重写。"],
   );
 }
 
-function overlaysPage(): string {
+function contentBrowserPage(): string {
   return patternPage(
-    "overlays",
-    `<div class="overlay-demo"><div class="backdrop"></div><article><h3>确认操作</h3><p>说明这项操作会发生什么。</p><footer><button class="secondary">取消</button><button class="primary">确认</button></footer></article></div>`,
-    ["菜单宽度由内容决定，最小 160px，最大 280px。", "需要用户完整注意力的任务才使用对话框。", "关闭方式包括关闭按钮、取消操作和键盘 Escape。"],
+    "content-browser",
+    `<div class="content-browser-demo">
+      <header><div><small>内容浏览</small><h3>全部内容</h3></div><button class="primary">添加</button></header>
+      <div class="browser-tools"><label>⌕ <input value="" placeholder="搜索内容"></label><button class="secondary">筛选</button><button class="secondary">最近修改</button></div>
+      <div class="browser-body">
+        <main>${["A","B","C","D","E","F"].map((name, index) => `<button class="${index === 1 ? "selected" : ""}"><i>${name}</i><span><strong>项目名称</strong><small>${index + 2} 项内容 · 刚刚更新</small></span></button>`).join("")}</main>
+        <aside><div class="demo-thumbnail">B</div><h4>项目名称</h4><p>详情是浏览结构的一部分。宽屏显示在侧栏，窄屏进入导航栈。</p><button class="primary">打开</button></aside>
+      </div>
+    </div>`,
+    ["集合、搜索、筛选和详情属于同一结构，不再拆成多套通用页面。", "返回时恢复查询、筛选、视图和滚动位置。", "内容素材比例、字段和具体操作由产品规范决定。"],
   );
 }
 
-function settingsPage(): string {
+function taskWorkspacePage(): string {
   return patternPage(
-    "settings",
-    `<div class="settings-demo"><section><h3>外观</h3><label><span><strong>界面外观</strong><small>跟随系统</small></span><button class="secondary">更改</button></label><label><span><strong>减少动态效果</strong><small>关闭</small></span><i class="switch"><b></b></i></label></section><section><h3>通用</h3><label><span><strong>自动检查更新</strong><small>开启</small></span><i class="switch on"><b></b></i></label></section></div>`,
-    ["一页内容可以完成时，不增加标签页。", "设置名称说明功能，副标题显示当前值或影响。", "同一分组中的行保持相同高度和对齐方式。"],
+    "task-workspace",
+    `<div class="task-workspace-demo">
+      <header><div><small>扫描 · 第 2 阶段，共 3 阶段</small><h3>正在检查 128 个项目</h3><p>当前：项目 080</p></div><button class="secondary">暂停</button><button class="ghost">取消</button></header>
+      <section class="task-progress-block"><div><span>80 / 128</span><b>62%</b></div><div class="linear-progress"><i style="width:62%"></i></div><small>已完成的结果会保留，取消可能需要几秒钟。</small></section>
+      <div class="task-results">
+        <article><small>完成</small><strong>76</strong></article>
+        <article><small>跳过</small><strong>4</strong></article>
+        <article class="error"><small>需要处理</small><strong>2</strong></article>
+      </div>
+      <footer><button class="secondary">查看当前项目</button><button class="secondary">查看失败项</button></footer>
+    </div>`,
+    ["任务结构固定为准备、运行和结果三个阶段，业务名称可以不同。", "总量未知时显示当前阶段，不伪造百分比。", "部分失败保留成功结果，只重试失败项。"],
   );
+}
+
+function statusSystemPage(): string {
+  const stateExamples = [
+    ["首次使用为空", "这里还没有内容", "添加第一项后会显示在这里。", "添加内容", "empty"],
+    ["搜索无结果", "没有找到“设计”", "修改关键词或清除当前筛选。", "清除筛选", "search"],
+    ["已有内容刷新失败", "暂时无法更新", "现有内容仍然可用，可以稍后重试。", "重试", "inline"],
+    ["部分完成", "126 项已处理，2 项失败", "成功结果已经保留，只需处理失败项。", "重试失败项", "partial"],
+  ];
+  return `
+    <article class="document">
+      ${pageHeaderFor("status-system")}
+      <section class="content-section">
+        ${sectionHeader("状态选择", "先判断影响范围和恢复方式，再选择展示组件。", "decision")}
+        <div class="status-decision-grid">
+          <article><strong>整页没有内容</strong><span>Empty / Blocking State</span></article>
+          <article><strong>已有内容局部变化</strong><span>Inline Status / Progress Row</span></article>
+          <article><strong>后台持续任务</strong><span>Persistent Task Status</span></article>
+          <article><strong>短暂操作结果</strong><span>平台对应的短反馈</span></article>
+        </div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("实际状态", "同一套信息结构覆盖空数据、无结果、错误和部分完成。", "examples")}
+        <div class="status-example-grid">${stateExamples.map(([eyebrow, title, body, action, kind]) => `<article class="${kind}"><small>${eyebrow}</small><i>${kind === "partial" ? "!" : kind === "inline" ? "↻" : "◇"}</i><strong>${title}</strong><p>${body}</p><button class="${kind === "empty" ? "primary" : "secondary"}">${action}</button></article>`).join("")}</div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("进度与任务结果", "已知总量才显示百分比；未知总量只显示当前阶段。", "progress")}
+        <div class="progress-example-grid">
+          <article><header><strong>正在扫描</strong><span>80 / 128</span></header><div class="linear-progress"><i style="width:62%"></i></div><small>当前：项目 080</small></article>
+          <article><header><strong>正在连接服务</strong><span>第 1 阶段</span></header><div class="loading-state"><i></i><span>等待服务响应</span></div><small>总量未知，不显示虚假百分比</small></article>
+          <article><header><strong>后台同步</strong><span>可继续使用应用</span></header><div class="linear-progress"><i style="width:38%"></i></div><button class="secondary">查看任务</button></article>
+        </div>
+      </section>
+    </article>`;
 }
 
 function productsPage(): string {
@@ -622,6 +826,10 @@ function productsPage(): string {
       <section class="content-section">
         ${sectionHeader("专属规则", "这些内容只影响当前产品，不进入基础、组件和页面结构。", "differences")}
         <div class="rule-grid">${productMeta[state.product].differences.map((difference) => `<article><strong>${escapeHtml(difference.title)}</strong><p>${escapeHtml(difference.description)}</p><code>${escapeHtml(difference.reference)}</code></article>`).join("")}</div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("页面规范", "每个产品的普通页面和沉浸页面都有明确映射。", "product-patterns")}
+        <div class="rule-grid">${productMeta[state.product].patterns.map((pattern) => `<article><strong>${escapeHtml(pattern.title)}</strong><p>${escapeHtml(pattern.description)}</p><code>${escapeHtml(pattern.reference)}</code></article>`).join("")}</div>
       </section>
       <section class="content-section">
         ${sectionHeader("产品变量", "只有当前产品使用的数值也参与生成、校验和同步。", "product-tokens")}
@@ -664,12 +872,17 @@ function deliveryPage(): string {
 
 function qaPage(): string {
   const products = Object.keys(tokens.accents.products) as ProductId[];
+  const profiles = Object.entries(tokens.primitives.platformProfiles);
   return `
     <article class="document">
       ${pageHeaderFor("qa")}
       <section class="content-section">
         ${sectionHeader("必须通过")}
-        <div class="check-list">${["生成文件与源文件一致", "组件的正常、悬停、聚焦和禁用状态可用", "浅色和深色外观都清楚易读", "窗口缩小时没有内容溢出", "减少动态效果后仍可正常操作"].map((item) => `<label><input type="checkbox" checked><span>${item}</span></label>`).join("")}</div>
+        <div class="check-list">${["生成文件与源文件一致", "组件已映射到当前平台的原生结构与行为", "品牌覆盖没有改变返回、键盘、焦点和安全区域", "两个主结构覆盖产品的浏览与任务流程", "加载、进度、空状态、部分完成和错误均有实际示例", "窗口缩小时没有内容溢出", "减少动态效果后仍可正常操作"].map((item) => `<label><input type="checkbox" checked><span>${item}</span></label>`).join("")}</div>
+      </section>
+      <section class="content-section">
+        ${sectionHeader("平台范围")}
+        <div class="decision-table">${profiles.map(([id, profile]) => `<button type="button" data-qa-platform="${id}" class="${state.platform === id ? "active" : ""}"><strong>${escapeHtml(profile.label)}</strong><span>${profile.typeScale.body.fontSize}/${profile.typeScale.body.lineHeight} ${escapeHtml(profile.unit)} · target ${profile.metrics.minimumInteractiveTarget}</span></button>`).join("")}</div>
       </section>
       <section class="content-section">
         ${sectionHeader("检查范围")}
@@ -683,13 +896,12 @@ function qaPage(): string {
 
 function renderPage(): string {
   switch (state.page) {
-    case "getting-started": return gettingStarted();
     case "color": return colorPage();
+    case "platforms": return platformsPage();
     case "typography": return typographyPage();
     case "spacing": return spacingPage();
     case "motion": return motionPage();
     case "components": return componentsOverview();
-    case "surfaces": return surfacesPage();
     case "buttons": return buttonsPage();
     case "inputs": return inputsPage();
     case "selection": return selectionPage();
@@ -698,10 +910,13 @@ function renderPage(): string {
     case "feedback": return feedbackPage();
     case "dialogs": return dialogsPage();
     case "menus": return menusPage();
+    case "icons": return iconsPage();
+    case "app-bars": return appBarsPage();
     case "data-display": return dataDisplayPage();
     case "app-shell": return appShellPage();
-    case "overlays": return overlaysPage();
-    case "settings": return settingsPage();
+    case "content-browser": return contentBrowserPage();
+    case "task-workspace": return taskWorkspacePage();
+    case "status-system": return statusSystemPage();
     case "products": return productsPage();
     case "delivery": return deliveryPage();
     case "qa": return qaPage();
@@ -710,27 +925,29 @@ function renderPage(): string {
 }
 
 const tocByPage: Partial<Record<PageId, Array<[string, string]>>> = {
-  overview: [["从这里开始", "contents"], ["使用方式", "workflow"]],
-  "getting-started": [["修改设计", "edit"], ["怎么判断放在哪里", "placement"]],
+  overview: [["从这里开始", "contents"], ["修改与输出", "workflow"], ["规则放哪里", "placement"]],
   color: [["基础色板", "base-palette"], ["当前外观", "appearance"], ["使用规则", "rules"]],
-  typography: [["字体层级", "type-scale"], ["规则", "rules"]],
-  spacing: [["间距", "spacing"], ["圆角", "radius"]],
+  platforms: [["组件 Profile", "component-profile"], ["官方基准", "platform-profile"], ["平台行为", "behavior"], ["使用规则", "rules"]],
+  typography: [["语义字体表", "semantic-type"], ["组件映射", "component-map"], ["规则", "rules"]],
+  spacing: [["间距", "spacing"], ["平台尺寸", "platform-metrics"], ["圆角", "radius"]],
   motion: [["常用时长", "duration"], ["规则", "rules"]],
-  components: [["组件清单", "catalog"]],
-  surfaces: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  buttons: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  inputs: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  selection: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  navigation: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  "list-rows": [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  feedback: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  dialogs: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  menus: [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
-  "data-display": [["用法", "usage"], ["示例", "examples"], ["设计变量", "design-tokens"]],
+  components: [["两套组件", "families"], ["基础表面", "surfaces"], ["全部组件", "catalog"]],
+  buttons: [["预览", "preview"]],
+  inputs: [["预览", "preview"]],
+  selection: [["预览", "preview"]],
+  navigation: [["预览", "preview"]],
+  "list-rows": [["预览", "preview"]],
+  feedback: [["预览", "preview"]],
+  dialogs: [["预览", "preview"]],
+  menus: [["预览", "preview"]],
+  icons: [["预览", "preview"]],
+  "app-bars": [["预览", "preview"]],
+  "data-display": [["预览", "preview"]],
   "app-shell": [["结构示例", "examples"], ["规则", "rules"]],
-  overlays: [["结构示例", "examples"], ["规则", "rules"]],
-  settings: [["结构示例", "examples"], ["规则", "rules"]],
-  products: [["当前产品", "appearance"], ["专属规则", "differences"], ["产品变量", "product-tokens"], ["边界", "boundaries"]],
+  "content-browser": [["结构示例", "examples"], ["规则", "rules"]],
+  "task-workspace": [["结构示例", "examples"], ["规则", "rules"]],
+  "status-system": [["状态选择", "decision"], ["实际状态", "examples"], ["进度与任务结果", "progress"]],
+  products: [["当前产品", "appearance"], ["专属规则", "differences"], ["页面规范", "product-patterns"], ["产品变量", "product-tokens"], ["边界", "boundaries"]],
   delivery: [["文件", "files"], ["常用命令", "commands"]],
   qa: [["必须通过", "requirements"], ["检查范围", "coverage"]],
 };
@@ -800,6 +1017,9 @@ function bind(): void {
   root.querySelector<HTMLSelectElement>("#skin")?.addEventListener("change", (event) => {
     update({ skin: (event.target as HTMLSelectElement).value as SkinId });
   });
+  root.querySelector<HTMLSelectElement>("#platform")?.addEventListener("change", (event) => {
+    update({ platform: (event.target as HTMLSelectElement).value as PlatformId });
+  });
   root.querySelector("#motion")?.addEventListener("click", () => update({ reducedMotion: !state.reducedMotion }));
   root.querySelector("#inspector-close")?.addEventListener("click", () => update({ inspectorOpen: false }));
   root.querySelectorAll<HTMLElement>("[data-token]").forEach((element) => {
@@ -824,6 +1044,9 @@ function bind(): void {
     const product = element.dataset.qaProduct as ProductId;
     update({ product, viewport: element.dataset.qaViewport as AppState["viewport"], accent: tokens.accents.products[product].default });
   }));
+  root.querySelectorAll<HTMLElement>("[data-qa-platform]").forEach((element) => {
+    element.addEventListener("click", () => update({ platform: element.dataset.qaPlatform as PlatformId }));
+  });
   root.querySelectorAll<HTMLAnchorElement>("[data-section-link]").forEach((element) => {
     element.addEventListener("click", (event) => {
       event.preventDefault();
@@ -847,6 +1070,7 @@ function render(): void {
   const product = tokens.accents.products[state.product];
   if (!product.presets.some((preset) => preset.id === state.accent)) state.accent = product.default;
   applyTheme(state.skin, state.product, state.accent, state.reducedMotion);
+  applyPlatformProfile(state.platform);
   root.innerHTML = `<div class="workbench ${state.inspectorOpen ? "with-inspector" : ""} ${mobileNavOpen ? "mobile-nav-open" : ""}">${sidebar()}${mobileNavOpen ? '<button id="mobile-nav-backdrop" class="mobile-nav-backdrop" type="button" aria-label="关闭目录"></button>' : ""}<div class="workspace">${topbar()}<main class="content"><div class="doc-layout">${renderPage()}${pageToc()}</div></main></div>${inspector()}</div>`;
   bind();
 }

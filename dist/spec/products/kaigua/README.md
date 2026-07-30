@@ -1,6 +1,6 @@
 # 开刮（kaigua）产品规范
 
-**productSpecVersion: 0.1.1**
+**productSpecVersion: 0.2.0**
 
 跨平台媒体刮削与整理桌面应用（Tauri 2 + React）。品牌层 chrome 规范的第三个产品接入点。
 
@@ -15,6 +15,15 @@
 | 参考实现 | `kaigua/desktop/src/styles/tokens.css`（主题层 CSS 变量）、`desktop/src/App.tsx` + `components/`（壳与反馈） |
 | 壳层对齐 | 品牌 **0.2.5–0.2.8**：窗口分级、侧栏、锚定菜单、页边距/标题、主窗 1280×800 |
 
+## 产品特有规范
+
+| 文件 | 内容 |
+|---|---|
+| `patterns/media-library.md` | 资料源、媒体筛选、海报/列表和主从详情 |
+| `patterns/media-detail-and-match.md` | 媒体详情、手动匹配和危险操作 |
+| `patterns/batch-tasks-and-renamer.md` | 扫描、清理、重命名、日志与部分失败 |
+| `divergences.md` | 产品层分叉登记 |
+
 ## 规则
 
 1. 刮削结果、NFO、海报文件不是设计规范的约束对象——规范管 chrome，不管元数据内容；
@@ -23,6 +32,7 @@
 
 ## Changelog
 
+- **0.2.0**（2026-07-29）：补齐媒体资料库、详情/匹配、批量任务和重命名规范；资料库映射内容浏览结构，批量处理映射任务工作台。
 - **0.1.1**（2026-07-26）：锚定菜单补齐——内容撑开定位、分组 hairline、触发器自动上下翻；`KgMenu` / `KgMenuItem` 组件化。
 - **0.1.0**（2026-07-26）：壳层 chrome 对齐品牌 0.2.5–0.2.7（侧栏 metrics、锚定菜单、窗口分级 gutter/标题、chrome 右向影）；主库仍无独立页标题（toolbar-first IA）。
 - **0.0.1**（2026-07-24）：产品目录建立，L0 登记落地（默认靛蓝）；设置页信息架构分叉见 `divergences.md`。

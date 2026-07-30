@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/primitives.schema.json",
-  "specVersion": "0.4.5",
+  "specVersion": "0.6.0",
   "basePalette": {
     "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
     "mainBackground": "#F7F9FC",
@@ -26,38 +26,286 @@
     "checkbox": 5,
     "tooltip": 8
   },
+  "iconography": {
+    "policy": "优先使用各平台系统图标；同一产品内保持 rounded/outlined 视觉一致，不混用实心与描边表达同一状态。",
+    "sizes": {
+      "compact": 16,
+      "regular": 20,
+      "large": 24,
+      "display": 32
+    },
+    "opticalStroke": {
+      "compact": 1.75,
+      "regular": 1.75,
+      "large": 1.5
+    }
+  },
   "typography": {
-    "fontFamily": "system-ui",
-    "fontFamilyFallback": [],
+    "fontPolicy": {
+      "family": "system-ui",
+      "fallback": [],
+      "usePlatformTextStyles": true,
+      "allowProductContentFonts": true
+    },
     "weights": {
-      "comment": "精致字重：strong=w600 标题与选中；emphasis=w500 行/按钮；禁止 w700+",
+      "comment": "界面层使用 regular / medium / semibold；内容层字体由产品登记。",
       "body": 400,
       "emphasis": 500,
-      "strong": 600,
-      "display": 600
+      "strong": 600
     },
-    "tracking": {
-      "headlineLarge": -0.25,
-      "headlineMedium": -0.15,
-      "titleLarge": -0.1,
-      "pageTitle": -0.15,
-      "heroDesktop": -0.3,
-      "heroImmersive": -0.25,
-      "nowPlayingTitle": -0.25
+    "componentRoles": {
+      "pageTitle": "pageTitle",
+      "sectionTitle": "sectionTitle",
+      "dialogTitle": "sectionTitle",
+      "listTitle": "body",
+      "listSubtitle": "bodySecondary",
+      "inputText": "body",
+      "buttonLabel": "label",
+      "desktopNavigation": "body",
+      "mobileNavigation": "captionSmall",
+      "metadata": "caption"
+    }
+  },
+  "componentProfiles": {
+    "mobile": {
+      "label": "Mobile",
+      "platforms": ["iOS", "iPadOS", "Android"],
+      "unit": "logical px",
+      "inputMode": "touch",
+      "fontFamily": "系统 UI 字体",
+      "scaling": "跟随系统字体缩放",
+      "reference": {
+        "name": "Kai Mobile UI · constrained by Apple HIG and Material 3",
+        "url": "https://github.com/robeshell/kai-brand-design"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 34, "lineHeight": 42, "fontWeight": 600, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 28, "lineHeight": 36, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 22, "lineHeight": 28, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 17, "lineHeight": 24, "fontWeight": 600, "letterSpacing": 0 },
+        "body": { "fontSize": 17, "lineHeight": 24, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 15, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
+        "label": { "fontSize": 16, "lineHeight": 22, "fontWeight": 600, "letterSpacing": 0 },
+        "caption": { "fontSize": 13, "lineHeight": 18, "fontWeight": 400, "letterSpacing": 0 },
+        "captionSmall": { "fontSize": 11, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 48,
+        "controlHeight": 48,
+        "compactControlHeight": 40,
+        "listRowSingle": 52,
+        "listRowDouble": 68,
+        "pageGutter": 16,
+        "sectionGap": 24,
+        "controlGap": 12,
+        "iconTextGap": 8
+      }
     },
-    "sizes": {
-      "pageTitle": [
-        26,
-        28
-      ],
-      "heroDesktop": 28,
-      "heroImmersive": 24,
-      "nowPlayingTitle": 24,
-      "rowTitle": 13.5,
-      "rowSubtitle": 11.5,
-      "navLabel": 10.5,
-      "chipLabel": 12,
-      "sectionSubtitle": 12.5
+    "desktop": {
+      "label": "Desktop",
+      "platforms": ["macOS", "Windows", "Linux"],
+      "unit": "logical px",
+      "inputMode": "pointer / keyboard",
+      "fontFamily": "系统 UI 字体",
+      "scaling": "跟随系统显示与字体缩放",
+      "reference": {
+        "name": "Kai Desktop UI · constrained by macOS, Fluent and GNOME HIG",
+        "url": "https://github.com/robeshell/kai-brand-design"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 32, "lineHeight": 40, "fontWeight": 600, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 24, "lineHeight": 32, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 18, "lineHeight": 24, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
+        "body": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 12, "lineHeight": 18, "fontWeight": 400, "letterSpacing": 0 },
+        "label": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
+        "caption": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 },
+        "captionSmall": { "fontSize": 11, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 32,
+        "controlHeight": 36,
+        "compactControlHeight": 32,
+        "listRowSingle": 40,
+        "listRowDouble": 52,
+        "pageGutter": 24,
+        "sectionGap": 24,
+        "controlGap": 8,
+        "iconTextGap": 8
+      }
+    }
+  },
+  "platformProfiles": {
+    "appleMobile": {
+      "label": "iOS / iPadOS",
+      "platforms": ["iOS", "iPadOS"],
+      "unit": "pt",
+      "inputMode": "touch",
+      "fontFamily": "SF Pro / PingFang SC（系统解析）",
+      "scaling": "Dynamic Type",
+      "reference": {
+        "name": "Apple Human Interface Guidelines",
+        "url": "https://developer.apple.com/design/human-interface-guidelines/typography"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 34, "lineHeight": 41, "fontWeight": 400, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 28, "lineHeight": 34, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 22, "lineHeight": 28, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 17, "lineHeight": 22, "fontWeight": 600, "letterSpacing": 0 },
+        "body": { "fontSize": 17, "lineHeight": 22, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 15, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
+        "label": { "fontSize": 17, "lineHeight": 22, "fontWeight": 500, "letterSpacing": 0 },
+        "caption": { "fontSize": 13, "lineHeight": 18, "fontWeight": 400, "letterSpacing": 0 },
+        "captionSmall": { "fontSize": 11, "lineHeight": 13, "fontWeight": 500, "letterSpacing": 0 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 44,
+        "controlHeight": 44,
+        "compactControlHeight": 36,
+        "listRowSingle": 44,
+        "listRowDouble": 60,
+        "pageGutter": 16,
+        "sectionGap": 24,
+        "controlGap": 12,
+        "iconTextGap": 8
+      }
+    },
+    "androidMobile": {
+      "label": "Android",
+      "platforms": ["Android"],
+      "unit": "sp / dp",
+      "inputMode": "touch",
+      "fontFamily": "Roboto / Noto Sans（系统解析）",
+      "scaling": "系统字体缩放",
+      "reference": {
+        "name": "Material Design 3",
+        "url": "https://developer.android.com/develop/ui/compose/designsystems/material3"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 32, "lineHeight": 40, "fontWeight": 400, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 28, "lineHeight": 36, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 22, "lineHeight": 28, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 16, "lineHeight": 24, "fontWeight": 500, "letterSpacing": 0.15 },
+        "body": { "fontSize": 16, "lineHeight": 24, "fontWeight": 400, "letterSpacing": 0.5 },
+        "bodySecondary": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0.25 },
+        "label": { "fontSize": 14, "lineHeight": 20, "fontWeight": 500, "letterSpacing": 0.1 },
+        "caption": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0.4 },
+        "captionSmall": { "fontSize": 11, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0.5 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 48,
+        "controlHeight": 48,
+        "compactControlHeight": 40,
+        "listRowSingle": 56,
+        "listRowDouble": 72,
+        "pageGutter": 16,
+        "sectionGap": 24,
+        "controlGap": 8,
+        "iconTextGap": 12
+      }
+    },
+    "macDesktop": {
+      "label": "macOS",
+      "platforms": ["macOS"],
+      "unit": "pt",
+      "inputMode": "pointer",
+      "fontFamily": "SF Pro / PingFang SC（系统解析）",
+      "scaling": "系统显示缩放",
+      "reference": {
+        "name": "Apple Human Interface Guidelines · macOS",
+        "url": "https://developer.apple.com/design/human-interface-guidelines/typography"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 26, "lineHeight": 32, "fontWeight": 400, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 22, "lineHeight": 26, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 17, "lineHeight": 22, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 13, "lineHeight": 16, "fontWeight": 600, "letterSpacing": 0 },
+        "body": { "fontSize": 13, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 11, "lineHeight": 14, "fontWeight": 400, "letterSpacing": 0 },
+        "label": { "fontSize": 13, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 },
+        "caption": { "fontSize": 10, "lineHeight": 13, "fontWeight": 400, "letterSpacing": 0 },
+        "captionSmall": { "fontSize": 10, "lineHeight": 13, "fontWeight": 500, "letterSpacing": 0 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 28,
+        "controlHeight": 32,
+        "compactControlHeight": 24,
+        "listRowSingle": 32,
+        "listRowDouble": 44,
+        "pageGutter": 24,
+        "sectionGap": 24,
+        "controlGap": 8,
+        "iconTextGap": 6
+      }
+    },
+    "windowsDesktop": {
+      "label": "Windows",
+      "platforms": ["Windows"],
+      "unit": "epx",
+      "inputMode": "pointer / touch",
+      "fontFamily": "Segoe UI Variable / Microsoft YaHei UI（系统解析）",
+      "scaling": "有效像素与系统显示缩放",
+      "reference": {
+        "name": "Windows 11 Typography",
+        "url": "https://learn.microsoft.com/windows/apps/design/signature-experiences/typography"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 40, "lineHeight": 52, "fontWeight": 600, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 28, "lineHeight": 36, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 20, "lineHeight": 28, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
+        "body": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 },
+        "label": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
+        "caption": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 },
+        "captionSmall": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 32,
+        "controlHeight": 32,
+        "compactControlHeight": 28,
+        "listRowSingle": 40,
+        "listRowDouble": 52,
+        "pageGutter": 24,
+        "sectionGap": 24,
+        "controlGap": 8,
+        "iconTextGap": 8
+      }
+    },
+    "linuxDesktop": {
+      "label": "Linux Desktop",
+      "platforms": ["Linux"],
+      "unit": "logical px",
+      "inputMode": "pointer / touch",
+      "fontFamily": "系统 UI 字体（GNOME / KDE 环境解析）",
+      "scaling": "桌面环境字体与显示缩放",
+      "reference": {
+        "name": "GNOME HIG + KDE HIG",
+        "url": "https://developer.gnome.org/hig/guidelines/typography.html"
+      },
+      "typeScale": {
+        "displayLarge": { "fontSize": 32, "lineHeight": 40, "fontWeight": 600, "letterSpacing": 0 },
+        "pageTitle": { "fontSize": 24, "lineHeight": 32, "fontWeight": 600, "letterSpacing": 0 },
+        "sectionTitle": { "fontSize": 18, "lineHeight": 24, "fontWeight": 600, "letterSpacing": 0 },
+        "title": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
+        "body": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 12, "lineHeight": 18, "fontWeight": 400, "letterSpacing": 0 },
+        "label": { "fontSize": 14, "lineHeight": 20, "fontWeight": 500, "letterSpacing": 0 },
+        "caption": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 },
+        "captionSmall": { "fontSize": 11, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
+      },
+      "metrics": {
+        "minimumInteractiveTarget": 32,
+        "controlHeight": 36,
+        "compactControlHeight": 28,
+        "listRowSingle": 40,
+        "listRowDouble": 52,
+        "pageGutter": 24,
+        "sectionGap": 24,
+        "controlGap": 8,
+        "iconTextGap": 8
+      }
     }
   },
   "motion": {
@@ -77,12 +325,6 @@
       "durationS": 14,
       "comment": "环境动效（氛围背景等），reduced-motion 时按 motionStrength 衰减"
     }
-  },
-  "tapTargets": {
-    "buttonMin": 36,
-    "iconButton": 40,
-    "listRowMin": 46,
-    "chipHeight": 32
   },
   "breakpoints": {
     "windowClass": {
@@ -118,6 +360,38 @@
       "defaultHeight": 800,
       "minWidth": 1024,
       "minHeight": 700
+    },
+    "contentWidth": {
+      "reading": 680,
+      "form": 720,
+      "standard": 920,
+      "wide": 1200
+    },
+    "splitView": {
+      "detailMin": 360,
+      "detailPreferred": 420,
+      "detailMax": 520
+    }
+  },
+  "componentMetrics": {
+    "dialog": {
+      "confirmMaxWidth": 400,
+      "maxWidth": 520,
+      "viewportInset": 24
+    },
+    "sheet": {
+      "optionMaxWidth": 560,
+      "maxWidth": 760,
+      "handleWidth": 38,
+      "handleHeight": 4
+    },
+    "menu": {
+      "minWidth": 160,
+      "maxWidth": 280
+    },
+    "table": {
+      "minColumnWidth": 120,
+      "headerMinHeight": 40
     }
   },
   "derivedAlphas": {
@@ -164,11 +438,22 @@
       "disabled": "error@0.025"
     },
     "status": {
+      "success": {
+        "light": "#237A57",
+        "dark": "#5BC89A"
+      },
       "warning": {
-        "light": "#B07514",
+        "light": "#9A640D",
         "dark": "#E3AC45"
       },
-      "error": "colorScheme.error（由 seed 生成，不另设常量）"
+      "error": {
+        "light": "#B42318",
+        "dark": "#FF7B72"
+      },
+      "info": {
+        "light": "#2563A6",
+        "dark": "#73A7E8"
+      }
     }
   }
 }

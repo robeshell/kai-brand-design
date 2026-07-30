@@ -47,7 +47,16 @@
 
 边框、hairline、subtle 填充、状态层、选中、barrier、destructive 的透明度**只能**取自 `tokens/primitives.json → derivedAlphas`。实现中发现缺档 → 提规范变更，不私造数值。
 
-状态色：错误/失败用 `colorScheme.error`；警告（如认证失败）用 `derivedAlphas.status.warning`（light `#B07514` / dark `#E3AC45`）。禁止 `Colors.orangeAccent` 之类硬编码状态色。
+### 状态色
+
+| 状态 | 浅色 | 深色 | 用途 |
+|---|---|---|---|
+| success | `#237A57` | `#5BC89A` | 已完成、有效、同步成功 |
+| warning | `#9A640D` | `#E3AC45` | 有风险但仍可继续 |
+| error | `#B42318` | `#FF7B72` | 失败、无效、危险操作 |
+| info | `#2563A6` | `#73A7E8` | 中性系统信息 |
+
+状态必须同时有文字或图形，不能只靠颜色。产品来源色与内容取色不能代替状态色。
 
 ## 强调色规则
 

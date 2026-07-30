@@ -13,6 +13,9 @@ class ComponentContractTests(unittest.TestCase):
         self.contracts = json.loads(
             (ROOT / "contracts" / "components.json").read_text(encoding="utf-8")
         )["components"]
+        self.primitives = json.loads(
+            (ROOT / "tokens" / "primitives.json").read_text(encoding="utf-8")
+        )
 
     def test_all_generic_component_pages_have_contracts(self) -> None:
         self.assertEqual(
@@ -27,6 +30,8 @@ class ComponentContractTests(unittest.TestCase):
                 "feedback",
                 "dialogs",
                 "menus",
+                "icons",
+                "app-bars",
                 "data-display",
             },
         )
@@ -68,6 +73,8 @@ class ComponentContractTests(unittest.TestCase):
             "list-rows",
             "dialogs",
             "menus",
+            "icons",
+            "app-bars",
         }
         for component_id in interactive:
             states = {
@@ -77,6 +84,29 @@ class ComponentContractTests(unittest.TestCase):
             }
             with self.subTest(component=component_id):
                 self.assertTrue({"默认", "键盘聚焦", "禁用"} <= states)
+
+    def test_component_contract_paths_exist_in_profiles(self) -> None:
+        references = {
+            row["token"]
+            for contract in self.contracts.values()
+            for row in contract["tokens"]
+            if row["token"].startswith("componentProfiles.")
+        }
+        for reference in references:
+            parts = reference.removeprefix("componentProfiles.").split(".")
+            profile_ids = (
+                self.primitives["componentProfiles"]
+                if parts[0] == "*"
+                else (parts[0],)
+            )
+            suffix = parts[1:]
+            for profile_id in profile_ids:
+                profile = self.primitives["componentProfiles"][profile_id]
+                value = profile
+                for part in suffix:
+                    with self.subTest(reference=reference, profile=profile_id):
+                        self.assertIn(part, value)
+                    value = value[part]
 
 
 if __name__ == "__main__":

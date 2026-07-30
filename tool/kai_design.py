@@ -33,7 +33,7 @@ def primitive_contract_value(primitives: dict, token: str) -> str | None:
             return None
         current = current[part]
     if isinstance(current, (int, float)):
-        unit = "px" if parts[0] in {"radii", "tapTargets", "typography"} else ""
+        unit = "px" if parts[0] == "radii" else ""
         return f"{current:g}{unit}"
     if isinstance(current, dict) and "durationMs" in current:
         return f"{current['durationMs']:g}ms"
@@ -66,10 +66,11 @@ def distribution_outputs() -> tuple[dict[Path, str], str, str]:
         (REPO / "contracts" / "components.json").read_text(encoding="utf-8")
     )
     required_pages = {
-        "overview", "getting-started", "color", "typography", "spacing", "motion", "components", "surfaces",
+        "overview", "color", "platforms", "typography", "spacing", "motion", "components",
         "buttons", "inputs", "selection", "navigation", "list-rows", "feedback",
-        "dialogs", "menus", "data-display", "app-shell", "overlays", "settings", "products",
-        "delivery", "qa",
+        "dialogs", "menus", "icons", "app-bars", "data-display",
+        "app-shell", "content-browser", "task-workspace", "status-system",
+        "products", "delivery", "qa",
     }
     if set(viewer_content.get("pages", {})) != required_pages:
         raise TokenValidationError("viewerContent.pages: page catalog is incomplete")
@@ -82,7 +83,7 @@ def distribution_outputs() -> tuple[dict[Path, str], str, str]:
             )
     component_ids = {
         "surfaces", "buttons", "inputs", "selection", "navigation",
-        "list-rows", "feedback", "dialogs", "menus", "data-display",
+        "list-rows", "feedback", "dialogs", "menus", "icons", "app-bars", "data-display",
     }
     if set(component_contracts.get("components", {})) != component_ids:
         raise TokenValidationError("componentContracts.components: catalog is incomplete")
@@ -225,6 +226,22 @@ def check_outputs(outputs: dict[Path, str]) -> bool:
     return ok
 
 
+def check_unexpected_dist_files(outputs: dict[Path, str]) -> bool:
+    expected = {
+        path for path in outputs if path.is_relative_to(DIST)
+    }
+    actual = {
+        path for path in DIST.rglob("*") if path.is_file()
+    }
+    unexpected = sorted(actual - expected)
+    for path in unexpected:
+        print(
+            f"unexpected generated file: dist/{path.relative_to(DIST)}",
+            file=sys.stderr,
+        )
+    return not unexpected
+
+
 def build_all() -> dict[Path, str]:
     base, spec_version, digest = distribution_outputs()
     write_outputs(base)
@@ -251,7 +268,7 @@ def check_all(skip_viewer: bool = False) -> bool:
     )
     return check_outputs(
         {**viewer, DIST / "manifest.json": outputs[DIST / "manifest.json"]}
-    )
+    ) and check_unexpected_dist_files(outputs)
 
 
 def sync_products(args: argparse.Namespace) -> None:

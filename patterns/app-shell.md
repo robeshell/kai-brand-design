@@ -2,17 +2,19 @@
 
 > 数值见 `tokens/primitives.json → breakpoints / layoutMetrics`。
 > 导航行解剖见 `components/navigation.md`。
-> 本文件钉死**壳层怎么画**——画布、chrome 材质、双端布局；信息架构与产品条属产品层。
+> 本文件定义品牌画布和平台导航适配。导航结构以 `components/platform-component-map.md` 为准，不能从一套“桌面侧栏 / 手机底栏”直接推导全部平台。
 
 ## 窗口分级
 
-| 级别 | 条件 | 壳形态 |
+| Profile | 紧凑 | 中等 / 宽屏 |
 |---|---|---|
-| compact | 移动：宽 ≤600 或 高 <600 | 底栏 |
-| medium | 桌面：宽 <1100；移动：宽 <1000 | 侧栏（桌面）/ 底栏（移动） |
-| wide | 桌面：宽 ≥1100；移动：宽 ≥1000 | 侧栏 |
+| `appleMobile` | iPhone Tab Bar | iPad 根据内容使用 Tab Bar 或 Sidebar |
+| `androidMobile` | Navigation Bar | Navigation Rail 或 Drawer |
+| `macDesktop` | Sidebar / Toolbar | 展开 Sidebar；不切换为手机底栏 |
+| `windowsDesktop` | NavigationView Minimal / Compact | NavigationView Expanded 或 Top |
+| `linuxDesktop` | 紧凑 Sidebar / View Switcher | 展开 Sidebar |
 
-**移动壳判定**：非桌面平台且（宽 <820 或 高 <600）。桌面平台任何尺寸都保持桌面信息架构——窗口临时变矮不得退化成手机导航。
+窗口分级用于选择当前平台内部的适配形态，不跨平台换壳。桌面窗口变窄仍保留桌面键盘、Hover、右键和窗口习惯。
 
 ## 桌面主窗口尺寸（强制）
 
@@ -68,12 +70,12 @@
 | 项 | 值 |
 |---|---|
 | 侧栏 | 默认主题使用 `basePalette.sideBackground`；其它皮肤使用 `GlassSurface` strong + `chromeSurface`；右 hairline；阴影 blur **6** offset **(1, 0)** |
-| 侧栏宽 / 行 | 见 `components/navigation.md`（216/236、行高 38…）——壳层不得改 |
+| 侧栏宽 / 行 | 见 `components/navigation.md`；宽度固定，行高读取桌面 Profile |
 | 顶避让 | macOS 38 / Windows 44（`titlebarInset`）；阅读器等自定义 chrome 避让 78 |
 | 标题栏 | 透明叠加；下方侧栏/画布透上来 |
 | Windows 控件 | 自绘 44px；按钮 40×32；关闭 hover `#E81123@90%` |
 
-## 移动壳
+## 移动平台
 
 ```
 ┌─────────────────────────────┐
@@ -81,14 +83,14 @@
 │ 主题画布                     │
 ├─────────────────────────────┤
 │ [可选产品条]                 │  ← 产品层（迷你播放器等）
-│ 底栏 NavigationBar           │  ← 品牌层
+│ 平台顶级导航                 │  ← Tab Bar / Navigation Bar
 └─────────────────────────────┘
 ```
 
 | 项 | 值 |
 |---|---|
 | `extendBody` | **true**（内容延伸到底栏玻璃下） |
-| 底栏 | 常驻；材质与 metrics 见 `components/navigation.md` |
+| 顶级导航 | Apple 使用 Tab Bar；Android 使用 Navigation Bar；按平台处理 Insets 和 Safe Area |
 | 底留白 | 140（保证末行不被遮挡） |
 
 ### Dock 上方产品条（产品层接口）
@@ -96,12 +98,12 @@
 迷你播放器、继续阅读条等**不属于**品牌导航，但若存在须满足：
 
 1. 表面 = 玻璃 / `chromeSurface`（与底栏同族，可无独立阴影）；
-2. 不改底栏高 56 / 嵌入态 46、图标、标签规格；
+2. 不改平台导航的命中目标、图标和标签语义；
 3. 计入内容底留白（产品可把 140 加高，须在产品规范登记）。
 
 ## 页面级布局
 
-- 页标题 26/28 **w600** 负字距 ≈ −0.15～−0.25，左对齐（AppBar 不居中）；
+- 页标题读取当前 Profile 的 `pageTitle`，左对齐；移动端遵循平台导航标题行为；
 - AppBar：透明（让画布透出）、无 elevation、无 scrolledUnder 色。
 
 ## 品牌层 vs 产品层

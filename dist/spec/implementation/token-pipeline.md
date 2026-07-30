@@ -76,6 +76,7 @@ python3 tool/kai_design.py sync --only kaigua
 ### Flutter
 
 - `dist/flutter/**/brand_tokens.g.dart` 只提供不可变原始常量；
+- 生成文件包含实际使用的 `KaiBrandMobile*` 与 `KaiBrandDesktop*`；五个平台基准继续输出供适配和验收使用；
 - 同一文件中的 `KaiProductTokens` 来自 `products/<product>/tokens.json`；
 - 产品 `App*` / `Sound*` API 是兼容语义层，值必须引用 `KaiBrand*`；
 - 业务组件继续读取 `BuildContext` 语义 getter，不直接 import 生成文件；
@@ -84,6 +85,7 @@ python3 tool/kai_design.py sync --only kaigua
 ### CSS
 
 - `dist/css/kaigua/brand.generated.css` 提供品牌变量；
+- 根作用域提供 Desktop 回退值；设置 `data-component-profile="mobile|desktop"` 切换实际字号和尺寸变量；
 - 开刮产品数值生成 `--kg-product-*` 变量；当前产品 Token 文件为空时不输出额外变量；
 - 开刮 `tokens.css` 只保留产品兼容变量，构建会拒绝它与生成 CSS 重复定义；
 - 生成 CSS 在兼容文件后加载并拥有最终优先级；

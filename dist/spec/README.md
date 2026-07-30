@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.4.5（draft）** — 通用 Token、产品 Token、规范站内容、生成产物与产品快照已进入同一条校验和同步管线；跨产品组件验收完成后升 1.0。
+**specVersion: 0.6.0（draft）** — APP 规范输出 Mobile / Desktop 两套组件，并用五个平台基准约束系统行为。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -46,10 +46,12 @@ make sync       # 显式同步 dist 快照到同级产品仓库
 
 ```
 L0 产品轴（per-product 变量）  → products/<product>/tokens.json + README.md
-L1 基础 token                  → tokens/primitives.json（间距/圆角/动效/字族/alpha）
+L1 基础 token                  → tokens/primitives.json（组件 Profile / 平台基准 / 间距 / 圆角 / 动效）
 L2 语义 token                  → tokens/skins.json（皮肤预设：表面坡道 + 玻璃 + 动效）
-L3 组件规范                    → components/*.md（解剖 + metrics + 状态 + token 映射）
-L4 模式规范                    → patterns/*.md（通用：外壳 / 浮层 / 设置页 / 窗口分级）
+L3 组件视觉                    → Mobile / Desktop
+L4 平台适配                    → iOS / Android / macOS / Windows / Linux 行为与系统服务
+L5 APP 结构                    → patterns/structures/（内容浏览 / 任务工作台）
+                                 patterns/status-system.md（加载 / 进度 / 空 / 错误 / 结果）
                                  products/<product>/patterns/*.md（产品特有）
 ```
 
@@ -65,19 +67,26 @@ L4 模式规范                    → patterns/*.md（通用：外壳 / 浮层 
 
 | 路径 | 内容 |
 |---|---|
-| `tokens/primitives.json` | 基础色板、间距、圆角、动效、字族、触控目标、断点、派生 alpha 常量、状态色 |
+| `tokens/primitives.json` | Mobile / Desktop 组件 Profile、五个平台基准、基础色板、间距、圆角、动效和状态色 |
 | `tokens/skins.json` | 皮肤预设（默认 / 纯净 / 深夜）+ 跟随系统解析规则 |
 | `tokens/accents.json` | 各产品强调色轴登记表（品牌层唯一允许出现产品名的地方） |
 | `schema/*.schema.json` | token JSON Schema；编辑器提示与外部消费者契约 |
 | `dist/` | 可发布、带 manifest 与哈希的构建产物 |
 | `foundations/color.md` | 主视觉配色规范（配色哲学、语义角色、强调色规则） |
-| `foundations/typography.md` | 排版规范（字重驱动层级、负字距、字族栈、展示层级） |
+| `foundations/platform-profiles.md` | 平台 Profile 的选择、接口与迁移规则 |
+| `foundations/typography.md` | 语义字号角色及 Mobile / Desktop 映射 |
+| `foundations/iconography.md` | 图标来源、尺寸、双态、方向与无障碍 |
+| `foundations/layout-and-density.md` | 平台控件高度、点击目标、列表行与间距基准 |
 | `foundations/shape-and-motion.md` | 形状 / 阴影 / 分隔 / 动效 / 交互状态层 |
 | `components/_template.md` | 组件规范模板（新组件按此编写） |
 | `components/*.md` | 按钮、对话框、弹层与菜单、列表行、chips、导航、输入、反馈 |
+| `components/platform-component-map.md` | Mobile / Desktop 组件与五个平台行为适配边界 |
 | `patterns/app-shell.md` | 桌面侧栏 ↔ 移动底栏、标题栏、窗口分级 |
 | `patterns/overlays.md` | 浮层层级、barrier、sheet↔popover 自适应 |
 | `patterns/settings-page.md` | 设置页布局（分组卡片 + 皮肤预览卡） |
+| `patterns/forms-and-validation.md` | 表单结构、错误、提交和未保存修改 |
+| `patterns/structures/` | 两个通用 APP 主结构：内容浏览、任务工作台 |
+| `patterns/status-system.md` | 加载、进度、空数据、无结果、错误与后台任务 |
 | `implementation/flutter.md` | DSL → Flutter 实现指南（runbook） |
 | `implementation/token-pipeline.md` | JSON token → Flutter / CSS 生成产物与漂移校验 |
 | `implementation/acceptance-checklist.md` | 验收清单（可断言的锚点值） |
@@ -99,9 +108,11 @@ L4 模式规范                    → patterns/*.md（通用：外壳 / 浮层 
 
 `viewer/` 是 Vite + TypeScript 实现的规范文档站。页面标题与说明读取 `spec/viewer-content.json`，Token 与产品变量读取构建后的 bundle；页面结构和交互演示保留在 Viewer 代码中。构建结果同时写入 `dist/viewer/` 和 `docs/`：
 
-- 左侧按「开始 / 基础规范 / 组件 / 页面结构 / 产品与工程」分组；
+- 左侧按「开始 / 基础规范 / 组件 / APP 结构 / 状态与反馈 / 产品与工程」分组；
 - 颜色、字体、间距、按钮、输入框等主题各自独立成页；
-- 每个组件页同时提供用法、状态示例和变量表；
+- 组件先映射平台原生能力，再说明品牌允许覆盖的部分；
+- 页面只保留内容浏览和任务工作台两个主结构；
+- 通用状态独立覆盖加载、进度、空数据、无结果、部分完成和错误；
 - 通用规范不带产品上下文，具体产品差异集中在独立页面；
 - 点击颜色或变量表格，可查看具体数值与源文件。
 
@@ -138,6 +149,8 @@ make check
 
 ## Changelog（品牌层）
 
+- **0.6.0**（2026-07-29）：新增 Mobile / Desktop 两套实际组件 Profile；五个平台 Profile 改为官方约束与行为适配层；删除五套万能页面，收缩为内容浏览、任务工作台和通用状态系统。
+- **0.5.0**（2026-07-29）：建立五套平台 Profile 与生成管线，补齐基础字号、尺寸、组件与产品页面映射。
 - **0.1.0**（2026-07-24）：初版落地。由开听 / 开卷收敛实现反向提炼；设置页规范采用开卷的分组卡片 + 皮肤预览卡方案。
 - **0.1.1**（2026-07-24）：开听设置页按 `patterns/settings-page.md` 完成改造并反向回填：明确「单页滚动无 tabs」「外观区选择器直接展示」「行规格双端统一（13.5/11.5 堆叠）」「主题色板 28px 圆点无 check 图标」「桌面行内展开的选择器直接放进分组卡」。
 - **0.1.2**（2026-07-24）：开关（Switch）组件样式落地：轨道 40×24、拇指 18、accent/border 双态，禁用 `Switch.adaptive`；分组卡片 Column 修正为 stretch（子块标签与选择器左对齐）。

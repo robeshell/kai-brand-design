@@ -9,6 +9,35 @@ from generate_product_tokens import parse_color
 
 
 VERSION = re.compile(r"^\d+\.\d+\.\d+$")
+PLATFORM_PROFILE_IDS = (
+    "appleMobile",
+    "androidMobile",
+    "macDesktop",
+    "windowsDesktop",
+    "linuxDesktop",
+)
+TYPE_STYLE_IDS = (
+    "displayLarge",
+    "pageTitle",
+    "sectionTitle",
+    "title",
+    "body",
+    "bodySecondary",
+    "label",
+    "caption",
+    "captionSmall",
+)
+PROFILE_METRIC_IDS = (
+    "minimumInteractiveTarget",
+    "controlHeight",
+    "compactControlHeight",
+    "listRowSingle",
+    "listRowDouble",
+    "pageGutter",
+    "sectionGap",
+    "controlGap",
+    "iconTextGap",
+)
 
 
 class TokenValidationError(ValueError):
@@ -36,6 +65,27 @@ def validate_color(value: str, path: str) -> None:
         raise TokenValidationError(f"{path}: {error}") from error
     if not 0 <= alpha <= 1:
         raise TokenValidationError(f"{path}: alpha must be between 0 and 1")
+
+
+def relative_luminance(value: str) -> float:
+    red, green, blue, _ = parse_color(value)
+    channels = []
+    for channel in (red, green, blue):
+        normalized = channel / 255
+        channels.append(
+            normalized / 12.92
+            if normalized <= 0.04045
+            else ((normalized + 0.055) / 1.055) ** 2.4
+        )
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
+
+
+def contrast_ratio(foreground: str, background: str) -> float:
+    lighter, darker = sorted(
+        (relative_luminance(foreground), relative_luminance(background)),
+        reverse=True,
+    )
+    return (lighter + 0.05) / (darker + 0.05)
 
 
 def walk_colors(value: Any, path: str = "$") -> None:
@@ -84,6 +134,142 @@ def validate_product_tokens(product_tokens: dict[str, dict]) -> None:
                 raise TokenValidationError(f"{token_path}.description: expected text")
 
 
+def validate_platform_profiles(primitives: dict) -> None:
+    typography = primitives.get("typography", {})
+    require_keys(
+        typography,
+        ("fontPolicy", "weights", "componentRoles"),
+        "primitives.typography",
+    )
+    component_roles = typography["componentRoles"]
+    if not isinstance(component_roles, dict) or not component_roles:
+        raise TokenValidationError("primitives.typography.componentRoles: expected object")
+    for component, style_id in component_roles.items():
+        if style_id not in TYPE_STYLE_IDS:
+            raise TokenValidationError(
+                f"primitives.typography.componentRoles.{component}: unknown style {style_id}"
+            )
+
+    profiles = primitives.get("platformProfiles", {})
+    require_keys(profiles, PLATFORM_PROFILE_IDS, "primitives.platformProfiles")
+    for profile_id in PLATFORM_PROFILE_IDS:
+        profile = profiles[profile_id]
+        path = f"primitives.platformProfiles.{profile_id}"
+        require_keys(
+            profile,
+            (
+                "label",
+                "platforms",
+                "unit",
+                "inputMode",
+                "fontFamily",
+                "scaling",
+                "reference",
+                "typeScale",
+                "metrics",
+            ),
+            path,
+        )
+        if not isinstance(profile["platforms"], list) or not profile["platforms"]:
+            raise TokenValidationError(f"{path}.platforms: expected non-empty list")
+        reference = profile["reference"]
+        require_keys(reference, ("name", "url"), f"{path}.reference")
+        if not isinstance(reference["url"], str) or not reference["url"].startswith("https://"):
+            raise TokenValidationError(f"{path}.reference.url: expected https URL")
+
+        type_scale = profile["typeScale"]
+        require_keys(type_scale, TYPE_STYLE_IDS, f"{path}.typeScale")
+        for style_id in TYPE_STYLE_IDS:
+            style = type_scale[style_id]
+            style_path = f"{path}.typeScale.{style_id}"
+            require_keys(
+                style,
+                ("fontSize", "lineHeight", "fontWeight", "letterSpacing"),
+                style_path,
+            )
+            if style["fontSize"] <= 0 or style["lineHeight"] < style["fontSize"]:
+                raise TokenValidationError(
+                    f"{style_path}: lineHeight must be >= positive fontSize"
+                )
+            if style["fontWeight"] not in (400, 500, 600):
+                raise TokenValidationError(
+                    f"{style_path}.fontWeight: expected 400, 500, or 600"
+                )
+
+        validate_number_scale(profile["metrics"], PROFILE_METRIC_IDS, f"{path}.metrics")
+        metrics = profile["metrics"]
+        if metrics["compactControlHeight"] > metrics["controlHeight"]:
+            raise TokenValidationError(
+                f"{path}.metrics.compactControlHeight: cannot exceed controlHeight"
+            )
+        if profile["inputMode"] == "touch" and (
+            metrics["controlHeight"] < metrics["minimumInteractiveTarget"]
+        ):
+            raise TokenValidationError(
+                f"{path}.metrics.controlHeight: touch controls must meet the target"
+            )
+        if metrics["listRowDouble"] <= metrics["listRowSingle"]:
+            raise TokenValidationError(
+                f"{path}.metrics.listRowDouble: must exceed listRowSingle"
+            )
+
+    component_profiles = primitives.get("componentProfiles", {})
+    require_keys(component_profiles, ("mobile", "desktop"), "primitives.componentProfiles")
+    for profile_id in ("mobile", "desktop"):
+        profile = component_profiles[profile_id]
+        path = f"primitives.componentProfiles.{profile_id}"
+        require_keys(
+            profile,
+            (
+                "label",
+                "platforms",
+                "unit",
+                "inputMode",
+                "fontFamily",
+                "scaling",
+                "reference",
+                "typeScale",
+                "metrics",
+            ),
+            path,
+        )
+        require_keys(profile["typeScale"], TYPE_STYLE_IDS, f"{path}.typeScale")
+        for style_id in TYPE_STYLE_IDS:
+            style = profile["typeScale"][style_id]
+            style_path = f"{path}.typeScale.{style_id}"
+            require_keys(
+                style,
+                ("fontSize", "lineHeight", "fontWeight", "letterSpacing"),
+                style_path,
+            )
+            if style["fontSize"] <= 0 or style["lineHeight"] < style["fontSize"]:
+                raise TokenValidationError(
+                    f"{style_path}: lineHeight must be >= positive fontSize"
+                )
+        validate_number_scale(profile["metrics"], PROFILE_METRIC_IDS, f"{path}.metrics")
+        metrics = profile["metrics"]
+        if metrics["compactControlHeight"] > metrics["controlHeight"]:
+            raise TokenValidationError(
+                f"{path}.metrics.compactControlHeight: cannot exceed controlHeight"
+            )
+        if metrics["listRowDouble"] <= metrics["listRowSingle"]:
+            raise TokenValidationError(
+                f"{path}.metrics.listRowDouble: must exceed listRowSingle"
+            )
+
+    if component_profiles["mobile"]["metrics"]["minimumInteractiveTarget"] < 48:
+        raise TokenValidationError("mobile component target must satisfy Android 48dp")
+    if component_profiles["mobile"]["typeScale"]["body"]["fontSize"] < 17:
+        raise TokenValidationError("mobile component body must satisfy iOS 17pt")
+
+    if profiles["appleMobile"]["typeScale"]["body"]["fontSize"] < 17:
+        raise TokenValidationError("appleMobile body must follow the 17pt iOS default")
+    if profiles["appleMobile"]["metrics"]["minimumInteractiveTarget"] < 44:
+        raise TokenValidationError("appleMobile target must be at least 44pt")
+    if profiles["androidMobile"]["metrics"]["minimumInteractiveTarget"] < 48:
+        raise TokenValidationError("androidMobile target must be at least 48dp")
+
+
 def validate(
     primitives: dict,
     skins: dict,
@@ -109,6 +295,21 @@ def validate(
         ("control", "card", "menu", "sheet", "dialog", "pill", "checkbox", "tooltip"),
         "primitives.radii",
     )
+    iconography = primitives.get("iconography", {})
+    require_keys(iconography, ("policy", "sizes", "opticalStroke"), "primitives.iconography")
+    validate_number_scale(
+        iconography["sizes"],
+        ("compact", "regular", "large", "display"),
+        "primitives.iconography.sizes",
+    )
+    if not (
+        iconography["sizes"]["compact"]
+        < iconography["sizes"]["regular"]
+        < iconography["sizes"]["large"]
+        < iconography["sizes"]["display"]
+    ):
+        raise TokenValidationError("primitives.iconography.sizes: expected ascending scale")
+    validate_platform_profiles(primitives)
     require_keys(
         primitives.get("basePalette", {}),
         ("mainBackground", "sideBackground", "primary"),
@@ -122,6 +323,8 @@ def validate(
             "sidebarWidth",
             "titlebarInset",
             "desktopWindow",
+            "contentWidth",
+            "splitView",
         ),
         "primitives.layoutMetrics",
     )
@@ -135,6 +338,32 @@ def validate(
         raise TokenValidationError("desktopWindow.defaultWidth must be >= minWidth")
     if desktop_window["defaultHeight"] < desktop_window["minHeight"]:
         raise TokenValidationError("desktopWindow.defaultHeight must be >= minHeight")
+    content_width = primitives["layoutMetrics"]["contentWidth"]
+    validate_number_scale(
+        content_width,
+        ("reading", "form", "standard", "wide"),
+        "primitives.layoutMetrics.contentWidth",
+    )
+    if not (
+        content_width["reading"]
+        <= content_width["form"]
+        <= content_width["standard"]
+        <= content_width["wide"]
+    ):
+        raise TokenValidationError("layoutMetrics.contentWidth: expected ascending scale")
+    require_keys(
+        primitives.get("componentMetrics", {}),
+        ("dialog", "sheet", "menu", "table"),
+        "primitives.componentMetrics",
+    )
+    status = primitives.get("derivedAlphas", {}).get("status", {})
+    require_keys(status, ("success", "warning", "error", "info"), "primitives.derivedAlphas.status")
+    for role in ("success", "warning", "error", "info"):
+        require_keys(status[role], ("light", "dark"), f"primitives.derivedAlphas.status.{role}")
+        if contrast_ratio(status[role]["light"], "#FFFFFF") < 4.5:
+            raise TokenValidationError(f"status.{role}.light: contrast must be at least 4.5:1")
+        if contrast_ratio(status[role]["dark"], "#0D0D0F") < 4.5:
+            raise TokenValidationError(f"status.{role}.dark: contrast must be at least 4.5:1")
 
     presets = skins.get("presets")
     if not isinstance(presets, list) or not presets:

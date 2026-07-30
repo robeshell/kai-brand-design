@@ -121,6 +121,87 @@
   },
   "componentContracts": {
     "components": {
+      "app-bars": {
+        "accessibility": [
+          "页面只保留一个一级标题。",
+          "标签使用 tablist/tab/tabpanel 语义或平台等价能力。",
+          "工具栏键盘顺序与视觉顺序一致。"
+        ],
+        "name": "顶栏与标签",
+        "states": [
+          {
+            "description": "标题和操作按优先级排列。",
+            "name": "默认",
+            "required": true
+          },
+          {
+            "description": "工具按钮出现轻状态层。",
+            "name": "悬停",
+            "required": true
+          },
+          {
+            "description": "每个工具和标签都有独立焦点。",
+            "name": "键盘聚焦",
+            "required": true
+          },
+          {
+            "description": "标签使用文字与指示器共同表达。",
+            "name": "当前",
+            "required": true
+          },
+          {
+            "description": "页面头切换为批量操作栏。",
+            "name": "多选",
+            "required": false
+          },
+          {
+            "description": "不可用操作保留位置并说明原因。",
+            "name": "禁用",
+            "required": true
+          }
+        ],
+        "summary": "组织页面标题、页面级操作、筛选工具和页内平级导航。",
+        "tokens": [
+          {
+            "name": "页面标题",
+            "token": "componentProfiles.*.typeScale.pageTitle",
+            "value": "按 Mobile / Desktop 映射"
+          },
+          {
+            "name": "工具高度",
+            "token": "componentProfiles.*.metrics.controlHeight",
+            "value": "按 Mobile / Desktop 映射"
+          },
+          {
+            "name": "常规图标",
+            "token": "iconography.sizes.regular",
+            "value": "20"
+          }
+        ],
+        "usage": [
+          "标题只说明当前页面，不放无用统计和成熟度信息。",
+          "主要操作最多一个，低频操作进入更多菜单。",
+          "空间不足时先收起低频操作，再允许工具栏换行。"
+        ],
+        "variants": [
+          {
+            "description": "页面标题、说明和主要操作。",
+            "name": "页面头"
+          },
+          {
+            "description": "搜索、筛选、排序和视图切换。",
+            "name": "工具栏"
+          },
+          {
+            "description": "切换同一页面内平级内容。",
+            "name": "标签"
+          },
+          {
+            "description": "桌面端显示文件夹或层级路径。",
+            "name": "面包屑"
+          }
+        ]
+      },
       "buttons": {
         "accessibility": [
           "纯图标按钮必须提供可访问名称和工具提示。",
@@ -145,7 +226,7 @@
             "required": true
           },
           {
-            "description": "显示清楚的外侧焦点环。",
+            "description": "使用当前平台的焦点视觉，品牌提供强调色。",
             "name": "键盘聚焦",
             "required": true
           },
@@ -160,17 +241,17 @@
             "required": true
           }
         ],
-        "summary": "触发操作，按重要程度区分主要、次要、文字、危险和图标按钮。",
+        "summary": "触发明确操作；Mobile 与 Desktop 各有一套按钮视觉，平台层只适配输入和系统行为。",
         "tokens": [
           {
-            "name": "控件圆角",
+            "name": "品牌圆角倾向",
             "token": "radii.control",
             "value": "10px"
           },
           {
-            "name": "按钮最小高度",
-            "token": "tapTargets.buttonMin",
-            "value": "36px"
+            "name": "按钮高度",
+            "token": "componentProfiles.*.metrics.controlHeight",
+            "value": "Mobile 48 · Desktop 36"
           },
           {
             "name": "状态动效",
@@ -179,7 +260,7 @@
           }
         ],
         "usage": [
-          "主要按钮用于当前区域最重要的操作。",
+          "按产品形态使用 Kai Mobile 或 Kai Desktop Button。",
           "危险操作必须使用明确动词，并提供确认或撤销。",
           "不要用按钮代替导航链接。"
         ],
@@ -244,8 +325,8 @@
           },
           {
             "name": "标题字号",
-            "token": "typography.sizes.rowTitle",
-            "value": "13.5px"
+            "token": "componentProfiles.*.typeScale.body",
+            "value": "按 Mobile / Desktop 映射"
           },
           {
             "name": "轻背景",
@@ -311,17 +392,17 @@
             "required": true
           }
         ],
-        "summary": "要求用户确认、输入或完成短任务，并把注意力暂时集中到一个明确范围。",
+        "summary": "承载必须暂时中断当前流程的确认、输入或短任务；模态容器和按钮行为按平台选择。",
         "tokens": [
           {
-            "name": "对话框圆角",
+            "name": "品牌圆角倾向",
             "token": "radii.dialog",
             "value": "20px"
           },
           {
-            "name": "最大宽度",
-            "token": "component.dialog.maxWidth",
-            "value": "520px"
+            "name": "桌面内容上限",
+            "token": "component.dialog.desktopMaxWidth",
+            "value": "520px · 移动端使用平台容器"
           },
           {
             "name": "遮罩",
@@ -335,7 +416,7 @@
           }
         ],
         "usage": [
-          "需要用户确认不可逆操作，或完成一段短任务时使用。",
+          "先按平台选择 Sheet、Dialog、ContentDialog、Popover 或独立窗口。",
           "简单选择优先使用菜单，不要把对话框当作普通信息卡片。",
           "内容过高时只滚动内容区，标题和按钮区保持可见。"
         ],
@@ -388,48 +469,33 @@
             "required": true
           }
         ],
-        "summary": "说明操作结果、加载进度、空内容和错误，让用户知道当前发生了什么。",
+        "summary": "覆盖加载、进度、空内容、部分完成、错误和后台任务；展示范围与容器按平台选择。",
         "tokens": [
           {
-            "name": "轻提示圆角",
-            "token": "radii.pill",
-            "value": "999px"
+            "name": "反馈文字",
+            "token": "componentProfiles.*.typeScale.body",
+            "value": "按 Mobile / Desktop 映射"
           },
           {
-            "name": "轻提示时长",
-            "token": "component.feedback.snackbarDuration",
-            "value": "1.6s"
+            "name": "状态颜色",
+            "token": "derivedAlphas.status",
+            "value": "success / warning / error / info"
           },
           {
-            "name": "轻提示内边距",
-            "token": "component.feedback.snackbarPadding",
-            "value": "18h / 11v"
-          },
-          {
-            "name": "轻提示字号",
-            "token": "component.feedback.snackbarText",
-            "value": "14 w600"
-          },
-          {
-            "name": "提示延迟",
-            "token": "component.feedback.tooltipDelay",
-            "value": "450ms"
-          },
-          {
-            "name": "加载圈",
-            "token": "component.feedback.spinner",
-            "value": "24px / 2px"
+            "name": "进度强调",
+            "token": "component.feedback.progressAccent",
+            "value": "当前产品 accent"
           }
         ],
         "usage": [
-          "短暂完成结果使用轻提示；需要用户处理的问题不要自动消失。",
+          "短结果反馈使用当前平台对应组件，不把所有平台统一成 Snackbar。",
           "空态说明为什么没有内容，并在有明确下一步时提供操作。",
           "加载和进度使用统一尺寸与强调色，不单独硬编码。"
         ],
         "variants": [
           {
-            "description": "短暂显示已完成的结果，可提供撤销。",
-            "name": "轻提示"
+            "description": "使用当前平台对应的短反馈，可在适用时提供撤销。",
+            "name": "短结果反馈"
           },
           {
             "description": "解释图标或不熟悉的短标签。",
@@ -446,6 +512,87 @@
           {
             "description": "说明失败原因和恢复方式。",
             "name": "错误状态"
+          }
+        ]
+      },
+      "icons": {
+        "accessibility": [
+          "纯装饰图标不进入可访问树。",
+          "纯图标操作必须由按钮提供可访问名称。",
+          "状态不能只靠图标颜色表达。"
+        ],
+        "name": "图标",
+        "states": [
+          {
+            "description": "使用当前语义前景色。",
+            "name": "默认",
+            "required": true
+          },
+          {
+            "description": "反馈由承载按钮提供，不单独缩放图标。",
+            "name": "悬停",
+            "required": true
+          },
+          {
+            "description": "焦点显示在承载按钮上。",
+            "name": "键盘聚焦",
+            "required": true
+          },
+          {
+            "description": "可使用实心图形并配合文字或指示器。",
+            "name": "选中",
+            "required": true
+          },
+          {
+            "description": "随承载控件降低对比度。",
+            "name": "禁用",
+            "required": true
+          }
+        ],
+        "summary": "使用平台系统图标和统一尺寸表达对象、状态与操作；命中区域由按钮提供。",
+        "tokens": [
+          {
+            "name": "紧凑尺寸",
+            "token": "iconography.sizes.compact",
+            "value": "16"
+          },
+          {
+            "name": "常规尺寸",
+            "token": "iconography.sizes.regular",
+            "value": "20"
+          },
+          {
+            "name": "大尺寸",
+            "token": "iconography.sizes.large",
+            "value": "24"
+          },
+          {
+            "name": "展示尺寸",
+            "token": "iconography.sizes.display",
+            "value": "32"
+          }
+        ],
+        "usage": [
+          "优先使用当前平台系统图标，不为已有隐喻重复造图。",
+          "同一产品保持 rounded/outlined 风格一致。",
+          "图标视觉尺寸与点击目标分离。"
+        ],
+        "variants": [
+          {
+            "description": "表格、工具栏和行尾状态。",
+            "name": "紧凑图标"
+          },
+          {
+            "description": "按钮、输入框和列表行。",
+            "name": "常规图标"
+          },
+          {
+            "description": "移动主要操作和少量展示。",
+            "name": "大图标"
+          },
+          {
+            "description": "使用 fill/outline 表达当前项，但保持同一隐喻。",
+            "name": "双态图标"
           }
         ]
       },
@@ -468,7 +615,7 @@
             "required": true
           },
           {
-            "description": "控件自身显示 2px 强调色边框，不增加外侧 outline。",
+            "description": "保留平台焦点能力，输入容器可同步使用强调色。",
             "name": "键盘聚焦",
             "required": true
           },
@@ -488,7 +635,7 @@
             "required": true
           }
         ],
-        "summary": "收集或修改文本、选项和连续数值，标签、帮助和错误信息属于同一个控件。",
+        "summary": "收集或修改文本、选项和连续数值；保留平台编辑、选择、输入法和焦点能力。",
         "tokens": [
           {
             "name": "输入框圆角",
@@ -497,17 +644,17 @@
           },
           {
             "name": "输入文字",
-            "token": "typography.sizes.rowTitle",
-            "value": "13.5px"
+            "token": "componentProfiles.*.typeScale.body",
+            "value": "Mobile 17/24 · Desktop 14/20"
           },
           {
-            "name": "焦点边框",
-            "token": "component.input.focusBorder",
-            "value": "2px · 无外侧 outline"
+            "name": "品牌焦点色",
+            "token": "component.input.brandFocus",
+            "value": "accent · 保留平台焦点行为"
           }
         ],
         "usage": [
-          "标签写清楚需要填写什么，不要只依赖占位文字。",
+          "优先使用当前平台的 TextField、SearchField、TextBox 或 Entry。",
           "错误提示放在输入框附近，并说明如何修正。",
           "不可编辑和只读状态需要清楚区分。"
         ],
@@ -571,14 +718,14 @@
         "summary": "承载设置项、操作项和带辅助信息的结构化列表。",
         "tokens": [
           {
-            "name": "普通行高度",
-            "token": "component.listRow.minHeight",
-            "value": "54px"
+            "name": "单行高度",
+            "token": "componentProfiles.*.metrics.listRowSingle",
+            "value": "Mobile 52 · Desktop 40"
           },
           {
-            "name": "设置行高度",
-            "token": "component.listRow.settingsHeight",
-            "value": "64px"
+            "name": "双行高度",
+            "token": "componentProfiles.*.metrics.listRowDouble",
+            "value": "Mobile 68 · Desktop 52"
           },
           {
             "name": "控件圆角",
@@ -587,8 +734,8 @@
           },
           {
             "name": "标题字号",
-            "token": "typography.sizes.rowTitle",
-            "value": "13.5px"
+            "token": "componentProfiles.*.typeScale.body",
+            "value": "按 Mobile / Desktop 映射"
           }
         ],
         "usage": [
@@ -649,7 +796,7 @@
             "required": true
           }
         ],
-        "summary": "承载与触发位置相关的短操作列表，并在窄屏切换为底部弹层。",
+        "summary": "承载与触发位置相关的短操作、选择或辅助内容；Menu、Popover、Flyout 和 Sheet 按平台与任务选择。",
         "tokens": [
           {
             "name": "菜单圆角",
@@ -657,39 +804,48 @@
             "value": "12px"
           },
           {
-            "name": "菜单宽度",
-            "token": "component.menu.width",
-            "value": "160–280px"
+            "name": "菜单最小宽度",
+            "token": "componentMetrics.menu.minWidth",
+            "value": "160"
+          },
+          {
+            "name": "菜单最大宽度",
+            "token": "componentMetrics.menu.maxWidth",
+            "value": "280"
           },
           {
             "name": "菜单行高",
-            "token": "component.menu.rowHeight",
-            "value": "36px"
+            "token": "componentProfiles.*.metrics.controlHeight",
+            "value": "按 Mobile / Desktop 映射"
           },
           {
-            "name": "弹层顶角",
+            "name": "移动 Sheet 顶角",
             "token": "radii.sheet",
             "value": "18px"
           },
           {
-            "name": "拖拽把手",
-            "token": "component.sheet.handle",
-            "value": "38×4px"
+            "name": "平台行为",
+            "token": "component.menu.platformBehavior",
+            "value": "keyboard / focus / anchor / safe area"
           }
         ],
         "usage": [
           "与触发位置相关的短操作列表使用锚定菜单。",
-          "窄屏自动切换为底部弹层，并保留安全区域。",
+          "根据平台、输入模式和任务选择容器，不只根据窗口宽度判断。",
           "菜单宽度由内容决定，长列表需要限制高度并允许滚动。"
         ],
         "variants": [
           {
-            "description": "宽屏中靠近触发位置显示的短操作列表。",
-            "name": "锚定菜单"
+            "description": "Menu、Context Menu 或 MenuFlyout，保留平台键盘和命令习惯。",
+            "name": "平台菜单"
           },
           {
-            "description": "窄屏中使用更大行高和安全区域的操作列表。",
-            "name": "底部弹层"
+            "description": "Popover、Flyout 或 TeachingTip。",
+            "name": "辅助浮层"
+          },
+          {
+            "description": "只在移动端需要较大操作空间的短任务中使用。",
+            "name": "移动 Sheet"
           },
           {
             "description": "显示当前选择，并允许切换。",
@@ -731,7 +887,7 @@
             "required": true
           }
         ],
-        "summary": "切换主要目的地，桌面侧栏、移动底栏和页内标签共享当前项语义。",
+        "summary": "切换主要目的地；目的地语义统一，Tab Bar、Navigation Bar、Rail、Sidebar 和 NavigationView 按平台映射。",
         "tokens": [
           {
             "name": "侧栏宽度",
@@ -740,18 +896,18 @@
           },
           {
             "name": "桌面导航文字",
-            "token": "typography.sizes.rowTitle",
-            "value": "13.5px"
+            "token": "componentProfiles.desktop.typeScale.body",
+            "value": "14/20"
           },
           {
             "name": "移动导航文字",
-            "token": "typography.sizes.navLabel",
-            "value": "10.5px"
+            "token": "componentProfiles.mobile.typeScale.captionSmall",
+            "value": "11/16"
           },
           {
-            "name": "选中背景",
+            "name": "当前项强调",
             "token": "component.navigation.selection",
-            "value": "accent 10%"
+            "value": "accent · 指示器形态按平台"
           },
           {
             "name": "侧栏材质",
@@ -761,17 +917,21 @@
         ],
         "usage": [
           "当前项必须清楚可见，同一组中只有一个当前项。",
-          "桌面侧栏和移动底栏共享目的地，但尺寸不同。",
+          "目的地和路由一致，具体控件形态由当前平台决定。",
           "不要把普通操作混进主导航。"
         ],
         "variants": [
           {
-            "description": "宽屏中的一级目的地和分组。",
-            "name": "桌面侧栏"
+            "description": "iPhone Tab Bar；iPad 根据空间选择 Tab Bar 或 Sidebar。",
+            "name": "Apple 导航"
           },
           {
-            "description": "窄屏中 3–5 个一级目的地。",
-            "name": "移动底栏"
+            "description": "紧凑窗口 Navigation Bar；大屏转换为 Rail 或 Drawer。",
+            "name": "Android 导航"
+          },
+          {
+            "description": "macOS Sidebar、Windows NavigationView 或 Linux Sidebar/View Switcher。",
+            "name": "桌面导航"
           },
           {
             "description": "同一页面内平级内容的切换。",
@@ -927,7 +1087,7 @@
         ]
       }
     },
-    "contractVersion": "0.2.0"
+    "contractVersion": "0.4.0"
   },
   "primitives": {
     "$schema": "../schema/primitives.schema.json",
@@ -945,6 +1105,195 @@
         "compact": "width <= 600 或 height < 600（移动）",
         "medium": "桌面 width < 1100；移动 width < 1000",
         "wide": "桌面 width >= 1100；移动 width >= 1000"
+      }
+    },
+    "componentMetrics": {
+      "dialog": {
+        "confirmMaxWidth": 400,
+        "maxWidth": 520,
+        "viewportInset": 24
+      },
+      "menu": {
+        "maxWidth": 280,
+        "minWidth": 160
+      },
+      "sheet": {
+        "handleHeight": 4,
+        "handleWidth": 38,
+        "maxWidth": 760,
+        "optionMaxWidth": 560
+      },
+      "table": {
+        "headerMinHeight": 40,
+        "minColumnWidth": 120
+      }
+    },
+    "componentProfiles": {
+      "desktop": {
+        "fontFamily": "系统 UI 字体",
+        "inputMode": "pointer / keyboard",
+        "label": "Desktop",
+        "metrics": {
+          "compactControlHeight": 32,
+          "controlGap": 8,
+          "controlHeight": 36,
+          "iconTextGap": 8,
+          "listRowDouble": 52,
+          "listRowSingle": 40,
+          "minimumInteractiveTarget": 32,
+          "pageGutter": 24,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "macOS",
+          "Windows",
+          "Linux"
+        ],
+        "reference": {
+          "name": "Kai Desktop UI · constrained by macOS, Fluent and GNOME HIG",
+          "url": "https://github.com/robeshell/kai-brand-design"
+        },
+        "scaling": "跟随系统显示与字体缩放",
+        "typeScale": {
+          "body": {
+            "fontSize": 14,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "bodySecondary": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 18
+          },
+          "caption": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "captionSmall": {
+            "fontSize": 11,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "displayLarge": {
+            "fontSize": 32,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 40
+          },
+          "label": {
+            "fontSize": 14,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "pageTitle": {
+            "fontSize": 24,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 32
+          },
+          "sectionTitle": {
+            "fontSize": 18,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 24
+          },
+          "title": {
+            "fontSize": 14,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          }
+        },
+        "unit": "logical px"
+      },
+      "mobile": {
+        "fontFamily": "系统 UI 字体",
+        "inputMode": "touch",
+        "label": "Mobile",
+        "metrics": {
+          "compactControlHeight": 40,
+          "controlGap": 12,
+          "controlHeight": 48,
+          "iconTextGap": 8,
+          "listRowDouble": 68,
+          "listRowSingle": 52,
+          "minimumInteractiveTarget": 48,
+          "pageGutter": 16,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "iOS",
+          "iPadOS",
+          "Android"
+        ],
+        "reference": {
+          "name": "Kai Mobile UI · constrained by Apple HIG and Material 3",
+          "url": "https://github.com/robeshell/kai-brand-design"
+        },
+        "scaling": "跟随系统字体缩放",
+        "typeScale": {
+          "body": {
+            "fontSize": 17,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 24
+          },
+          "bodySecondary": {
+            "fontSize": 15,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "caption": {
+            "fontSize": 13,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 18
+          },
+          "captionSmall": {
+            "fontSize": 11,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "displayLarge": {
+            "fontSize": 34,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 42
+          },
+          "label": {
+            "fontSize": 16,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 22
+          },
+          "pageTitle": {
+            "fontSize": 28,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 36
+          },
+          "sectionTitle": {
+            "fontSize": 22,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 28
+          },
+          "title": {
+            "fontSize": 17,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 24
+          }
+        },
+        "unit": "logical px"
       }
     },
     "derivedAlphas": {
@@ -987,10 +1336,21 @@
         "pressed": "foreground@0.10"
       },
       "status": {
-        "error": "colorScheme.error（由 seed 生成，不另设常量）",
+        "error": {
+          "dark": "#FF7B72",
+          "light": "#B42318"
+        },
+        "info": {
+          "dark": "#73A7E8",
+          "light": "#2563A6"
+        },
+        "success": {
+          "dark": "#5BC89A",
+          "light": "#237A57"
+        },
         "warning": {
           "dark": "#E3AC45",
-          "light": "#B07514"
+          "light": "#9A640D"
         }
       },
       "subtleFill": {
@@ -998,10 +1358,30 @@
         "light": "black@0.045"
       }
     },
+    "iconography": {
+      "opticalStroke": {
+        "compact": 1.75,
+        "large": 1.5,
+        "regular": 1.75
+      },
+      "policy": "优先使用各平台系统图标；同一产品内保持 rounded/outlined 视觉一致，不混用实心与描边表达同一状态。",
+      "sizes": {
+        "compact": 16,
+        "display": 32,
+        "large": 24,
+        "regular": 20
+      }
+    },
     "layoutMetrics": {
       "contentBottomPadding": {
         "desktop": 96,
         "mobileShell": 140
+      },
+      "contentWidth": {
+        "form": 720,
+        "reading": 680,
+        "standard": 920,
+        "wide": 1200
       },
       "desktopWindow": {
         "comment": "主窗口逻辑像素（content size）；首次打开居中；可视区不足时钳到 min 与 visibleFrame−80 之间。辅窗（工具窗）属产品层。",
@@ -1018,6 +1398,11 @@
       "sidebarWidth": {
         "medium": 216,
         "wide": 236
+      },
+      "splitView": {
+        "detailMax": 520,
+        "detailMin": 360,
+        "detailPreferred": 420
       },
       "titlebarInset": {
         "macOS": 38,
@@ -1042,6 +1427,414 @@
         "durationMs": 160
       }
     },
+    "platformProfiles": {
+      "androidMobile": {
+        "fontFamily": "Roboto / Noto Sans（系统解析）",
+        "inputMode": "touch",
+        "label": "Android",
+        "metrics": {
+          "compactControlHeight": 40,
+          "controlGap": 8,
+          "controlHeight": 48,
+          "iconTextGap": 12,
+          "listRowDouble": 72,
+          "listRowSingle": 56,
+          "minimumInteractiveTarget": 48,
+          "pageGutter": 16,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "Android"
+        ],
+        "reference": {
+          "name": "Material Design 3",
+          "url": "https://developer.android.com/develop/ui/compose/designsystems/material3"
+        },
+        "scaling": "系统字体缩放",
+        "typeScale": {
+          "body": {
+            "fontSize": 16,
+            "fontWeight": 400,
+            "letterSpacing": 0.5,
+            "lineHeight": 24
+          },
+          "bodySecondary": {
+            "fontSize": 14,
+            "fontWeight": 400,
+            "letterSpacing": 0.25,
+            "lineHeight": 20
+          },
+          "caption": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0.4,
+            "lineHeight": 16
+          },
+          "captionSmall": {
+            "fontSize": 11,
+            "fontWeight": 500,
+            "letterSpacing": 0.5,
+            "lineHeight": 16
+          },
+          "displayLarge": {
+            "fontSize": 32,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 40
+          },
+          "label": {
+            "fontSize": 14,
+            "fontWeight": 500,
+            "letterSpacing": 0.1,
+            "lineHeight": 20
+          },
+          "pageTitle": {
+            "fontSize": 28,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 36
+          },
+          "sectionTitle": {
+            "fontSize": 22,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 28
+          },
+          "title": {
+            "fontSize": 16,
+            "fontWeight": 500,
+            "letterSpacing": 0.15,
+            "lineHeight": 24
+          }
+        },
+        "unit": "sp / dp"
+      },
+      "appleMobile": {
+        "fontFamily": "SF Pro / PingFang SC（系统解析）",
+        "inputMode": "touch",
+        "label": "iOS / iPadOS",
+        "metrics": {
+          "compactControlHeight": 36,
+          "controlGap": 12,
+          "controlHeight": 44,
+          "iconTextGap": 8,
+          "listRowDouble": 60,
+          "listRowSingle": 44,
+          "minimumInteractiveTarget": 44,
+          "pageGutter": 16,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "iOS",
+          "iPadOS"
+        ],
+        "reference": {
+          "name": "Apple Human Interface Guidelines",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/typography"
+        },
+        "scaling": "Dynamic Type",
+        "typeScale": {
+          "body": {
+            "fontSize": 17,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 22
+          },
+          "bodySecondary": {
+            "fontSize": 15,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "caption": {
+            "fontSize": 13,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 18
+          },
+          "captionSmall": {
+            "fontSize": 11,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 13
+          },
+          "displayLarge": {
+            "fontSize": 34,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 41
+          },
+          "label": {
+            "fontSize": 17,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 22
+          },
+          "pageTitle": {
+            "fontSize": 28,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 34
+          },
+          "sectionTitle": {
+            "fontSize": 22,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 28
+          },
+          "title": {
+            "fontSize": 17,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 22
+          }
+        },
+        "unit": "pt"
+      },
+      "linuxDesktop": {
+        "fontFamily": "系统 UI 字体（GNOME / KDE 环境解析）",
+        "inputMode": "pointer / touch",
+        "label": "Linux Desktop",
+        "metrics": {
+          "compactControlHeight": 28,
+          "controlGap": 8,
+          "controlHeight": 36,
+          "iconTextGap": 8,
+          "listRowDouble": 52,
+          "listRowSingle": 40,
+          "minimumInteractiveTarget": 32,
+          "pageGutter": 24,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "Linux"
+        ],
+        "reference": {
+          "name": "GNOME HIG + KDE HIG",
+          "url": "https://developer.gnome.org/hig/guidelines/typography.html"
+        },
+        "scaling": "桌面环境字体与显示缩放",
+        "typeScale": {
+          "body": {
+            "fontSize": 14,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "bodySecondary": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 18
+          },
+          "caption": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "captionSmall": {
+            "fontSize": 11,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "displayLarge": {
+            "fontSize": 32,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 40
+          },
+          "label": {
+            "fontSize": 14,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "pageTitle": {
+            "fontSize": 24,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 32
+          },
+          "sectionTitle": {
+            "fontSize": 18,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 24
+          },
+          "title": {
+            "fontSize": 14,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          }
+        },
+        "unit": "logical px"
+      },
+      "macDesktop": {
+        "fontFamily": "SF Pro / PingFang SC（系统解析）",
+        "inputMode": "pointer",
+        "label": "macOS",
+        "metrics": {
+          "compactControlHeight": 24,
+          "controlGap": 8,
+          "controlHeight": 32,
+          "iconTextGap": 6,
+          "listRowDouble": 44,
+          "listRowSingle": 32,
+          "minimumInteractiveTarget": 28,
+          "pageGutter": 24,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "macOS"
+        ],
+        "reference": {
+          "name": "Apple Human Interface Guidelines · macOS",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/typography"
+        },
+        "scaling": "系统显示缩放",
+        "typeScale": {
+          "body": {
+            "fontSize": 13,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "bodySecondary": {
+            "fontSize": 11,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 14
+          },
+          "caption": {
+            "fontSize": 10,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 13
+          },
+          "captionSmall": {
+            "fontSize": 10,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 13
+          },
+          "displayLarge": {
+            "fontSize": 26,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 32
+          },
+          "label": {
+            "fontSize": 13,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "pageTitle": {
+            "fontSize": 22,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 26
+          },
+          "sectionTitle": {
+            "fontSize": 17,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 22
+          },
+          "title": {
+            "fontSize": 13,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          }
+        },
+        "unit": "pt"
+      },
+      "windowsDesktop": {
+        "fontFamily": "Segoe UI Variable / Microsoft YaHei UI（系统解析）",
+        "inputMode": "pointer / touch",
+        "label": "Windows",
+        "metrics": {
+          "compactControlHeight": 28,
+          "controlGap": 8,
+          "controlHeight": 32,
+          "iconTextGap": 8,
+          "listRowDouble": 52,
+          "listRowSingle": 40,
+          "minimumInteractiveTarget": 32,
+          "pageGutter": 24,
+          "sectionGap": 24
+        },
+        "platforms": [
+          "Windows"
+        ],
+        "reference": {
+          "name": "Windows 11 Typography",
+          "url": "https://learn.microsoft.com/windows/apps/design/signature-experiences/typography"
+        },
+        "scaling": "有效像素与系统显示缩放",
+        "typeScale": {
+          "body": {
+            "fontSize": 14,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "bodySecondary": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "caption": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "captionSmall": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 16
+          },
+          "displayLarge": {
+            "fontSize": 40,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 52
+          },
+          "label": {
+            "fontSize": 14,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "pageTitle": {
+            "fontSize": 28,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 36
+          },
+          "sectionTitle": {
+            "fontSize": 20,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 28
+          },
+          "title": {
+            "fontSize": 14,
+            "fontWeight": 600,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          }
+        },
+        "unit": "epx"
+      }
+    },
     "radii": {
       "card": 14,
       "checkbox": 5,
@@ -1061,43 +1854,29 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.4.5",
-    "tapTargets": {
-      "buttonMin": 36,
-      "chipHeight": 32,
-      "iconButton": 40,
-      "listRowMin": 46
-    },
+    "specVersion": "0.6.0",
     "typography": {
-      "fontFamily": "system-ui",
-      "fontFamilyFallback": [],
-      "sizes": {
-        "chipLabel": 12,
-        "heroDesktop": 28,
-        "heroImmersive": 24,
-        "navLabel": 10.5,
-        "nowPlayingTitle": 24,
-        "pageTitle": [
-          26,
-          28
-        ],
-        "rowSubtitle": 11.5,
-        "rowTitle": 13.5,
-        "sectionSubtitle": 12.5
+      "componentRoles": {
+        "buttonLabel": "label",
+        "desktopNavigation": "body",
+        "dialogTitle": "sectionTitle",
+        "inputText": "body",
+        "listSubtitle": "bodySecondary",
+        "listTitle": "body",
+        "metadata": "caption",
+        "mobileNavigation": "captionSmall",
+        "pageTitle": "pageTitle",
+        "sectionTitle": "sectionTitle"
       },
-      "tracking": {
-        "headlineLarge": -0.25,
-        "headlineMedium": -0.15,
-        "heroDesktop": -0.3,
-        "heroImmersive": -0.25,
-        "nowPlayingTitle": -0.25,
-        "pageTitle": -0.15,
-        "titleLarge": -0.1
+      "fontPolicy": {
+        "allowProductContentFonts": true,
+        "fallback": [],
+        "family": "system-ui",
+        "usePlatformTextStyles": true
       },
       "weights": {
         "body": 400,
-        "comment": "精致字重：strong=w600 标题与选中；emphasis=w500 行/按钮；禁止 w700+",
-        "display": 600,
+        "comment": "界面层使用 regular / medium / semibold；内容层字体由产品登记。",
         "emphasis": 500,
         "strong": 600
       }
@@ -1106,12 +1885,12 @@
   "productTokens": {
     "kaigua": {
       "product": "kaigua",
-      "productSpecVersion": "0.1.1",
+      "productSpecVersion": "0.2.0",
       "tokens": {}
     },
     "kaijuan": {
       "product": "kaijuan",
-      "productSpecVersion": "0.1.1",
+      "productSpecVersion": "0.2.0",
       "tokens": {
         "cover.radius": {
           "description": "书籍与漫画窄幅封面的默认圆角",
@@ -1122,7 +1901,7 @@
     },
     "kaiting": {
       "product": "kaiting",
-      "productSpecVersion": "0.1.0",
+      "productSpecVersion": "0.2.0",
       "tokens": {
         "playback.busySpinnerSize": {
           "description": "传输按钮忙碌指示器尺寸",
@@ -1260,12 +2039,17 @@
     }
   },
   "viewerContent": {
-    "contentVersion": "0.1.0",
+    "contentVersion": "0.4.0",
     "pages": {
+      "app-bars": [
+        "组件",
+        "顶栏与标签",
+        "组织页面标题、工具操作、筛选和页内平级导航。"
+      ],
       "app-shell": [
-        "页面结构",
+        "APP 结构",
         "应用框架",
-        "桌面使用侧栏，窄屏使用底部导航。内容区保持同一套层级。"
+        "顶级导航按平台映射，内容和产品能力保持一致。"
       ],
       "buttons": [
         "组件",
@@ -1279,8 +2063,13 @@
       ],
       "components": [
         "组件",
-        "组件总览",
-        "查找现有组件，确认是否可以直接复用。"
+        "组件基础",
+        "查看 Mobile、Desktop 两套组件、基础表面和完整组件入口。平台系统差异只处理行为。"
+      ],
+      "content-browser": [
+        "APP 结构",
+        "内容浏览",
+        "集合、搜索、筛选和详情属于一个连续结构，不再拆成多套万能页面。"
       ],
       "data-display": [
         "组件",
@@ -1302,10 +2091,10 @@
         "反馈",
         "覆盖轻提示、工具提示、空态、加载和进度。反馈应该说明当前发生了什么。"
       ],
-      "getting-started": [
-        "开始",
-        "怎么使用",
-        "设计师和工程师都从同一份规范出发。"
+      "icons": [
+        "组件",
+        "图标",
+        "图标负责表达含义，按钮负责命中区域；优先使用各平台系统图标。"
       ],
       "inputs": [
         "组件",
@@ -1332,15 +2121,15 @@
         "导航",
         "导航用于切换主要目的地。桌面使用侧栏，移动端使用底栏或标签。"
       ],
-      "overlays": [
-        "页面结构",
-        "弹窗与浮层",
-        "简单选择使用菜单，复杂任务使用对话框；窄屏时可改为底部弹层。"
-      ],
       "overview": [
         "开始",
         "Kai Design",
-        "一套供多个产品共同使用的设计规范。这里说明规则、展示组件，并输出工程可以直接使用的变量。"
+        "从这里查看规范内容、修改源文件、运行检查并同步到产品工程。"
+      ],
+      "platforms": [
+        "基础规范",
+        "平台基准",
+        "五个平台官方数据用于约束和验收；实际组件由 Mobile 与 Desktop 两套 Profile 驱动。"
       ],
       "products": [
         "产品与工程",
@@ -1357,25 +2146,25 @@
         "选择控件",
         "覆盖开关、勾选框、单选项和选择条。选中状态不能只靠颜色表达。"
       ],
-      "settings": [
-        "页面结构",
-        "设置页",
-        "设置按主题分组，直接展示当前值；不要为了少量内容再加标签页。"
-      ],
       "spacing": [
         "基础规范",
         "间距与圆角",
         "页面间距使用 4px 倍数。圆角按组件用途选择，不按个人感觉调整。"
       ],
-      "surfaces": [
-        "组件",
-        "表面与容器",
-        "承载页面分区、卡片和浮层。材质与层级由当前外观决定。"
+      "status-system": [
+        "状态与反馈",
+        "通用状态系统",
+        "统一加载、进度、空数据、无结果、部分完成、失败和后台任务的表达。"
+      ],
+      "task-workspace": [
+        "APP 结构",
+        "任务工作台",
+        "承载扫描、导入、同步和批量处理的准备、执行与结果。"
       ],
       "typography": [
         "基础规范",
         "字体",
-        "字号负责可读性，字重和留白负责层级。不要靠大量不同字号制造区别。"
+        "组件只选择语义文字角色，字号、行高和字重由 Mobile 或 Desktop Profile 提供。"
       ]
     }
   }

@@ -1,71 +1,60 @@
 # 排版规范
 
-> 数值见 `tokens/primitives.json → typography`。
+> 唯一组件数值源：`tokens/primitives.json → componentProfiles.*.typeScale`。
 
-## 原则
+组件只选择语义角色，再由 Mobile 或 Desktop Profile 输出具体数值。五个平台的
+官方字号继续保存在 `platformProfiles`，用于检查系统字体缩放和可用性，不用于
+生成五套组件外观。
 
-**层级靠字号、颜色与透明度驱动，字重保持克制。** 正文与 UI 文字集中在 11.5–14px；**标题封顶 w600**（含专辑 / 艺人 / 正在播放 hero）；**禁止 w700 / w800 / w900**——需要强调时用 accent 色、更高不透明度或略大字号，而不是更粗字重。
+## 语义角色
 
-## 字族
+| 角色 | 使用位置 |
+|---|---|
+| `displayLarge` | 沉浸页的单个展示标题 |
+| `pageTitle` | 页面主标题 |
+| `sectionTitle` | 页面分区、对话框和 Sheet 标题 |
+| `title` | 组件标题、强调行标题 |
+| `body` | 正文、输入文字、普通列表主标题 |
+| `bodySecondary` | 列表副题、说明文字 |
+| `label` | 按钮、选择控件、表单标签 |
+| `caption` | 时间、状态、元信息 |
+| `captionSmall` | 底部导航等空间受限的短标签 |
 
-- **主字族：平台默认**——`ThemeData` **不**设置 `fontFamily` / 不钉 `.SF Pro Text`。
-- 各平台自然解析：Apple → SF / 苹方；Android → Roboto / Noto；Windows → Segoe UI / 微软雅黑。
-- **不打包字体文件**，不维护强制 fallback 列表（避免主字体缺失时中英文 metrics 错位）。
-- 内容层（开卷书页正文）可有独立字体栈与字号体系（Georgia/宋体等），属 L0 扩展，不受本篇约束。
+## 实际输出
 
-## 字重阶梯
+| 角色 | Mobile | Desktop |
+|---|---:|---:|
+| `displayLarge` | 34 / 42 · w600 | 32 / 40 · w600 |
+| `pageTitle` | 28 / 36 · w600 | 24 / 32 · w600 |
+| `sectionTitle` | 22 / 28 · w600 | 18 / 24 · w600 |
+| `title` | 17 / 24 · w600 | 14 / 20 · w600 |
+| `body` | **17 / 24 · w400** | **14 / 20 · w400** |
+| `bodySecondary` | 15 / 20 · w400 | 12 / 18 · w400 |
+| `label` | 16 / 22 · w600 | 14 / 20 · w600 |
+| `caption` | 13 / 18 · w400 | 12 / 16 · w400 |
+| `captionSmall` | 11 / 16 · w500 | 11 / 16 · w500 |
 
-| 角色 | 字重 | 颜色档 | 说明 |
-|---|---|---|---|
-| 页标题 / hero / sheet 标题 / 分区标题 | **w600** | primary | 设置页头、专辑/艺人详情、正在播放曲名、迷你播放器曲名、弹层标题 |
-| **选中 / 当前强调** | **w600** | primary 或 accent | 底栏选中、索引当前字母、队列当前曲、**歌词当前行**、艺人 monogram——与标题同重，靠色差区分 |
-| 次级强调（按钮、标签、行标题） | **w500** | primary / secondary | labelMedium、列表行标题、未选 chip |
-| 正文 | w400 | primary | |
-| 辅助说明 / 未选导航 | w400–w500 | secondary / muted | |
-| 歌词非当前行 | w400 | primary 低透明 | |
+## 使用规则
 
-**禁止 w700 及以上。** 粗体在平台默认中文字体上容易发「糊」、不精致。
+- Flutter 的 `TextTheme` 根据 Mobile / Desktop 建立，不根据操作系统换字号；
+- 字体族使用目标系统 UI 字体，保持本地语言字形和系统渲染；
+- Mobile 必须响应 iOS Dynamic Type 与 Android 字体缩放；
+- Desktop 必须响应系统显示缩放和字体设置；
+- 界面字重只使用 400、500、600；
+- 放大后优先换行和增高，不裁切文字或隐藏操作。
 
-## 关键字号（壳层 + 通用内容标题）
+## 必须验证
 
-| 场景 | 字号 | 字重 | 备注 |
-|---|---|---|---|
-| 页标题（设置 / 用户库等） | 26（紧凑）/ 28 | w600 | letterSpacing ≈ −0.15～−0.25 |
-| headlineMedium / titleLarge | 默认阶梯 | w600 | letterSpacing ≈ −0.1～−0.15 |
-| 桌面详情 hero 标题 | **28** | w600 | 专辑 / 艺人 / 合集；letterSpacing ≈ −0.3 |
-| 移动详情 hero 标题 | **24** | w600 | 同上；letterSpacing ≈ −0.25 |
-| 正在播放曲名 | **24** | w600 | 主播放区；letterSpacing ≈ −0.25 |
-| 迷你播放器曲名 | 13–15 | w600 | |
-| 行标题 | 13.5–14 | **w500** | |
-| 行副题 / 元信息 | 11.5–12.5 | w400–500 | secondary/muted，行高 1.45 |
-| 分区小标题（「专辑」「歌词」等） | 12–20 | w600 | |
-| 移动底栏标签 | 10.5 | **选中 w600** / 未选 w500 | 选中靠 accent / primary 色 |
-| 桌面侧栏标签 | 13.5 | 选中 w600 / 未选 w500 | 选中可用 accent 色 |
-| chip / ChoiceStrip 标签 | 12 | **选中 w600 + accent** / 未选 w500 | 颜色承担选中强调 |
-| 对话框 / sheet 标题 | 18–20 或 titleLarge | w600 | |
-| 按钮 | labelMedium | **w500** | |
-| 歌词行 | 18–22（窄栏略小） | **当前 w600** / 其余 w400 | 不加字距；窄栏避免甩一字 |
+1. iOS Dynamic Type 与 Android 系统字体缩放；
+2. 100%、125%、150%、200% 文本尺度；
+3. 中文、英文、数字和混排；
+4. 单行、双行、长标题和无障碍大字；
+5. 放大后信息与操作不减少。
 
-## 内容层展示（display tier）
+## 官方依据
 
-沉浸页允许**略大于壳层**的标题字号，但**字重仍封顶 w600**：
-
-| 场景 | 字号 | 字重 | letterSpacing |
-|---|---|---|---|
-| 桌面 hero（专辑 / 艺人 / 合集） | 28 | w600 | −0.3 |
-| 移动沉浸 hero | 24 | w600 | −0.25 |
-| 正在播放曲名 | 24 | w600 | −0.25 |
-| 歌词（内容） | 18–22 | 当前 w600 / 其余 w400 | 0 |
-
-- 展示层级只用于内容标题本身；同页艺人名、元信息走壳层三档（hero 艺人名定档：15 w500–600 secondary，可点击跳转但不染 accent）；
-- 大字号展示文字**不得**用 accent 色；
-- 歌词窄栏（列宽 < 340）字号可降一档，并用平衡换行避免单字成行（参考开听 `BalancedLyricText`）。
-
-## 规则
-
-1. **标题 = w600**；选中 / 当前 / monogram 也是 **w600**，靠颜色区分；**禁止 w700+**。
-2. 标题负字距缓和（约 −0.1～−0.3）；正文与行文字不加字距。
-3. `bodySmall` 默认染 secondary 色（TextTheme 层约定）——需要 primary 色的小字必须显式指定。
-4. 数字与进度标签可用 tabular figures；中英文混排不额外加空格。
-5. 截断：行标题单行省略；说明文字最多两行；对话框标题单行省略。
-6. 禁止钉死 `.SF Pro Text` 作为唯一主字体。
+- <https://developer.apple.com/design/human-interface-guidelines/typography>
+- <https://developer.android.com/develop/ui/compose/designsystems/material3>
+- <https://learn.microsoft.com/windows/apps/design/signature-experiences/typography>
+- <https://developer.gnome.org/hig/guidelines/typography.html>
+- <https://develop.kde.org/hig/text_and_labels/>

@@ -6,18 +6,18 @@
 ## 解剖
 
 ```
-[leading 槽32] 10 [标题 13.5 w600 / 副题 11.5 secondary] 10 [trailing]
+[leading] [标题 body / 副题 secondary] [trailing]
 ```
 
 ## Metrics
 
 | 部位 | 值 |
 |---|---|
-| minHeight | 54（设置页 64 / 紧凑 58） |
-| padding | 14h / 6v |
+| 高度 | 当前 Mobile / Desktop Profile 的 `listRowSingle` / `listRowDouble` |
+| padding | 水平 `spacing.x4`；垂直方向由行高与内容决定 |
 | leading 槽 | 32 宽居中 |
-| 标题 | 13.5 w600，单行省略 |
-| 副题 | 11.5 secondary，单行省略 |
+| 标题 | 当前 Mobile / Desktop Profile 的 `typeScale.body`，w500，单行省略 |
+| 副题 | 当前 Mobile / Desktop Profile 的 `typeScale.bodySecondary`，单行省略 |
 
 ## Token 映射与状态
 
@@ -45,5 +45,5 @@ leading 为 checkbox 图标（20px）：选中 accent 实心 / 未选 muted 空�
 
 ## 验收锚点
 
-- minHeight 54、标题 13.5 w600、副题 11.5；
+- 单/双行高度和文字均来自当前 Mobile / Desktop Profile；
 - 行内不出现 elevation / 阴影。

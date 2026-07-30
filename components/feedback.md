@@ -1,63 +1,63 @@
-# 反馈（SnackBar / Tooltip / 空态 / 加载 / 滚动条 / 进度指示）
+# 状态与反馈组件
 
-- **参考实现**：kaiting `sound_components.dart → showSoundSnackBar / SoundEmptyState`、`sound_theme.dart`；kaijuan `app_components.dart → AppEmptyState`、`app_overlays.dart → showAppSnackBar / AppTooltip`。
+状态与反馈组件用于告诉用户发生了什么、影响了什么，以及现在能做什么。完整状态选择见 `patterns/status-system.md`。
 
-## SnackBar（轻提示）
+## 组件集合
 
-居中、**宽度随文案收缩**的胶囊提示；**无描边**，仅轻阴影。
-
-| 部位 | 值 |
+| 语义 | 用途 |
 |---|---|
-| 形态 | floating；内层 **StadiumBorder 胶囊**（pill 档）；**无 hairline border** |
-| 宿主 | 透明底、elevation 0、无描边 shape；只负责 margin 与居中 |
-| 面 | `snackBarTheme.backgroundColor`，缺省 `inverseSurface@0.94` |
-| 阴影 | 轻投影（Material elevation 3，`shadowColor` black@0.22）；非全局 elevation 体系 |
-| 文字 | 14 w600、height 1.3、letterSpacing −0.1；水平居中；最多 2 行省略 |
-| 字色 | `snackBarTheme.contentTextStyle` / `onInverseSurface` |
-| 内边距 | 18h / 11v |
-| 宽度 | **随文案 hug**；`maxWidth = 视口宽 − 40`；宿主左右 margin 20 |
-| 时长 | **1.6s** |
-| 桌面呈现 | 水平居中，距底 **36**（窗口宽 ≥420） |
-| 移动呈现 | 水平居中，距底 **18**（窗口宽 <420） |
+| Loading | 等待内容或服务 |
+| Progress | 已知或未知进度的持续任务 |
+| Empty State | 当前范围确实没有可展示内容 |
+| Inline Status | 已有内容中的局部加载、警告或错误 |
+| Persistent Task Status | 后台任务的持续入口 |
+| Result Summary | 成功、部分完成、跳过和失败摘要 |
+| Transient Feedback | 刚完成且无需持续处理的短结果 |
 
-规则：
+## 平台映射
 
-- 新提示顶掉旧提示（`clearSnackBars`）；可下滑关闭（`DismissDirection.down`）。
-- 默认纯文本；不用 action 时不要硬塞操作按钮。
-- **禁止**固定 220 定宽窄条、禁止带描边的 r12 方条、禁止不带 margin 的 fixed SnackBar（会断言失败）。
+- Apple：使用 ProgressView、系统通知、行内状态或应用内短反馈；不照搬 Android Snackbar；
+- Android：使用 Linear/Circular ProgressIndicator、Snackbar、Banner 或系统通知；
+- macOS：使用 ProgressIndicator、Toolbar/Sidebar 状态、通知或行内 Banner；
+- Windows：使用 ProgressBar、ProgressRing、InfoBar、TeachingTip 或通知；
+- Linux：使用 ProgressBar、Spinner、Banner、Toast 或桌面通知。
 
-参考实现：kaiting `showSoundSnackBar`。
+## 品牌统一
 
-## Tooltip
+- success、warning、error、info 语义色；
+- 状态图标隐喻；
+- 标题、说明、数量和操作的信息顺序；
+- 进度强调色和内容层级。
 
-- overlay 面 + border，r8，10h/7v 内边距，bodySmall 染 primary；
-- 延迟 450ms、展示 3s；message 为空时不挂 tooltip；
-- 中文文案，仅桌面指向设备依赖它。
+进度图形、短反馈容器、系统通知和可访问播报方式由平台决定。
 
-## 空态 / 加载 / 错误（EmptyState）
+## 状态规则
 
-```
-[30px muted 图标（68% 透明） 或 24px 2px 加载圈]
-14
-[16px w600 标题（primary 88%）]
-6
-[12px 说明（muted 76%，行高 1.45）]
-```
+- 已知总量才显示百分比或 `已完成 / 总量`；
+- 未知总量显示当前阶段，不伪造进度；
+- 已有内容刷新失败时保留内容并使用 Inline Status；
+- 部分完成保留成功结果，只重试失败项；
+- 连续失败落成稳定错误，不循环弹出短提示；
+- 后台任务保持可返回入口，完成后只发送一次重要通知；
+- 所有动态状态同时提供文字和可访问播报。
 
-- 最大内容宽 420，居中，页面底部留白按壳规范；
-- 加载指示统一：24px、strokeWidth 2（accent 由 progressIndicatorTheme 供给），禁止自定义颜色；
-- 空态图标用描线款（weight 300）。
+## 空状态
 
-## 滚动条
+区分首次使用、数据为空、搜索无结果、筛选无结果和无权限。标题说明具体原因；有明确下一步时只提供一个主要操作。
 
-5px 胶囊；thumb secondary 30%（hover 55%）；轨道透明；桌面常驻可显，触屏淡入淡出。
+空状态不放版本、统计、设计说明或与当前任务无关的营销文案。
 
-## 行内进度（LinearProgressIndicator）
+## 禁止
 
-accent 色、轨道透明；仅用于确定/不确定进度，不用作分隔线。
+- 不把所有反馈画成同一个 Snackbar；
+- 不为每个业务动作新建一套进度组件；
+- 不用旋转图形替代阶段文字；
+- 不用整页错误覆盖仍可使用的内容；
+- 不只用颜色表达成功、警告或失败。
 
-## 验收锚点
+## 验收
 
-- snackbar 居中胶囊、无描边、宽度随文案、时长 1.6s；
-- 加载圈 24px/2px 无硬编码色；
-- 空态 maxWidth 420、图标 30px muted。
+- 状态范围、进度类型和恢复方式选择正确；
+- 平台组件和通知方式正确；
+- 文案具体，操作可执行；
+- 动态状态支持减少动态效果和屏幕阅读器。

@@ -7,6 +7,7 @@
 
 - 从 `tokens/primitives.json → basePalette` 取主内容背景、侧栏背景和参考主色；
 - 从 `tokens/accents.json` 取产品的强调色轴（新产品则新增）；
+- 根据产品形态选择 `componentProfiles.mobile` 或 `componentProfiles.desktop`；再根据 `TargetPlatform` 选择行为适配器；
 - 确定内容层扩展点（阅读主题 / 播放器皮肤 / 无）。
 
 ## 第 1 步：主题层文件（建议结构）
@@ -26,22 +27,32 @@ lib/core/theme/
 0. **先构建再同步**：在设计仓库运行 `make build check`，再执行 `python3 tool/kai_design.py sync --only <product>`；流程见 `implementation/token-pipeline.md`。禁止手工翻译 JSON；
 1. **ThemeExtension 承载语义层**：`GlassTheme`（11 字段）、`SkinEffects`（8 字段），含 `copyWith` 与 `lerp`；
 2. **强调色注入 ColorScheme**（推荐 kaijuan 模型）：`ColorScheme.fromSeed(seedColor: accent).copyWith(primary: accent, onPrimary: 亮度估算, surfaceTint: transparent, surfaceContainer* ← 坡道, outline/outlineVariant ← border/hairline)`。**不要**用开听的静态变量突变模型（`SoundColors.accent = …`）——那是历史包袱；
-3. `ThemeData` 全局：`useMaterial3`、`applyElevationOverlayColor: false`、`splashFactory: NoSplash.splashFactory`、`highlightColor/splashColor: transparent`、**不设置 fontFamily**（平台默认）、`extensions: [glass, effects]`；
-4. TextTheme 按 `foundations/typography.md` 覆写（headline/title/hero **一律 w600** + 缓和负字距、bodySmall 染 secondary）；**禁止 w700+**；选中 / monogram / 当前歌词也是 w600（靠色区分）；行标题与按钮 **w500**；ChoiceStrip 选中 = accent + w600。
+3. Mobile 使用一套 `ThemeData`，Desktop 使用一套 `ThemeData`；普通按钮、输入、列表和导航不根据操作系统换皮肤；
+4. TextTheme 按当前 Component Profile 的 `typeScale` 建立。组件只请求 `pageTitle`、`body`、`label` 等语义角色，不在组件中判断平台或写字号；**禁止 w700+**，选中态靠颜色和 w600 区分。
 
-## 第 2 步：ThemeData 子主题清单（22 项，逐项勾）
+建议增加唯一解析入口：
 
-appBar / dialog / bottomSheet / snackBar / navigationBar / （可选 navigationRail）/ card / popupMenu / menu / dropdownMenu / inputDecoration / filledButton / elevatedButton / outlinedButton / textButton / iconButton / FAB / listTile / checkbox / radio / switch / slider / chip / divider / tooltip / scrollbar / progressIndicator。
+```dart
+KaiComponentProfile resolveKaiComponentProfile(AppFormFactor formFactor)
+```
 
-每项的数值从 `components/*.md` 与 `derivedAlphas` 查表，**不允许**现场发明。
+响应式布局只能改变信息架构和可用宽度，不能把桌面 Profile 换成移动 Profile。
+
+## 第 2 步：平台行为适配
+
+先查 `components/platform-component-map.md`。视觉组件只分 Mobile 和 Desktop；TargetPlatform 只处理系统行为与服务。
+
+- Android：系统返回、Insets、权限和必要触控反馈；
+- iOS/iPadOS：安全区、滑动返回、权限、分享和系统编辑行为；
+- macOS：窗口、菜单栏、右键、拖放和快捷键；
+- Windows/Linux：窗口、焦点、高对比度、键鼠和系统文件面板。
 
 ## 第 3 步：组件 kit（按依赖序）
 
 1. **GlassSurface 第一**——所有浮面的原语（可选 blur + border + shadow × shadowScale；blur≤0 跳过 BackdropFilter）；
-2. ChoiceStrip / ListRow / CheckRow / ToolbarButton / EmptyState；
-3. Dialog、BottomSheet（含 show 函数）；
-4. MenuAction / MenuButton / showMenu（自适应）；
-5. NavigationBar；
+2. 跨产品确实复用的内容组件，如 ListRow、TaskStatus、ResultSummary；
+3. 平台适配器：PrimaryNavigation、PlatformDialog、PlatformMenu、PlatformProgress；
+4. 产品专属组件继续放产品层；
 6. （设置页）SettingsGroup / PageHeader / SkinCard。
 
 规则：kit 组件只读 `context` 扩展与 `colorScheme`，不出现字面色值。

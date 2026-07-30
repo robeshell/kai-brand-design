@@ -84,6 +84,15 @@ def dart_color(value: str) -> str:
     return f"Color(0x{alpha_byte:02X}{red:02X}{green:02X}{blue:02X})"
 
 
+def pascal(value: str) -> str:
+    name = camel(value)
+    return name[0].upper() + name[1:]
+
+
+def kebab(value: str) -> str:
+    return re.sub(r"([a-z0-9])([A-Z])", r"\1-\2", value).lower()
+
+
 def css_color(value: str) -> str:
     red, green, blue, alpha = parse_color(value)
     if alpha == 0:
@@ -104,8 +113,11 @@ def render_dart(
     base_palette = primitives["basePalette"]
     spacing = primitives["spacing"]
     radii = primitives["radii"]
+    iconography = primitives["iconography"]
     layout = primitives["layoutMetrics"]
-    typography = primitives["typography"]
+    component_metrics = primitives["componentMetrics"]
+    component_profiles = primitives["componentProfiles"]
+    platform_profiles = primitives["platformProfiles"]
     product_accents = accents["products"][product]
     status = primitives["derivedAlphas"]["status"]
 
@@ -132,6 +144,9 @@ def render_dart(
     lines += ["}", "", "abstract final class KaiBrandRadii {"]
     for key in ("control", "card", "menu", "sheet", "dialog", "pill", "checkbox", "tooltip"):
         lines.append(f"  static const double {key} = {dart_number(radii[key])};")
+    lines += ["}", "", "abstract final class KaiBrandIcons {"]
+    for key, value in iconography["sizes"].items():
+        lines.append(f"  static const double {camel(key)} = {dart_number(value)};")
     lines += [
         "}",
         "",
@@ -150,17 +165,88 @@ def render_dart(
         f"  static const double mobileShellWidth = 820.0;",
         f"  static const double compactWidth = 600.0;",
         f"  static const double compactHeight = 600.0;",
-        f"  static const double compactPageTitle = {dart_number(typography['sizes']['pageTitle'][0])};",
-        f"  static const double regularPageTitle = {dart_number(typography['sizes']['pageTitle'][1])};",
         f"  static const double defaultWindowWidth = {dart_number(layout['desktopWindow']['defaultWidth'])};",
         f"  static const double defaultWindowHeight = {dart_number(layout['desktopWindow']['defaultHeight'])};",
         f"  static const double minWindowWidth = {dart_number(layout['desktopWindow']['minWidth'])};",
         f"  static const double minWindowHeight = {dart_number(layout['desktopWindow']['minHeight'])};",
+        f"  static const double readingContentWidth = {dart_number(layout['contentWidth']['reading'])};",
+        f"  static const double formContentWidth = {dart_number(layout['contentWidth']['form'])};",
+        f"  static const double standardContentWidth = {dart_number(layout['contentWidth']['standard'])};",
+        f"  static const double wideContentWidth = {dart_number(layout['contentWidth']['wide'])};",
+        f"  static const double detailPaneMinWidth = {dart_number(layout['splitView']['detailMin'])};",
+        f"  static const double detailPanePreferredWidth = {dart_number(layout['splitView']['detailPreferred'])};",
+        f"  static const double detailPaneMaxWidth = {dart_number(layout['splitView']['detailMax'])};",
         "}",
         "",
+        "abstract final class KaiBrandComponentMetrics {",
+        f"  static const double dialogConfirmMaxWidth = {dart_number(component_metrics['dialog']['confirmMaxWidth'])};",
+        f"  static const double dialogMaxWidth = {dart_number(component_metrics['dialog']['maxWidth'])};",
+        f"  static const double dialogViewportInset = {dart_number(component_metrics['dialog']['viewportInset'])};",
+        f"  static const double sheetOptionMaxWidth = {dart_number(component_metrics['sheet']['optionMaxWidth'])};",
+        f"  static const double sheetMaxWidth = {dart_number(component_metrics['sheet']['maxWidth'])};",
+        f"  static const double menuMinWidth = {dart_number(component_metrics['menu']['minWidth'])};",
+        f"  static const double menuMaxWidth = {dart_number(component_metrics['menu']['maxWidth'])};",
+        f"  static const double tableMinColumnWidth = {dart_number(component_metrics['table']['minColumnWidth'])};",
+        "}",
+    ]
+
+    for profile_id, profile in component_profiles.items():
+        profile_name = pascal(profile_id)
+        lines += ["", f"abstract final class KaiBrand{profile_name}Type {{"]
+        for style_id, style in profile["typeScale"].items():
+            name = camel(style_id)
+            lines.append(
+                f"  static const double {name}Size = {dart_number(style['fontSize'])};"
+            )
+            lines.append(
+                f"  static const double {name}LineHeight = {dart_number(style['lineHeight'])};"
+            )
+            lines.append(f"  static const int {name}Weight = {style['fontWeight']};")
+            lines.append(
+                f"  static const double {name}LetterSpacing = {dart_number(style['letterSpacing'])};"
+            )
+        lines.append("}")
+        lines += ["", f"abstract final class KaiBrand{profile_name}Metrics {{"]
+        for metric_id, value in profile["metrics"].items():
+            lines.append(
+                f"  static const double {camel(metric_id)} = {dart_number(value)};"
+            )
+        lines.append("}")
+
+    for profile_id, profile in platform_profiles.items():
+        profile_name = pascal(profile_id)
+        lines += ["", f"abstract final class KaiBrand{profile_name}Type {{"]
+        for style_id, style in profile["typeScale"].items():
+            name = camel(style_id)
+            lines.append(
+                f"  static const double {name}Size = {dart_number(style['fontSize'])};"
+            )
+            lines.append(
+                f"  static const double {name}LineHeight = {dart_number(style['lineHeight'])};"
+            )
+            lines.append(f"  static const int {name}Weight = {style['fontWeight']};")
+            lines.append(
+                f"  static const double {name}LetterSpacing = {dart_number(style['letterSpacing'])};"
+            )
+        lines.append("}")
+        lines += ["", f"abstract final class KaiBrand{profile_name}Metrics {{"]
+        for metric_id, value in profile["metrics"].items():
+            lines.append(
+                f"  static const double {camel(metric_id)} = {dart_number(value)};"
+            )
+        lines.append("}")
+
+    lines += [
+        "",
         "abstract final class KaiBrandStatusColors {",
+        f"  static const successLight = {dart_color(status['success']['light'])};",
+        f"  static const successDark = {dart_color(status['success']['dark'])};",
         f"  static const warningLight = {dart_color(status['warning']['light'])};",
         f"  static const warningDark = {dart_color(status['warning']['dark'])};",
+        f"  static const errorLight = {dart_color(status['error']['light'])};",
+        f"  static const errorDark = {dart_color(status['error']['dark'])};",
+        f"  static const infoLight = {dart_color(status['info']['light'])};",
+        f"  static const infoDark = {dart_color(status['info']['dark'])};",
         "}",
     ]
 
@@ -226,7 +312,11 @@ def render_css(
 ) -> str:
     base_palette = primitives["basePalette"]
     radii = primitives["radii"]
+    iconography = primitives["iconography"]
     layout = primitives["layoutMetrics"]
+    component_metrics = primitives["componentMetrics"]
+    component_profiles = primitives["componentProfiles"]
+    platform_profiles = primitives["platformProfiles"]
     derived = primitives["derivedAlphas"]
     product = accents["products"]["kaigua"]
     selectors = {"default": ":root,\n[data-skin=\"default\"]", "pure": "[data-skin=\"pure\"]", "deep-night": "[data-skin=\"deep-night\"]"}
@@ -262,6 +352,9 @@ def render_css(
             "subtle-fill": derived["subtleFill"]["dark" if dark else "light"],
             "barrier": derived["barrier"]["dialogDark" if dark else "dialogLight"],
             "warning": derived["status"]["warning"]["dark" if dark else "light"],
+            "success": derived["status"]["success"]["dark" if dark else "light"],
+            "error": derived["status"]["error"]["dark" if dark else "light"],
+            "info": derived["status"]["info"]["dark" if dark else "light"],
         }
         blocks.append(f"{selectors[skin['id']]} {{")
         blocks.append(f"  color-scheme: {'dark' if dark else 'light'};")
@@ -293,7 +386,31 @@ def render_css(
         f"  --kg-page-gutter: {layout['pageGutter']['medium']}px;",
         f"  --kg-content-bottom-padding: {layout['contentBottomPadding']['desktop']}px;",
         f"  --kg-settings-max: {primitives['breakpoints']['settingsMaxContentWidth']}px;",
+        f"  --kg-content-reading-max: {layout['contentWidth']['reading']}px;",
+        f"  --kg-content-form-max: {layout['contentWidth']['form']}px;",
+        f"  --kg-content-standard-max: {layout['contentWidth']['standard']}px;",
+        f"  --kg-content-wide-max: {layout['contentWidth']['wide']}px;",
+        f"  --kg-detail-pane-min: {layout['splitView']['detailMin']}px;",
+        f"  --kg-detail-pane-preferred: {layout['splitView']['detailPreferred']}px;",
+        f"  --kg-detail-pane-max: {layout['splitView']['detailMax']}px;",
+        f"  --kg-icon-compact: {iconography['sizes']['compact']}px;",
+        f"  --kg-icon-regular: {iconography['sizes']['regular']}px;",
+        f"  --kg-icon-large: {iconography['sizes']['large']}px;",
+        f"  --kg-icon-display: {iconography['sizes']['display']}px;",
+        f"  --kg-dialog-max: {component_metrics['dialog']['maxWidth']}px;",
+        f"  --kg-sheet-max: {component_metrics['sheet']['maxWidth']}px;",
+        f"  --kg-menu-min: {component_metrics['menu']['minWidth']}px;",
+        f"  --kg-menu-max: {component_metrics['menu']['maxWidth']}px;",
     ]
+    fallback = component_profiles["desktop"]
+    for style_id, style in fallback["typeScale"].items():
+        name = kebab(style_id)
+        blocks.append(f"  --kg-type-{name}-size: {style['fontSize']}px;")
+        blocks.append(f"  --kg-type-{name}-line-height: {style['lineHeight']}px;")
+        blocks.append(f"  --kg-type-{name}-weight: {style['fontWeight']};")
+        blocks.append(f"  --kg-type-{name}-tracking: {style['letterSpacing']}px;")
+    for metric_id, value in fallback["metrics"].items():
+        blocks.append(f"  --kg-metric-{kebab(metric_id)}: {value}px;")
     for path, token in product_tokens["kaigua"]["tokens"].items():
         name = path.replace(".", "-")
         value = token["value"]
@@ -307,6 +424,17 @@ def render_css(
             rendered = str(value)
         blocks.append(f"  --kg-product-{name}: {rendered};")
     blocks += ["}", ""]
+    for profile_id, profile in component_profiles.items():
+        blocks.append(f'[data-component-profile="{kebab(profile_id)}"] {{')
+        for style_id, style in profile["typeScale"].items():
+            name = kebab(style_id)
+            blocks.append(f"  --kg-type-{name}-size: {style['fontSize']}px;")
+            blocks.append(f"  --kg-type-{name}-line-height: {style['lineHeight']}px;")
+            blocks.append(f"  --kg-type-{name}-weight: {style['fontWeight']};")
+            blocks.append(f"  --kg-type-{name}-tracking: {style['letterSpacing']}px;")
+        for metric_id, value in profile["metrics"].items():
+            blocks.append(f"  --kg-metric-{kebab(metric_id)}: {value}px;")
+        blocks += ["}", ""]
     for index, preset in enumerate(product["presets"]):
         selector = ":root,\n" if index == 0 else ""
         selector += f"[data-accent=\"{preset['id']}\"]"

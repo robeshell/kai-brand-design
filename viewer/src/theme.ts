@@ -1,5 +1,5 @@
 import { resolveSkin, tokens } from "./data";
-import type { ProductId, SkinId } from "./types";
+import type { PlatformId, ProductId, SkinId } from "./types";
 
 function cssColor(value: string): string {
   if (value === "transparent") return value;
@@ -47,6 +47,16 @@ export function applyTheme(
   // Skin controls surfaces and effects; product accent is an orthogonal axis.
   // Never change the accent merely because the user switches skin.
   const viewerAccent = accent.accent;
+  const derived = tokens.primitives.derivedAlphas as {
+    hairline: Record<"light" | "dark", string>;
+    border: Record<"light" | "dark", string>;
+    subtleFill: Record<"light" | "dark", string>;
+    status: Record<
+      "success" | "warning" | "error" | "info",
+      Record<"light" | "dark", string>
+    >;
+  };
+  const tone = skin.brightness;
 
   const root = document.documentElement;
   root.dataset.skin = resolved;
@@ -76,6 +86,13 @@ export function applyTheme(
     "--text-muted": skin.glass.mutedText,
     "--accent": viewerAccent,
     "--product-accent": accent.accent,
+    "--hairline": derived.hairline[tone],
+    "--border": derived.border[tone],
+    "--subtle-fill": derived.subtleFill[tone],
+    "--success": derived.status.success[tone],
+    "--warning": derived.status.warning[tone],
+    "--danger": derived.status.error[tone],
+    "--info": derived.status.info[tone],
     "--blur": `${skin.glass.blur}px`,
     "--strong-blur": `${skin.glass.strongBlur}px`,
     "--shadow-scale": skin.effects.shadowScale,
@@ -97,5 +114,22 @@ export function installPrimitiveVariables(): void {
   });
   Object.entries(tokens.primitives.radii).forEach(([key, value]) => {
     root.style.setProperty(`--radius-${key}`, `${value}px`);
+  });
+}
+
+export function applyPlatformProfile(profileId: PlatformId): void {
+  const root = document.documentElement;
+  const componentProfileId = profileId.endsWith("Mobile") ? "mobile" : "desktop";
+  const profile = tokens.primitives.componentProfiles[componentProfileId];
+  root.dataset.platformProfile = profileId.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+  root.dataset.componentProfile = componentProfileId;
+  Object.entries(profile.typeScale).forEach(([role, style]) => {
+    const name = role.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+    root.style.setProperty(`--viewer-type-${name}-size`, `${style.fontSize}px`);
+    root.style.setProperty(`--viewer-type-${name}-line-height`, `${style.lineHeight}px`);
+  });
+  Object.entries(profile.metrics).forEach(([metric, value]) => {
+    const name = metric.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+    root.style.setProperty(`--viewer-metric-${name}`, `${value}px`);
   });
 }

@@ -1,61 +1,62 @@
-# 输入控件（TextField / Slider / Switch / Checkbox / Radio / Dropdown）
+# 输入与基础选择
 
-- **参考实现**：kaiting `sound_theme.dart`（inputDecoration / slider / checkbox / radio / dropdownMenu 子主题）+ `SoundSwitch`；kaijuan `lib/core/theme/app_theme.dart`。
+文本输入、搜索、开关、勾选、单选、下拉和滑杆按 Mobile / Desktop 统一外观，同时接入系统编辑、选择和辅助输入能力。
 
-## 文本输入（TextField）
+## 组件 Profile
 
-| 部位 | 值 |
-|---|---|
-| 填充 | subtle（前景 4.5%/5.5%） |
-| 圆角 | 10（control 档） |
-| 边框 | 常态 border；聚焦 2px accent；错误 error（聚焦 2px）；不使用外侧 outline |
-| 内边距 | 14h / 14v，isDense |
-| 标签 | secondary w500；浮动标签 accent w600 |
-| 提示 | secondary 70% |
-| 前后图标 | secondary |
+| Profile | 高度 | 输入能力 |
+|---|---:|---|
+| `mobile` | 48 | 触摸、软键盘、自动填充、语音与系统选择 |
+| `desktop` | 36；工具栏 32 | 键盘、指针、右键、撤销和快捷键 |
 
-规则：对话框内输入框 autofocus + Enter 提交（见对话框规范）；搜索框可有独立更矮的紧凑变体，但填充/圆角/聚焦规则不变。键盘聚焦由控件自身的 2px accent 边框表达，不再叠加外侧焦点环。
+## 共同结构
 
-## 滑杆（Slider / 进度条）
+输入字段按需包含：
 
-| 部位 | 值 |
-|---|---|
-| 轨道 | 高 3；激活 accent / 未激活 border |
-| 拇指 | 半径 6 圆，accent |
-| 按压 overlay | accent 12%，半径 14 |
-| 数值标签 | 不显示 |
+1. 持续可见的标签；
+2. 输入或选择控件；
+3. 简短帮助；
+4. 错误与修正办法。
 
-只读进度条复用同语言（轨道 3、无拇指或拇指 5）。
+占位文字不能代替标签。只读内容和禁用内容必须区分。
 
-## 开关（Switch）
+## 品牌覆盖
 
-| 部位 | 值 |
-|---|---|
-| 轨道 | 40×24 胶囊（pill 999），无描边 |
-| 拇指 | 18 正圆，轨道内边距 3 |
-| 选中 | 轨道 accent、拇指 onAccent |
-| 未选 | 轨道 border、拇指 secondary |
-| 动效 | 160ms easeOutCubic，颜色 + 拇指位置 |
-| 触控 | 视觉轨道外补透明 padding，触控目标 ≥40 |
+- 标签、正文、帮助和错误的语义文字角色；
+- accent、error 和表面 token；
+- 控件容器的圆角倾向与边框层级；
+- 选中状态的品牌色。
 
-- 参考实现：开听 `SoundSwitch`（`sound_components.dart`）；
-- **禁止** `Switch.adaptive`（macOS/iOS 得到系统绿 Cupertino 开关，且不吃主题）与 M3 默认大轨道 + state layer 样式。
+平台保留文本光标、选区、自动填充、密码管理、输入法、语音输入、撤销重做、焦点和高对比度行为。
 
-## 勾选 / 单选（Checkbox / Radio）
+## 尺寸与状态
 
-- Checkbox：圆角 5、1.4px border 描边、选中 accent 底 + onAccent 勾；
-- Radio：选中 accent；均 compact 密度。
+- 高度读取当前 Mobile / Desktop Profile 的 `controlHeight`；
+- 命中区不小于 `minimumInteractiveTarget`；
+- 字体读取 `typeScale.body`；
+- 支持 Default、Focused、Filled、Error、Read-only、Disabled；
+- Focused 使用平台焦点能力；输入容器可同步使用 accent 边框，但不叠加重复焦点环；
+- Error 同时显示错误色、文字和可访问关联。
 
-## 下拉（DropdownMenu）
+## 选择控件
 
-输入部分同 TextField；菜单部分 elevated 面 + r12 + border（同菜单规范）。
+- Switch 只用于立即生效的二态设置；
+- Checkbox 用于可以选择多个项目或需要提交确认的二态值；
+- Radio 用于少量互斥选项；
+- 选项过多时使用 Picker、ComboBox 或可搜索列表；
+- 不通过改变标签文字隐藏当前状态。
 
-## 禁止事项
+## 禁止
 
-- 禁止无填充的下划线输入框（M1 风格）；
-- 禁止滑杆拇指带阴影/ elevation。
+- 不用操作系统判断切换输入框、Switch 或 Checkbox 外观；
+- 不因统一视觉移除系统文本编辑能力；
+- 不移除系统焦点、选择和输入法能力；
+- 不用颜色作为唯一的选中或错误提示；
+- 不在桌面使用手机尺寸下拉或全屏选择。
 
-## 验收锚点
+## 验收
 
-- 输入框 r10、填充 subtle、聚焦 2px accent 且无外侧 outline；
-- 滑杆轨道 3 / 拇指 6；checkbox r5。
+- 字体缩放、输入法、键盘和屏幕阅读器可用；
+- Mobile 和 Desktop 视觉分别一致，系统输入行为可用；
+- 品牌颜色和信息层级一致；
+- 错误后保留输入，并聚焦第一个需要修正的字段。
