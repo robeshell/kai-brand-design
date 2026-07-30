@@ -113,8 +113,8 @@
       "sha256": "e23df4d51b5941278adfb52c14d6208ed466515c4c24e4b94b5de9f90eb6dad1"
     },
     "spec/implementation/adoption-matrix.md": {
-      "bytes": 1974,
-      "sha256": "0954489fba9d8a542c1401303312871efe8dee1f5d382ad8c23c6430bc5ecab5"
+      "bytes": 2110,
+      "sha256": "d3bcf74638d5c86b81842823dd3061a292a76d83ee3e49cc8f5adead71857d87"
     },
     "spec/implementation/flutter.md": {
       "bytes": 4445,
