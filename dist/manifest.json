@@ -17,12 +17,12 @@
       "sha256": "db9152b76623905f7e5a83f882028d3ed484459e7aeb941d82b3df5bde3142c5"
     },
     "spec/DESIGN.md": {
-      "bytes": 19811,
-      "sha256": "35f9ed28699292efb6028ed0b89c12f1133e7162392c906641582c542631f80d"
+      "bytes": 20103,
+      "sha256": "2b861a2a430d2750070f3379ae70a2677a7e0688faf0ce6c9bec34ac64a5bc5c"
     },
     "spec/README.md": {
-      "bytes": 16322,
-      "sha256": "c925ca01aafc600ae1c20622f0090c60bcfa920850e88b74bb7bc5590734686c"
+      "bytes": 18579,
+      "sha256": "49e6057c3eae02386edf771ef74dbd7afe2fd1a1538b033ad5d936a14339493f"
     },
     "spec/components/_template.md": {
       "bytes": 1318,
@@ -61,20 +61,20 @@
       "sha256": "50c26ed863286a584f259c56fc2edf333f70f209ee2cf5dda8b3e52638fe0746"
     },
     "spec/components/list-rows.md": {
-      "bytes": 1632,
-      "sha256": "7339fceb3403eb0ec4e4e3f6906ce18bf5610728e65e30d47a247f82f69f4c2b"
+      "bytes": 1822,
+      "sha256": "084b7d8f707b35856959e76dd271925f68952ceab9a507cdb1bda16e786c5a9e"
     },
     "spec/components/navigation.md": {
-      "bytes": 2209,
-      "sha256": "7c2f739fab5e9bd3d5c48ba796796b48bf6c0eec61320f0fccb04f99aa48c30b"
+      "bytes": 4853,
+      "sha256": "f8ad5a27fd109818bee4a168f03160e2b768e6fdbbd01497533999be6ce5b257"
     },
     "spec/components/platform-component-map.md": {
       "bytes": 2059,
       "sha256": "5cbb8f91df560e740a5e23218c483aa149d0089f01a93b3ff3a4c76066434e23"
     },
     "spec/components/sheets-and-menus.md": {
-      "bytes": 2114,
-      "sha256": "ab1441f409d66788e2031b1fe56f0732af6b3524f438ce68c68e85b3fbdc666d"
+      "bytes": 2961,
+      "sha256": "d2d24cf5f709b69cc9d09eb120bedd5710c9f29dcced8bf921e56ca1a2a5b5f6"
     },
     "spec/components/surfaces.md": {
       "bytes": 640,
@@ -137,8 +137,8 @@
       "sha256": "9196b233e369c56df7ec750273fbb427442514a7e7a63af2ddfaa30c75bcbe12"
     },
     "spec/patterns/settings-page.md": {
-      "bytes": 3623,
-      "sha256": "d65614058d503244d00206c0dbfdb0c8e8015f95b9259fa90b9a35e3f04cc08c"
+      "bytes": 6229,
+      "sha256": "ca15bc35ab762c71a089444eb3fbf7077dbe48f18aa280780cc81f8c9250638a"
     },
     "spec/patterns/status-system.md": {
       "bytes": 3139,
