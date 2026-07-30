@@ -29,10 +29,10 @@ typography:
   heroImmersive: { size: 24, weight: 700, tracking: -0.25 }
   nowPlayingTitle: { size: 24, weight: 700, tracking: -0.25 }
   titleLarge: { weight: 700, tracking: -0.1 }
-  rowTitle: { size: 13.5, weight: 600 }
-  rowSubtitle: { size: 11.5, weight: 400, color: "{colors.textSecondary}" }
-  sectionLabel: { size: 12.5, weight: 700, color: "{colors.textSecondary}" }
-  navLabel: { size: 10.5, weight: "600 unselected / 800 selected" }
+  rowTitle: { size: 14, weight: 500 }
+  rowSubtitle: { size: 11, weight: 400, color: "{colors.textSecondary}" }
+  sectionLabel: { size: 13, weight: 600, color: "{colors.textSecondary}" }
+  navLabel: { size: 10, weight: "500 unselected / 600 selected" }
   chipLabel: { size: 12, weight: "600 unselected / 800 selected" }
   weight800Only: "selected · current lyric · monogram · queue now-playing row"
 rounded:
@@ -59,7 +59,7 @@ components:
   sheet: { maxWidth: 760, radiusTop: "{rounded.sheet}", handle: "38x4", handleColor: "secondary@0.38-0.45" }
   optionSheet: { maxWidth: 560 }
   menu: { width: "hug, min 160 / max 280", radius: "{rounded.menu}", paddingV: 4, adaptiveBelow: 680 }
-  menuRow: { height: "36 anchored / 52 sheet", icon: "17/22 anchored · 19/24 sheet", label: "13.5 anchored · 14 sheet", selected: "foreground@0.055 + accent + check 16/18" }
+  menuRow: { height: "36 anchored / 52 sheet", icon: "17/22 anchored · 19/24 sheet", label: "14 anchored · 14 sheet", selected: "foreground@0.055 + accent + check 16/18" }
   listRow: { minHeight: 54, leading: 32, title: "{typography.rowTitle}", subtitle: "{typography.rowSubtitle}" }
   checkRow: { leading: "checkbox icon 20, accent filled / muted hollow" }
   settingsGroup: { radius: "{rounded.card}", fill: "surfaceContainerLow@0.72", border: "{colors.hairline}", dividerIndent: 14 }
@@ -68,8 +68,8 @@ components:
   switch: { track: "40x24", thumb: 18, motion: "160ms easeOutCubic" }
   checkbox: { radius: 5, border: "1.4px", checked: "accent + onAccent check" }
   chip: { height: 32, radius: "{rounded.pill}", selected: "accent@0.09" }
-  sidebarRow: { height: 38, padding: "10h/2v", icon: 18, iconSlot: 32, label: 13.5, selected: "accent@0.10 capsule", radius: "{rounded.control}", hover: "foreground@0.045" }
-  sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", padding: "10/12/10/12", brand: "17 w600 -0.35", brandMark: "optional 28 + gap 8", sectionLabel: "10.5 w600 muted +0.8, pad 10/13/10/3" }
+  sidebarRow: { height: 38, padding: "10h/2v", icon: 18, iconSlot: 32, label: 14, selected: "accent@0.10 capsule", radius: "{rounded.control}", hover: "foreground@0.045" }
+  sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", padding: "10/12/10/12", brand: "17 w600 -0.35", brandMark: "optional 28 + gap 8", sectionLabel: "10 w600 muted +0.8, pad 10/13/10/3" }
   navBar: { height: "56 / embedded 46", surface: "GlassSurface strong + chromeSurface", icon: 21, label: "{typography.navLabel}" }
   appShell: { defaultCanvasBase: "#F7F9FC", defaultSideBase: "#F3F5F8", allSkins: "gradient canvas → canvasHighlight → overlay, stops 0/0.46/1; strong glass chrome", extendBody: true, contentBottomPad: "140 mobile / 96 desktop" }
   snackbar: { behavior: floating, surface: "overlay no border", radius: "{rounded.pill}", width: "hug content max viewport-40", padding: "18h/11v", text: "14 w600", duration: "1.6s", bottom: "36 >=420w / 18 narrow" }
@@ -93,7 +93,7 @@ components:
 - **基础色板 × 产品强调色正交**——浅色基准使用右侧冷白、左侧浅灰和珊瑚参考主色；产品强调色在 L0 选择，切换皮肤时保持不变。
 - **精致字重**——标题 / 选中封顶 **w600**；行与按钮 **w500**；**禁止 w700+**；**禁止钉死 `.SF Pro Text`**。
 - **组件只读语义层**——任何组件不得硬编码颜色/透明度/圆角字面量，否则换皮肤（纯净皮肤 blur=0）即破。
-- **0.5 字号网格**——壳层字号只取 10.5/11.5/12.5/13.5 等半档值。
+- **整数字号网格**——壳层字号只取 token 表的整档值（10/11/12/13/14/17…），禁止 .5 半档硬编码。
 
 ## Colors
 
@@ -148,11 +148,11 @@ components:
 | pageTitle | 26–28 | **600** | −0.15 | 设置页头、用户库页头 |
 | heroImmersive / nowPlayingTitle | 24 | **600** | −0.25 | 移动 hero、正在播放曲名 |
 | titleLarge | 阶梯 | **600** | −0.1 | 对话框 / sheet 标题 |
-| rowTitle | 13.5 | **500** | 0 | 行标题 |
+| rowTitle | 14 | **500** | 0 | 行标题 |
 | sectionLabel | 12–20 | **600** | 0 | 分区小标题（「专辑」「歌词」） |
-| rowSubtitle | 11.5 | 400–500 | 0 | 副题、元信息 |
+| rowSubtitle | 11 | 400–500 | 0 | 副题、元信息 |
 | chipLabel | 12 | 未选 500 / **选中 600 + accent** | 0 | ChoiceStrip / Chip（色强调） |
-| navLabel | 10.5 | 未选 500 / **选中 600** | 0 | 底栏标签 |
+| navLabel | 10 | 未选 500 / **选中 600** | 0 | 底栏标签 |
 | lyricActive | 18–22 | **600** | 0 | 仅当前歌词行（其余 w400） |
 | monogram | 随圆头 | **600** | −0.4 | 艺人字母头像 |
 
@@ -160,7 +160,7 @@ components:
 
 - **标题 = w600**；选中 / 当前 / monogram 同档 **w600**，靠色区分。**禁止 w700+**。
 - 标题负字距缓和（≈ −0.1～−0.3）；正文与行文字不加字距。
-- 层级靠颜色与字号，不靠粗体——壳层正文/UI 集中在 11.5–14。
+- 层级靠颜色与字号，不靠粗体——壳层正文/UI 集中在 11–14 整档。
 - 内容 hero 允许 24–28 字号，**字重仍 w600**；展示文字不得用 accent；hero 艺人名 15 w500–600 secondary。
 - 截断：行标题单行省略；说明最多两行；对话框标题单行省略。
 
@@ -222,7 +222,7 @@ components:
 ### Surfaces — 表面原语
 
 - **`glass-surface`** — 一切浮面的原语：`base` / `strong` 两档填充（取自 `glass.surface` / `glass.strongSurface`）+ `glass.border` 描边 + token 阴影 × `effects.shadowScale` +（可选）`glass.blur` 模糊。blur=0 的皮肤（纯净）自动跳过 BackdropFilter，shadowScale=0 自动免投影。浮面按场景用模糊，**重复的行/卡片不模糊**。
-- **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔，左右缩进 14，自动插入（不手动写 Divider）；子块标签 12.5 w600 secondary，padding 14/12/14/2，左对齐。
+- **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔，左右缩进 14，自动插入（不手动写 Divider）；子块标签 13 w600 secondary，padding 14/12/14/2，左对齐。
 - **皮肤预览卡** — 124×80、r12、hairline 描边；内部 0.74×0.64 elevated 小卡（r7）+ accent 短条 13×4 + 两条假文字（0.78/0.52 宽、3.5 高、primaryText@0.22 / secondaryText@0.32）；选中 accent 2px 描边 + 下方标签 accent w600，未选 hairline + secondary w500（12px）。不放 check 角标。
 - **主题色板** — 28px 圆点横排，间距 12；选中 1.5px primary 描边 + 中心 8px onAccent 圆点；未选无描边（自定义彩虹渐变点外带 hairline）。不放 check 图标、不加投影。
 
@@ -253,9 +253,9 @@ components:
 
 ### Lists — 列表行 / 菜单行
 
-- **`list-row`** — 解剖 `[leading 槽32] 10 [标题/副题] 10 [trailing]`；minHeight 54（设置页行 64 / 紧凑 58）、padding 14h/6v；标题 13.5 w600 单行省略、副题 11.5 secondary 单行省略。trailing：value 12.5 secondary w500 + chevron 19 secondary，或 Switch（右内边距 6）。状态：default 透明 / hover 前景 3.5% / focus 5% / selected 5%（可叠加 accent 内容）/ disabled muted 50%。destructive 行：图标与文字 error 色。整行 InkWell 透明叠加可点，无 onTap 不注册 button 语义；**行内不出现 elevation / 阴影**。
+- **`list-row`** — 解剖 `[leading 槽32] 10 [标题/副题] 10 [trailing]`；minHeight 54（设置页行 64 / 紧凑 58）、padding 14h/6v；标题 14 w500 单行省略、副题 11 secondary 单行省略。trailing：value 13 secondary w500 + chevron 19 secondary，或 Switch（右内边距 6）。状态：default 透明 / hover 前景 3.5% / focus 5% / selected 5%（可叠加 accent 内容）/ disabled muted 50%。destructive 行：图标与文字 error 色。整行 InkWell 透明叠加可点，无 onTap 不注册 button 语义；**行内不出现 elevation / 阴影**。
 - **`check-row`** — 见 §Choice & Selection。
-- **`menu-row`** — 高 36（锚定）/ ≥52（底部弹层）；锚定图标 17 槽宽 22、标签 13.5 w600、padding 12h；弹层图标 19 槽宽 24、标签 14 w600、padding 20h；副题 11.5 secondary；选中 foreground 5.5% 底 + accent 前景 + 右侧 check（锚定 16 / 弹层 18）；destructive error 前景；`dividerBefore` → hairline（indent 对齐行 padding：锚定 12 / 弹层 16）。菜单标题：12–12.5 w600 secondary + hairline 下分隔。
+- **`menu-row`** — 高 36（锚定）/ ≥52（底部弹层）；锚定图标 17 槽宽 22、标签 14 w600、padding 12h；弹层图标 19 槽宽 24、标签 14 w600、padding 20h；副题 11 secondary；选中 foreground 5.5% 底 + accent 前景 + 右侧 check（锚定 16 / 弹层 18）；destructive error 前景；`dividerBefore` → hairline（indent 对齐行 padding：锚定 12 / 弹层 16）。菜单标题：12 w600 secondary + hairline 下分隔。
 
 ### Overlays — 对话框 / 底部弹层 / 菜单
 
@@ -265,8 +265,8 @@ components:
 
 ### Navigation — 底栏 / 侧栏
 
-- **`nav-bar`（底栏）** — 高 **56**（上方有产品条时嵌入态 **46**）+ SafeArea；三主题统一走 `GlassSurface` strong + `chromeSurface`；顶 hairline。纯净主题通过 token 自动零模糊、零投影。图标 21、标签 10.5；底栏常驻，内容底留白按壳规范。
-- **`side-rail`（侧栏）** — 宽 **216（medium）/ 236（wide）**，禁止其它定宽。三主题统一走 `GlassSurface` strong + `chromeSurface`；右 hairline。默认主题底层基色为 `#F3F5F8`。外框 padding `10/12/10/12`；品牌字 17 w600 −0.35；行高 38、圆角 10、图标 18、标签 13.5、选中 accent 10% 胶囊。
+- **`nav-bar`（底栏）** — 高 **56**（上方有产品条时嵌入态 **46**）+ SafeArea；三主题统一走 `GlassSurface` strong + `chromeSurface`；顶 hairline。纯净主题通过 token 自动零模糊、零投影。图标 21、标签 10；底栏常驻，内容底留白按壳规范。
+- **`side-rail`（侧栏）** — 宽 **216（medium）/ 236（wide）**，禁止其它定宽。三主题统一走 `GlassSurface` strong + `chromeSurface`；右 hairline。默认主题底层基色为 `#F3F5F8`。外框 padding `10/12/10/12`；品牌字 17 w600 −0.35；行高 38、圆角 10、图标 18、标签 14、选中 accent 10% 胶囊。
 - 壳层画布与双端布局总规见 `patterns/app-shell.md`。
 
 ### Feedback — 轻提示 / 空态 / 加载 / 滚动条 / 进度条
@@ -285,7 +285,7 @@ components:
 - 改设计先改本仓库规范（连同 changelog），运行 `make validate test build check`，再通过 `kai_design.py sync` 同步产品。
 - 用文字三档与 derivedAlphas 规范档表达弱化和禁用。
 - 新组件先判层级归属：通用进品牌层，单产品进 `products/<product>/`，第二个产品需要时提升。
-- 用缓和负字距、精致字重（封顶 w600；行/按钮 w500）、0.5 字号网格；字体走平台默认。
+- 用缓和负字距、精致字重（封顶 w600；行/按钮 w500）、整数字号网格；字体走平台默认。
 
 ### Don't
 

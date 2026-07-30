@@ -6,7 +6,7 @@
 ## 解剖
 
 ```
-[leading 槽32] 10 [标题 13.5 w600 / 副题 11.5 secondary] 10 [trailing]
+[leading 槽32] 10 [标题 14 w500 / 副题 11 secondary] 10 [trailing]
 ```
 
 ## Metrics
@@ -16,8 +16,8 @@
 | minHeight | 54（设置页用 `listRowSingle` = 52，见 `patterns/settings-page.md`） |
 | padding | 14h / 6v |
 | leading 槽 | 32 宽居中 |
-| 标题 | 13.5 w600，单行省略 |
-| 副题 | 11.5 secondary，单行省略 |
+| 标题 | 14 w500，单行省略 |
+| 副题 | 11 secondary，单行省略 |
 
 ## Token 映射与状态
 
@@ -45,5 +45,5 @@ leading 为 checkbox 图标（20px）：选中 accent 实心 / 未选 muted 空�
 
 ## 验收锚点
 
-- minHeight 54、标题 13.5 w600、副题 11.5；
+- minHeight 54、标题 14 w500、副题 11；
 - 行内不出现 elevation / 阴影。

@@ -47,14 +47,14 @@
 
 ## 行（三类呈现）
 
-1. **导航行**：标题 14 w500 primary（listTitle 档），行尾 value 12.5 secondary w500 + chevron 19 secondary；padding 14h/8v；行高 = `listRowSingle`（52）；**默认不带副标题**——解释性文案放进点开后的弹层/子页标题下方，行内保持单行扫读；
+1. **导航行**：标题 14 w500 primary（listTitle 档），行尾 value 13 secondary w500 + chevron 19 secondary；padding 14h/8v；行高 = `listRowSingle`（52）；**默认不带副标题**——解释性文案放进点开后的弹层/子页标题下方，行内保持单行扫读；
 2. **开关行**：同上行结构，Switch trailing；
 3. **选择行**：行内 check，或下述预览卡 / 色板直接展示；
 4. 危险操作（清库等）放分区末尾，destructive 样式。
 
 ## 外观区：选择器直接展示
 
-皮肤、主题色、播放器样式这类「看一眼就想点」的选择器**在分组卡内直接展示**，不藏在折叠行后面。外观分组为**整块卡**（无行间分隔线），卡内用子块标签（`SettingsBlockLabel`，12.5 w600 secondary、字距 0.2，14/12/14/2 内边距）分隔各选择器。
+皮肤、主题色、播放器样式这类「看一眼就想点」的选择器**在分组卡内直接展示**，不藏在折叠行后面。外观分组为**整块卡**（无行间分隔线），卡内用子块标签（`SettingsBlockLabel`，13 w600 secondary、字距 0.2，14/12/14/2 内边距）分隔各选择器。
 
 ### 皮肤预览卡（SkinCard）
 

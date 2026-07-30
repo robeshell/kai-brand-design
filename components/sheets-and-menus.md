@@ -50,11 +50,11 @@
 | 行高 | 宽屏锚定 36 / 窄屏底部弹层 ≥52 |
 | 行左右 padding | 锚定 12h；底部弹层 20h |
 | 图标 | 锚定 17px 槽宽 22；底部弹层 19px 槽宽 24 |
-| 标签 | 锚定 13.5 w600；底部弹层 14 w600；副题 11.5 secondary |
+| 标签 | 锚定 14 w600；底部弹层 14 w600；副题 11 secondary |
 | 选中 | 前景 5.5% 底 + accent 前景 + 右侧 check（锚定 16 / 弹层 18） |
 | destructive | error 前景 |
 | 分隔 | dividerBefore → hairline（indent 与行左右 padding 对齐：锚定 12 / 弹层 16） |
-| 菜单标题 | 12–12.5 w600 secondary + hairline 分隔 |
+| 菜单标题 | 12 w600 secondary + hairline 分隔 |
 
 ### 触发器（MenuButton）
 
@@ -70,4 +70,4 @@
 ## 验收锚点
 
 - sheet 顶角 r18、把手 38×4、maxWidth 760；
-- 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 13.5；<680px 自动退化为底部弹层。
+- 锚定菜单：内容撑开、minWidth 160 / maxWidth 280、行高 36、标签 14；<680px 自动退化为底部弹层。

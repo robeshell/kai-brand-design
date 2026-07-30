@@ -56,7 +56,7 @@
 | 行 padding | **10h / 2v** |
 | 行圆角 | 10（control 档） |
 | 图标 | **18**，槽宽 **32**（居中），与标签间距 10 |
-| 标签 | **13.5**；选中 primary w600 / 未选 secondary w500 |
+| 标签 | **14**；选中 primary w600 / 未选 secondary w500 |
 | 选中底 | accent **10%** 胶囊 |
 | 选中图标 | accent |
 | hover | 前景 **4.5%** |
@@ -87,4 +87,4 @@
 ## 验收锚点
 
 - 底栏：56（嵌入 46）+SafeArea、图标 21、标签 10 选中 w600 accent；`GlassSurface` strong + chromeSurface；顶 hairline；阴影 blur 18 offset (0,−6)；
-- 侧栏：宽 216/236；`GlassSurface` strong + chromeSurface；右 hairline；阴影 blur 6 offset (1,0)；行高 38、padding 10h/2v、图标 18/槽 32、标签 13.5；选中 accent 10% 胶囊 r10；品牌字 17 w600 −0.35；外框 padding 10/12/10/12。
+- 侧栏：宽 216/236；`GlassSurface` strong + chromeSurface；右 hairline；阴影 blur 6 offset (1,0)；行高 38、padding 10h/2v、图标 18/槽 32、标签 14；选中 accent 10% 胶囊 r10；品牌字 17 w600 −0.35；外框 padding 10/12/10/12。
