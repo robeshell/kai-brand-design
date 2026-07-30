@@ -1,6 +1,6 @@
 /* GENERATED FILE — DO NOT EDIT.
  * Source: kai-brand-design/tokens/*.json
- * specVersion: 0.6.1 · sha256: 0527b7fa6df4c8704ec531fbfe51175f0514a94a4207a76c38d2a6c184166282
+ * specVersion: 0.6.2 · sha256: 8f580680a2d49e0910db4536b83abfdbdd34248d62cd4e72ef73c3f60dc726c0
  */
 
 :root,
@@ -136,6 +136,10 @@
   --kg-type-body-secondary-line-height: 18px;
   --kg-type-body-secondary-weight: 400;
   --kg-type-body-secondary-tracking: 0px;
+  --kg-type-list-title-size: 14px;
+  --kg-type-list-title-line-height: 20px;
+  --kg-type-list-title-weight: 500;
+  --kg-type-list-title-tracking: 0px;
   --kg-type-label-size: 14px;
   --kg-type-label-line-height: 20px;
   --kg-type-label-weight: 600;
@@ -184,6 +188,10 @@
   --kg-type-body-secondary-line-height: 20px;
   --kg-type-body-secondary-weight: 400;
   --kg-type-body-secondary-tracking: 0px;
+  --kg-type-list-title-size: 14px;
+  --kg-type-list-title-line-height: 20px;
+  --kg-type-list-title-weight: 500;
+  --kg-type-list-title-tracking: 0px;
   --kg-type-label-size: 16px;
   --kg-type-label-line-height: 22px;
   --kg-type-label-weight: 600;
@@ -232,6 +240,10 @@
   --kg-type-body-secondary-line-height: 18px;
   --kg-type-body-secondary-weight: 400;
   --kg-type-body-secondary-tracking: 0px;
+  --kg-type-list-title-size: 14px;
+  --kg-type-list-title-line-height: 20px;
+  --kg-type-list-title-weight: 500;
+  --kg-type-list-title-tracking: 0px;
   --kg-type-label-size: 14px;
   --kg-type-label-line-height: 20px;
   --kg-type-label-weight: 600;

@@ -16,9 +16,9 @@
 
 | 产品 | 技术栈 | productSpecVersion | 目标品牌版本 | 状态 | 证据与剩余缺口 |
 |---|---|---:|---:|---|---|
-| 开听 / kaiting | Flutter | 0.2.0 | 0.6.1 | 已落地 | `codex/design-system-0.6` 已接入 Mobile / Desktop Profile、语义字体、组件尺寸、平台导航/弹层和状态系统；`flutter analyze` 0 问题，418 项测试通过 |
-| 开卷 / kaijuan | Flutter | 0.2.0 | 0.6.1 | 待处理 | 实现待接入平台组件适配、动态字体和内容浏览结构 |
-| 开刮 / kaigua | Tauri 2 + React | 0.2.0 | 0.6.1 | 待处理 | 实现待接入 Windows / macOS / Linux 桌面组件适配和任务状态 |
+| 开听 / kaiting | Flutter | 0.2.0 | 0.6.2 | 已落地 | `codex/design-system-0.6` 已接入 Mobile / Desktop Profile、语义字体、组件尺寸、平台导航/弹层和状态系统；`flutter analyze` 0 问题，418 项测试通过 |
+| 开卷 / kaijuan | Flutter | 0.2.0 | 0.6.2 | 待处理 | 实现待接入平台组件适配、动态字体和内容浏览结构 |
+| 开刮 / kaigua | Tauri 2 + React | 0.2.0 | 0.6.2 | 待处理 | 实现待接入 Windows / macOS / Linux 桌面组件适配和任务状态 |
 
 ## 更新规则
 

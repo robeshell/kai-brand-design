@@ -93,8 +93,10 @@ class TokenPipelineTest(unittest.TestCase):
         profiles = self.primitives["componentProfiles"]
         self.assertEqual(set(profiles), {"mobile", "desktop"})
         self.assertEqual(profiles["mobile"]["typeScale"]["body"]["fontSize"], 17)
+        self.assertEqual(profiles["mobile"]["typeScale"]["listTitle"]["fontSize"], 14)
         self.assertEqual(profiles["mobile"]["metrics"]["controlHeight"], 48)
         self.assertEqual(profiles["desktop"]["typeScale"]["body"]["fontSize"], 14)
+        self.assertEqual(profiles["desktop"]["typeScale"]["listTitle"]["fontSize"], 14)
         self.assertEqual(profiles["desktop"]["metrics"]["controlHeight"], 36)
 
     def test_status_text_color_requires_accessible_contrast(self) -> None:

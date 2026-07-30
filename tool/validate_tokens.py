@@ -27,6 +27,7 @@ TYPE_STYLE_IDS = (
     "caption",
     "captionSmall",
 )
+COMPONENT_TYPE_STYLE_IDS = ("listTitle",)
 PROFILE_METRIC_IDS = (
     "minimumInteractiveTarget",
     "controlHeight",
@@ -145,7 +146,7 @@ def validate_platform_profiles(primitives: dict) -> None:
     if not isinstance(component_roles, dict) or not component_roles:
         raise TokenValidationError("primitives.typography.componentRoles: expected object")
     for component, style_id in component_roles.items():
-        if style_id not in TYPE_STYLE_IDS:
+        if style_id not in TYPE_STYLE_IDS + COMPONENT_TYPE_STYLE_IDS:
             raise TokenValidationError(
                 f"primitives.typography.componentRoles.{component}: unknown style {style_id}"
             )
@@ -233,8 +234,9 @@ def validate_platform_profiles(primitives: dict) -> None:
             ),
             path,
         )
-        require_keys(profile["typeScale"], TYPE_STYLE_IDS, f"{path}.typeScale")
-        for style_id in TYPE_STYLE_IDS:
+        component_style_ids = TYPE_STYLE_IDS + COMPONENT_TYPE_STYLE_IDS
+        require_keys(profile["typeScale"], component_style_ids, f"{path}.typeScale")
+        for style_id in component_style_ids:
             style = profile["typeScale"][style_id]
             style_path = f"{path}.typeScale.{style_id}"
             require_keys(

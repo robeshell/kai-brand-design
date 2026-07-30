@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.6.1（draft）** — APP 规范输出 Mobile / Desktop 两套组件，并用五个平台基准约束系统行为。
+**specVersion: 0.6.2（draft）** — APP 规范输出 Mobile / Desktop 两套组件，并用五个平台基准约束系统行为。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -149,6 +149,7 @@ make check
 
 ## Changelog（品牌层）
 
+- **0.6.2**（2026-07-30）：列表标题独立为 Mobile / Desktop 共用的 14/20、w500，不再借用正文或按钮标签字号。
 - **0.6.1**（2026-07-30）：列表标题从正文角色改为更紧凑的 `label` 角色；Mobile 为 16/22、Desktop 为 14/20，保持 w500。
 - **0.6.0**（2026-07-29）：新增 Mobile / Desktop 两套实际组件 Profile；五个平台 Profile 改为官方约束与行为适配层；删除五套万能页面，收缩为内容浏览、任务工作台和通用状态系统。
 - **0.5.0**（2026-07-29）：建立五套平台 Profile 与生成管线，补齐基础字号、尺寸、组件与产品页面映射。

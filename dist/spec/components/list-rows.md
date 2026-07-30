@@ -6,7 +6,7 @@
 ## 解剖
 
 ```
-[leading] [标题 label / 副题 secondary] [trailing]
+[leading] [标题 listTitle / 副题 secondary] [trailing]
 ```
 
 ## Metrics
@@ -16,7 +16,7 @@
 | 高度 | 当前 Mobile / Desktop Profile 的 `listRowSingle` / `listRowDouble` |
 | padding | 水平 `spacing.x4`；垂直方向由行高与内容决定 |
 | leading 槽 | 32 宽居中 |
-| 标题 | 当前 Mobile / Desktop Profile 的 `typeScale.label`，w500，单行省略 |
+| 标题 | 当前 Mobile / Desktop Profile 的 `typeScale.listTitle`：14/20、w500，单行省略 |
 | 副题 | 当前 Mobile / Desktop Profile 的 `typeScale.bodySecondary`，单行省略 |
 
 ## Token 映射与状态
