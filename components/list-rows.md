@@ -13,7 +13,7 @@
 
 | 部位 | 值 |
 |---|---|
-| minHeight | 54（设置页 64 / 紧凑 58） |
+| minHeight | 54（设置页用 `listRowSingle` = 52，见 `patterns/settings-page.md`） |
 | padding | 14h / 6v |
 | leading 槽 | 32 宽居中 |
 | 标题 | 13.5 w600，单行省略 |
@@ -35,7 +35,7 @@ leading 为 checkbox 图标（20px）：选中 accent 实心 / 未选 muted 空�
 
 ## 设置分组中的行
 
-- 分组卡片内行间用 hairline（indent 14）分隔，见 `patterns/settings-page.md`；
+- 分组卡片内行间用极淡分隔线（indent 14，浅色 black@4% / 深色 white@5%）分隔，见 `patterns/settings-page.md`；
 - **选中态不得用整行填充块**——用行内 check / accent 文字表达。
 
 ## 交互
