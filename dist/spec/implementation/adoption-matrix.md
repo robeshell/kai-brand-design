@@ -16,7 +16,7 @@
 
 | 产品 | 技术栈 | productSpecVersion | 目标品牌版本 | 状态 | 证据与剩余缺口 |
 |---|---|---:|---:|---|---|
-| 开听 / kaiting | Flutter | 0.2.0 | 0.6.0 | 进行中 | `codex/design-system-0.6` 已同步 0.6.0 Token 与锁文件，并接入 Mobile / Desktop Profile、语义字体、控件高度、列表行和交互命中区；待迁移组件 kit、平台导航与状态系统 |
+| 开听 / kaiting | Flutter | 0.2.0 | 0.6.0 | 已落地 | `codex/design-system-0.6` 已接入 Mobile / Desktop Profile、语义字体、组件尺寸、平台导航/弹层和状态系统；`flutter analyze` 0 问题，418 项测试通过 |
 | 开卷 / kaijuan | Flutter | 0.2.0 | 0.6.0 | 待处理 | 实现待接入平台组件适配、动态字体和内容浏览结构 |
 | 开刮 / kaigua | Tauri 2 + React | 0.2.0 | 0.6.0 | 待处理 | 实现待接入 Windows / macOS / Linux 桌面组件适配和任务状态 |
 
