@@ -42,7 +42,10 @@
       "summary": "组织页面标题、页面级操作、筛选工具和页内平级导航。",
       "tokens": [
         {
+          "layer": "semantic",
+          "mapping": "app-bars.title",
           "name": "页面标题",
+          "role": "pageTitle",
           "token": "componentProfiles.*.typeScale.pageTitle",
           "value": "按 Mobile / Desktop 映射"
         },
@@ -203,7 +206,10 @@
           "value": "14px"
         },
         {
+          "layer": "semantic",
+          "mapping": "data-display.value",
           "name": "标题字号",
+          "role": "body",
           "token": "componentProfiles.*.typeScale.body",
           "value": "按 Mobile / Desktop 映射"
         },
@@ -351,7 +357,10 @@
       "summary": "覆盖加载、进度、空内容、部分完成、错误和后台任务；展示范围与容器按平台选择。",
       "tokens": [
         {
-          "name": "反馈文字",
+          "layer": "semantic",
+          "mapping": "feedback.message",
+          "name": "标题字号",
+          "role": "bodySecondary",
           "token": "componentProfiles.*.typeScale.body",
           "value": "按 Mobile / Desktop 映射"
         },
@@ -522,7 +531,10 @@
           "value": "10px"
         },
         {
+          "layer": "semantic",
+          "mapping": "inputs.text",
           "name": "输入文字",
+          "role": "body",
           "token": "componentProfiles.*.typeScale.body",
           "value": "Mobile 17/24 · Desktop 14/20"
         },
@@ -612,9 +624,12 @@
           "value": "10px"
         },
         {
+          "layer": "semantic",
+          "mapping": "list-rows.title",
           "name": "标题字号",
-          "token": "componentProfiles.*.typeScale.body",
-          "value": "按 Mobile / Desktop 映射"
+          "role": "listTitle",
+          "token": "componentProfiles.*.typeScale.listTitle",
+          "value": "Mobile/Desktop 14/20 · w500"
         }
       ],
       "usage": [
@@ -774,12 +789,18 @@
           "value": "216 / 236px"
         },
         {
+          "layer": "semantic",
+          "mapping": "navigation.desktopLabel",
           "name": "桌面导航文字",
+          "role": "body",
           "token": "componentProfiles.desktop.typeScale.body",
           "value": "14/20"
         },
         {
+          "layer": "semantic",
+          "mapping": "navigation.mobileLabel",
           "name": "移动导航文字",
+          "role": "captionSmall",
           "token": "componentProfiles.mobile.typeScale.captionSmall",
           "value": "11/16"
         },

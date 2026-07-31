@@ -24,6 +24,7 @@
 | 封面圆角 | 产品 `cover.radius` r12；普通 UI 卡片仍为品牌 card r14 |
 | 阴影 | 仅封面软抬升；读皮肤 shadowScale；纯净皮肤自动无影 |
 | 标题 | 单行省略；使用当前 Profile 的 `body` |
+| 分区标题 | `typography.shelf.sectionTitle` = 18px；基于 `sectionTitle` |
 | 多选 | 封面角标使用 accent 填充 check；不加粗边框包围整张封面 |
 
 列表态使用品牌 ListRow 语义，不把网格卡 metrics 生搬到列表。

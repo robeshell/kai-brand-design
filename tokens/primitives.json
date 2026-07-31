@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/primitives.schema.json",
-  "specVersion": "0.6.2",
+  "specVersion": "0.7.0",
   "basePalette": {
     "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
     "mainBackground": "#F7F9FC",
@@ -52,6 +52,111 @@
       "body": 400,
       "emphasis": 500,
       "strong": 600
+    },
+    "semanticRoles": {
+      "displayLarge": {
+        "description": "沉浸页面中的单个展示标题",
+        "intent": "display",
+        "allowedWeights": [600]
+      },
+      "pageTitle": {
+        "description": "页面主标题",
+        "intent": "heading",
+        "allowedWeights": [600]
+      },
+      "sectionTitle": {
+        "description": "页面分区、对话框和 Sheet 标题",
+        "intent": "heading",
+        "allowedWeights": [600]
+      },
+      "title": {
+        "description": "组件标题或强调行标题",
+        "intent": "heading",
+        "allowedWeights": [600]
+      },
+      "body": {
+        "description": "正文、输入文字和普通内容标题",
+        "intent": "body",
+        "allowedWeights": [400]
+      },
+      "bodySecondary": {
+        "description": "列表副题和说明文字",
+        "intent": "supporting",
+        "allowedWeights": [400]
+      },
+      "label": {
+        "description": "按钮、选择控件和表单标签",
+        "intent": "control",
+        "allowedWeights": [500, 600]
+      },
+      "caption": {
+        "description": "时间、状态和普通元信息",
+        "intent": "metadata",
+        "allowedWeights": [400]
+      },
+      "captionSmall": {
+        "description": "空间受限的短标签",
+        "intent": "compact-label",
+        "allowedWeights": [500]
+      },
+      "listTitle": {
+        "description": "列表行标题的紧凑组件角色",
+        "intent": "component-title",
+        "allowedWeights": [500],
+        "baseRole": "body",
+        "rationale": "列表行需要比正文更紧凑，同时保持统一的行标题层级"
+      }
+    },
+    "componentMappings": {
+      "buttons": {
+        "label": { "role": "label" }
+      },
+      "inputs": {
+        "text": { "role": "body" },
+        "label": { "role": "label" },
+        "helperText": { "role": "bodySecondary" }
+      },
+      "selection": {
+        "label": { "role": "label" },
+        "value": { "role": "body" }
+      },
+      "navigation": {
+        "desktopLabel": { "role": "body" },
+        "mobileLabel": { "role": "captionSmall" }
+      },
+      "list-rows": {
+        "title": { "role": "listTitle" },
+        "subtitle": { "role": "bodySecondary" },
+        "metadata": { "role": "caption" }
+      },
+      "feedback": {
+        "message": { "role": "bodySecondary" },
+        "status": { "role": "caption" }
+      },
+      "dialogs": {
+        "title": { "role": "sectionTitle" },
+        "body": { "role": "body" },
+        "action": { "role": "label" }
+      },
+      "menus": {
+        "itemLabel": { "role": "label" },
+        "itemMetadata": { "role": "caption" }
+      },
+      "app-bars": {
+        "title": { "role": "pageTitle" },
+        "navigationLabel": { "role": "captionSmall" }
+      },
+      "data-display": {
+        "title": { "role": "title" },
+        "value": { "role": "body" },
+        "metadata": { "role": "caption" }
+      },
+      "surfaces": {
+        "sectionTitle": { "role": "sectionTitle" }
+      },
+      "icons": {
+        "label": { "role": "captionSmall" }
+      }
     },
     "componentRoles": {
       "pageTitle": "pageTitle",

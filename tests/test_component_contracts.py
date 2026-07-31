@@ -61,8 +61,17 @@ class ComponentContractTests(unittest.TestCase):
                 for row in contract["states"]:
                     self.assertEqual(set(row), {"name", "description", "required"})
                 for row in contract["tokens"]:
-                    self.assertEqual(set(row), {"name", "token", "value"})
+                    self.assertTrue({"name", "token", "value"} <= set(row))
                     self.assertTrue(all(value.strip() for value in row.values()))
+                    if ".typeScale." in row["token"]:
+                        self.assertEqual(row["layer"], "semantic")
+                        self.assertIn(row["role"], self.primitives["typography"]["semanticRoles"])
+                        component, slot = row["mapping"].split(".", 1)
+                        self.assertIn(component, self.primitives["typography"]["componentMappings"])
+                        self.assertIn(
+                            slot,
+                            self.primitives["typography"]["componentMappings"][component],
+                        )
 
     def test_interactive_components_define_common_states(self) -> None:
         interactive = {

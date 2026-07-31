@@ -57,7 +57,7 @@
     },
     "typography": {
       "type": "object",
-      "required": ["fontPolicy", "weights", "componentRoles"],
+      "required": ["fontPolicy", "weights", "semanticRoles", "componentMappings", "componentRoles"],
       "properties": {
         "fontPolicy": {
           "type": "object",
@@ -72,6 +72,20 @@
           "type": "object",
           "required": ["body", "emphasis", "strong"]
         },
+        "semanticRoles": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/semanticRole" }
+        },
+        "componentMappings": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": { "$ref": "#/$defs/componentMapping" }
+          }
+        },
         "componentRoles": {
           "type": "object",
           "required": [
@@ -85,9 +99,11 @@
             "desktopNavigation",
             "mobileNavigation",
             "metadata"
-          ]
+          ],
+          "additionalProperties": { "type": "string", "minLength": 1 }
         }
-      }
+      },
+      "additionalProperties": true
     },
     "platformProfiles": {
       "type": "object",
@@ -142,6 +158,38 @@
         "lineHeight": { "type": "number", "exclusiveMinimum": 0 },
         "fontWeight": { "type": "integer", "minimum": 100, "maximum": 900 },
         "letterSpacing": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "semanticRole": {
+      "type": "object",
+      "required": ["description", "intent", "allowedWeights"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "intent": { "type": "string", "minLength": 1 },
+        "allowedWeights": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "integer", "enum": [400, 500, 600] }
+        },
+        "baseRole": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "componentMapping": {
+      "type": "object",
+      "required": ["role"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "profileOverrides": {
+          "type": "object",
+          "properties": {
+            "mobile": { "$ref": "#/$defs/textStyle" },
+            "desktop": { "$ref": "#/$defs/textStyle" }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },

@@ -10,6 +10,7 @@
 ## 资料库
 
 - 专辑与艺人使用图片网格；歌曲使用媒体列表行；
+- 快速索引轨道使用 `captionSmall`；拖动反馈气泡使用 `caption` 语义，并由产品 token `typography.library.fastIndexOverlay` 输出 15px；
 - Toolbar 提供来源、排序和视图切换，结果数不做统计卡；
 - 来源色只出现在来源标记和筛选，不给整行着色；
 - 进入专辑/艺人详情后，返回恢复筛选和滚动位置；

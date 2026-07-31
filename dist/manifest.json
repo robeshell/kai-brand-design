@@ -2,27 +2,27 @@
   "files": {
     "css/kaigua/brand.generated.css": {
       "bytes": 9899,
-      "sha256": "a67f49465411c4f069b67d22b3093bf89e7f8decaa48ba7fd0ad23371ccb7a85"
+      "sha256": "0c053f4e3ff084bf36b39fee8d4d5bcd28ebe082f88be9aee7d2bf025a25c2ea"
     },
     "flutter/kaijuan/brand_tokens.g.dart": {
-      "bytes": 23418,
-      "sha256": "37d844c926e5f2fc041299d6ae4b5ba4a2998ac6d44840f107021e24fa36b106"
+      "bytes": 25154,
+      "sha256": "3a25f94f0e76e951a03bfeea62974246c04de4755b3f346143569ff8fb17cf2c"
     },
     "flutter/kaiting/brand_tokens.g.dart": {
-      "bytes": 24283,
-      "sha256": "990276b894f412c6de0e5f405391acbf2a4703db18ec462e4cd623dbfdcb7bf0"
+      "bytes": 26651,
+      "sha256": "08ec06fe72fc729ceaf3a1a0c64138ab808d18387f106569908a06fbe9ece9ba"
     },
     "release/kai-design.lock.json": {
       "bytes": 179,
-      "sha256": "db9152b76623905f7e5a83f882028d3ed484459e7aeb941d82b3df5bde3142c5"
+      "sha256": "faf352195979b2ad2e194fbd646a4f3f1d30fe1c1bdd32821c0ae9600afa5b0b"
     },
     "spec/DESIGN.md": {
       "bytes": 20103,
       "sha256": "2b861a2a430d2750070f3379ae70a2677a7e0688faf0ce6c9bec34ac64a5bc5c"
     },
     "spec/README.md": {
-      "bytes": 18580,
-      "sha256": "ace5eae9b0075d550977ff226a1d04a53d235c1214a05c6792f05a62237a1a60"
+      "bytes": 18814,
+      "sha256": "d48755af025d405fc6cff67ba41d509ce6e7b2143fb68a54c6c18efb8ff265fb"
     },
     "spec/components/_template.md": {
       "bytes": 1318,
@@ -81,8 +81,8 @@
       "sha256": "f37041e22974ba2f579121c5f59a7d22746c437e79ee4f6efb27fdc2711206c3"
     },
     "spec/contracts/components.json": {
-      "bytes": 30351,
-      "sha256": "bf26ceb409fad8e83a69e3848a64f9c1f1bd63912f0e1efb1515cb7fa11d47c3"
+      "bytes": 31077,
+      "sha256": "1a1dff31314b607a27e3c2177b0a15a859187047d9f386bf16d47642cf78ca13"
     },
     "spec/foundations/color.md": {
       "bytes": 4363,
@@ -105,16 +105,16 @@
       "sha256": "d70098b99562d5d387d98c794c474e65c6f25b37faffb7ad174b3d0ab20eb5dd"
     },
     "spec/foundations/typography.md": {
-      "bytes": 2440,
-      "sha256": "4b58b609139fa13de7b5b0ea3247a01814ee21721f86d4d0efed0e37fa46998e"
+      "bytes": 4340,
+      "sha256": "9195c4445b089e84dccff4c498f80e82e0e55b181bb39a629b02f302e719bf6a"
     },
     "spec/implementation/acceptance-checklist.md": {
       "bytes": 3821,
       "sha256": "e23df4d51b5941278adfb52c14d6208ed466515c4c24e4b94b5de9f90eb6dad1"
     },
     "spec/implementation/adoption-matrix.md": {
-      "bytes": 2079,
-      "sha256": "f3d2e063adf74240a089c498cc430f1542f2d00ebb1b45854419601b9587f43e"
+      "bytes": 2091,
+      "sha256": "a305f65addd763057a8086b7f935b9dbbd5bc28f6580610963fb33284f636c72"
     },
     "spec/implementation/flutter.md": {
       "bytes": 4445,
@@ -185,16 +185,16 @@
       "sha256": "fc6ef2b9b0e8ad05908fd66cc940baae74724d1e79b37b6126a3210e832011e3"
     },
     "spec/products/kaijuan/patterns/bookshelf.md": {
-      "bytes": 2955,
-      "sha256": "69c6a7f4d406e058d20eaefaf8dc19966da6454e726a1350a90392f6725134fe"
+      "bytes": 3037,
+      "sha256": "6fa31489ba63c0693d641d3354d183cde5ead4fbfa6430f4bcb54313b5701973"
     },
     "spec/products/kaijuan/patterns/collections-and-import.md": {
       "bytes": 1058,
       "sha256": "4ab795ffa3b7105c409e52e6811778a2492dc4daf97b8474a6d481d0a63bfd15"
     },
     "spec/products/kaijuan/patterns/reader.md": {
-      "bytes": 3239,
-      "sha256": "293d1359cec0ba795d98ec49ad1add4bb5eea5665faf370181af2ef54bfe8b6f"
+      "bytes": 4639,
+      "sha256": "7df9be9ecc6ca5d8b9bc96ad55ac7f30d0483aeaa3e88c84da18928d66262b54"
     },
     "spec/products/kaijuan/tokens.md": {
       "bytes": 654,
@@ -213,12 +213,12 @@
       "sha256": "8a4a7e1b9af80b5f5415ccba7f215afca8e8a5add9d0643a89b41795f661538d"
     },
     "spec/products/kaiting/patterns/library-and-search.md": {
-      "bytes": 1403,
-      "sha256": "8097da64301373fb3eaf6a0e5e9234544b89e68459af1889b01d45c1a1f12fa2"
+      "bytes": 1563,
+      "sha256": "5f71746de6587f52baea75734d5bb48243660af1aa46cf9dffdcd65733ea2325"
     },
     "spec/products/kaiting/patterns/now-playing.md": {
-      "bytes": 4344,
-      "sha256": "a5e2c2724a609ea3a22b7d52ec553b81a42a4c37bdb831cc7988265c210ea3a1"
+      "bytes": 5571,
+      "sha256": "4ca272d4bf9b83308059a046919017d29c7d780e4dea8a6da52c2c8a902a6e37"
     },
     "spec/products/kaiting/tokens.md": {
       "bytes": 1907,
@@ -230,19 +230,19 @@
     },
     "tokens/kai.meta.json": {
       "bytes": 114,
-      "sha256": "384eb50c4f69d3798a86790aa9b0bb9a7384e5af3b7d732d1d25ababf84c5e4a"
+      "sha256": "fd9b752f34b5dc97b89f72121f55782dc373101d410ef14c6abe6c5ce57007de"
     },
     "tokens/kai.tokens.json": {
-      "bytes": 67045,
-      "sha256": "868c0fd3fd6ebe70842f999a61695bb1fdf91a7f6e2ec785cd296e2849567eb2"
+      "bytes": 84330,
+      "sha256": "a7175fcc6d613eb5602e0683bfa6d4472947c76616a84c7cc52e64c6e8706c17"
     },
     "viewer/assets/app.css": {
       "bytes": 62480,
       "sha256": "c94856b2f2f871ad153b786cfcb3beef96268a2ad5256ae13b4a327e83e7054b"
     },
     "viewer/assets/app.js": {
-      "bytes": 101948,
-      "sha256": "227d41ab10b5949b39857b12b7c49a646a1e96ecc1cd8d89cc2efca32c643074"
+      "bytes": 112964,
+      "sha256": "48dda46256bae1b95a8a7907b493697691643c7398d5eccf09c0d4358e7c762f"
     },
     "viewer/index.html": {
       "bytes": 523,
@@ -250,6 +250,6 @@
     }
   },
   "name": "kai-brand-design",
-  "specVersion": "0.6.2",
-  "tokenDigest": "8f580680a2d49e0910db4536b83abfdbdd34248d62cd4e72ef73c3f60dc726c0"
+  "specVersion": "0.7.0",
+  "tokenDigest": "6f73194ec50ca7599d84ce3cd93dbc29f0a9a3412c35ab2ac564c8443f3e9ea9"
 }

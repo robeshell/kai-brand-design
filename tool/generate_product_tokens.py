@@ -165,6 +165,8 @@ def render_dart(
         f"  static const double mobileShellWidth = 820.0;",
         f"  static const double compactWidth = 600.0;",
         f"  static const double compactHeight = 600.0;",
+        f"  static const double compactPageTitle = 26.0;",
+        f"  static const double regularPageTitle = 28.0;",
         f"  static const double defaultWindowWidth = {dart_number(layout['desktopWindow']['defaultWidth'])};",
         f"  static const double defaultWindowHeight = {dart_number(layout['desktopWindow']['defaultHeight'])};",
         f"  static const double minWindowWidth = {dart_number(layout['desktopWindow']['minWidth'])};",

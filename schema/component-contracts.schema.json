@@ -60,7 +60,12 @@
               "properties": {
                 "name": { "type": "string", "minLength": 1 },
                 "token": { "type": "string", "minLength": 1 },
-                "value": { "type": "string", "minLength": 1 }
+                "value": { "type": "string", "minLength": 1 },
+                "layer": { "type": "string", "enum": ["primitive", "semantic", "component"] },
+                "role": { "type": "string", "minLength": 1 },
+                "mapping": { "type": "string", "minLength": 1 },
+                "slot": { "type": "string", "minLength": 1 },
+                "rationale": { "type": "string", "minLength": 1 }
               },
               "additionalProperties": false
             }

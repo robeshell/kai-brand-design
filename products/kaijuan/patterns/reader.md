@@ -30,6 +30,30 @@
 - 步进按钮使用 token 色胶囊；禁用态读 secondary@0.38；
 - 漫画与图书可以有不同工具项，但相同语义必须共用尺寸、状态层和文字层级。
 
+## 阅读器字号映射
+
+阅读器文字属于内容层和 chrome，使用开卷产品 token：
+
+| 部位 | 语义角色 | 产品 token |
+|---|---|---|
+| 章节标题 | `sectionTitle` | `typography.reader.chapterTitle` = 18px |
+| 书名 | `title` | `typography.reader.bookTitle` = 16px |
+| 分区标签 | `caption` | `typography.reader.sectionLabel` = 13px |
+| 工具标签 | `captionSmall` | `typography.reader.toolLabel` = 11px |
+| 工具值 | `caption` | `typography.reader.toolValue` = 13px |
+| 批注/书签标题 | `sectionTitle` | `typography.reader.annotationTitle` / `bookmarkTitle` = 20px |
+| 摘录标题 | `title` | `typography.reader.excerptTitle` = 16px |
+| 摘录正文 | `bodySecondary` | `typography.reader.excerptBody` = 15px |
+| 摘录大引用 | 内容层装饰 | `typography.reader.excerptQuote` = 48px |
+| 等待封面 | `pageTitle` | `typography.reader.waitingCover` = 28px |
+| 搜索结果 | `bodySecondary` | `typography.reader.searchResult` = 15px |
+| 漫画缩略图标签 | `title` | `typography.reader.thumbnailLabel` = 16px |
+| 选区菜单 | `captionSmall` | `typography.reader.selectionMenu` = 10px |
+| chrome 标题 | `bodySecondary` | `typography.reader.overlayTitle` = 15px |
+| chrome 副标题 | `captionSmall` | `typography.reader.overlaySubtitle` = 11px |
+
+这些是开卷产品层 override。实现必须从对应品牌角色出发，再应用产品映射。
+
 ## 图书阅读器
 
 - 目录抽屉包含「目录 / 书签 / 笔记」，属于同一导航面，不拆成三个根级入口；

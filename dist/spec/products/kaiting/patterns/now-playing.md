@@ -56,6 +56,24 @@
 
 ## 迷你播放器（常驻 dock）
 
+| 部位 | 语义角色 | 产品映射 |
+|---|---|---|
+| 标题 | `listTitle` | `typography.miniPlayer.title.docked` = 15px；单行省略，适配常驻 dock 高度 |
+| 艺人 / 专辑元信息 | `captionSmall` | `typography.miniPlayer.metadata.docked` = 12px；保持单行可读 |
+| 紧凑标题 | `listTitle` | `typography.miniPlayer.title.condensed` = 13px；受紧凑行宽约束 |
+| 紧凑元信息 | `captionSmall` | `typography.miniPlayer.metadata.condensed` = 11px；受紧凑行高约束 |
+| 可见操作文字 | `label` | 当前使用图标按钮，无额外可见文字 |
+| 移动底部导航标签 | `captionSmall` | `typography.navigation.mobileLabel` = 10px；受底栏高度约束 |
+
+歌词控制列属于产品层组件映射：
+
+| 部位 | 语义角色 | 产品映射 |
+|---|---|---|
+| 同步歌词 / 跟随标签 | `captionSmall` | `typography.lyrics.controlLabel` = 10px；受 52px 控制列宽度约束 |
+| 偏移数值 | `captionSmall` | `typography.lyrics.offsetValue` = 10px；短数值保持窄列内可读 |
+
+这些是开听产品层组件 override，不是新的品牌语义角色。实现必须从对应品牌角色出发，再应用产品映射；不得在组件内继续散落无来源字号。
+
 | 部位 | 值 |
 |---|---|
 | 表面 | GlassSurface strong + hairline + token 阴影 ×shadowScale |

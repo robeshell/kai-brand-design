@@ -147,9 +147,7 @@ make check
 - 规范使用中性命名（`GlassSurface`、`MenuButton`…）；各产品实现可加前缀（开听 `Sound*`、开卷 `App*`）。
 - 版本：品牌层 specVersion 与各产品层各自记 changelog；产品层变更不影响品牌层版本号。
 
-## Changelog（品牌层）
-
-- **0.6.2**（2026-07-30）：列表标题独立为 Mobile / Desktop 共用的 14/20、w500，不再借用正文或按钮标签字号。
+- **0.7.0**（2026-07-31）：字号规范增加 `semanticRoles → componentMappings → Mobile/Desktop Profile` 三层模型；组件角色（如 `listTitle`）必须声明语义来源，组件契约登记 typography 追溯字段；保留旧生成 API 兼容。- **0.6.2**（2026-07-30）：列表标题独立为 Mobile / Desktop 共用的 14/20、w500，不再借用正文或按钮标签字号。
 - **0.6.1**（2026-07-30）：列表标题从正文角色改为更紧凑的 `label` 角色；Mobile 为 16/22、Desktop 为 14/20，保持 w500。
 - **0.6.0**（2026-07-29）：新增 Mobile / Desktop 两套实际组件 Profile；五个平台 Profile 改为官方约束与行为适配层；删除五套万能页面，收缩为内容浏览、任务工作台和通用状态系统。
 - **0.5.0**（2026-07-29）：建立五套平台 Profile 与生成管线，补齐基础字号、尺寸、组件与产品页面映射。

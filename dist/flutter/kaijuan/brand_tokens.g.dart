@@ -1,11 +1,11 @@
 // GENERATED FILE — DO NOT EDIT.
 // Source: kai-brand-design/tokens/*.json
-// specVersion: 0.6.2 · sha256: 8f580680a2d49e0910db4536b83abfdbdd34248d62cd4e72ef73c3f60dc726c0
+// specVersion: 0.7.0 · sha256: 6f73194ec50ca7599d84ce3cd93dbc29f0a9a3412c35ab2ac564c8443f3e9ea9
 
 import 'package:flutter/material.dart';
 
-const kaiBrandSpecVersion = '0.6.2';
-const kaiBrandTokenDigest = '8f580680a2d49e0910db4536b83abfdbdd34248d62cd4e72ef73c3f60dc726c0';
+const kaiBrandSpecVersion = '0.7.0';
+const kaiBrandTokenDigest = '6f73194ec50ca7599d84ce3cd93dbc29f0a9a3412c35ab2ac564c8443f3e9ea9';
 
 abstract final class KaiBrandBasePalette {
   static const mainBackground = Color(0xFFF7F9FC);
@@ -55,6 +55,8 @@ abstract final class KaiBrandLayout {
   static const double mobileShellWidth = 820.0;
   static const double compactWidth = 600.0;
   static const double compactHeight = 600.0;
+  static const double compactPageTitle = 26.0;
+  static const double regularPageTitle = 28.0;
   static const double defaultWindowWidth = 1280.0;
   static const double defaultWindowHeight = 800.0;
   static const double minWindowWidth = 1024.0;
@@ -554,4 +556,32 @@ abstract final class KaiProductAccents {
 
 abstract final class KaiProductTokens {
   static const double coverRadius = 12.0;
+  static const double typographyReaderChapterTitle = 18.0;
+  static const double typographyReaderBookTitle = 16.0;
+  static const double typographyReaderSectionLabel = 13.0;
+  static const double typographyReaderToolLabel = 11.0;
+  static const double typographyReaderToolValue = 13.0;
+  static const double typographyReaderAnnotationTitle = 20.0;
+  static const double typographyReaderBookmarkTitle = 20.0;
+  static const double typographyReaderExcerptTitle = 16.0;
+  static const double typographyReaderExcerptBody = 15.0;
+  static const double typographyReaderExcerptQuote = 48.0;
+  static const double typographyReaderWaitingCover = 28.0;
+  static const double typographyReaderSearchResult = 15.0;
+  static const double typographyReaderThumbnailLabel = 16.0;
+  static const double typographyReaderSelectionMenu = 10.0;
+  static const double typographyReaderOverlayTitle = 15.0;
+  static const double typographyReaderOverlaySubtitle = 11.0;
+  static const double typographyShellBrandTitle = 17.0;
+  static const double typographyLaunchLockupTitle = 24.0;
+  static const double typographyLaunchLockupSubtitle = 14.0;
+  static const double typographyNavigationMobileLabel = 10.0;
+  static const double typographyMenuTitleCompact = 12.0;
+  static const double typographyMenuTitleWide = 12.0;
+  static const double typographyMenuItemLabelCompact = 14.0;
+  static const double typographyMenuItemLabelWide = 14.0;
+  static const double typographyEmptyStateTitle = 16.0;
+  static const double typographyEmptyStateMessage = 12.0;
+  static const double typographyShelfSectionTitle = 18.0;
+  static const double typographySettingsSheetTitle = 20.0;
 }

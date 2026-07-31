@@ -103,6 +103,29 @@ def distribution_outputs() -> tuple[dict[Path, str], str, str]:
                 )
         for row in contract["tokens"]:
             expected = primitive_contract_value(primitives, row["token"])
+            if ".typeScale." in row["token"]:
+                required = {"layer", "role", "mapping"}
+                if not required <= set(row):
+                    raise TokenValidationError(
+                        f"componentContracts.components.{component_id}.{row['name']}: "
+                        "typography token requires layer, role, and mapping"
+                    )
+                if row["layer"] != "semantic":
+                    raise TokenValidationError(
+                        f"componentContracts.components.{component_id}.{row['name']}: "
+                        "typography token must use semantic layer"
+                    )
+                mapping_parts = row["mapping"].split(".", 1)
+                if len(mapping_parts) != 2:
+                    raise TokenValidationError(
+                        f"componentContracts.components.{component_id}.{row['name']}: invalid mapping"
+                    )
+                mapped_component, mapped_slot = mapping_parts
+                mapping = primitives["typography"]["componentMappings"].get(mapped_component, {})
+                if mapped_slot not in mapping or mapping[mapped_slot]["role"] != row["role"]:
+                    raise TokenValidationError(
+                        f"componentContracts.components.{component_id}.{row['name']}: mapping mismatch"
+                    )
             if expected is not None and row["value"] != expected:
                 raise TokenValidationError(
                     f"componentContracts.components.{component_id}.{row['token']}: "

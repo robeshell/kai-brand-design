@@ -163,7 +163,10 @@
         "summary": "组织页面标题、页面级操作、筛选工具和页内平级导航。",
         "tokens": [
           {
+            "layer": "semantic",
+            "mapping": "app-bars.title",
             "name": "页面标题",
+            "role": "pageTitle",
             "token": "componentProfiles.*.typeScale.pageTitle",
             "value": "按 Mobile / Desktop 映射"
           },
@@ -324,7 +327,10 @@
             "value": "14px"
           },
           {
+            "layer": "semantic",
+            "mapping": "data-display.value",
             "name": "标题字号",
+            "role": "body",
             "token": "componentProfiles.*.typeScale.body",
             "value": "按 Mobile / Desktop 映射"
           },
@@ -472,7 +478,10 @@
         "summary": "覆盖加载、进度、空内容、部分完成、错误和后台任务；展示范围与容器按平台选择。",
         "tokens": [
           {
-            "name": "反馈文字",
+            "layer": "semantic",
+            "mapping": "feedback.message",
+            "name": "标题字号",
+            "role": "bodySecondary",
             "token": "componentProfiles.*.typeScale.body",
             "value": "按 Mobile / Desktop 映射"
           },
@@ -643,7 +652,10 @@
             "value": "10px"
           },
           {
+            "layer": "semantic",
+            "mapping": "inputs.text",
             "name": "输入文字",
+            "role": "body",
             "token": "componentProfiles.*.typeScale.body",
             "value": "Mobile 17/24 · Desktop 14/20"
           },
@@ -733,9 +745,12 @@
             "value": "10px"
           },
           {
+            "layer": "semantic",
+            "mapping": "list-rows.title",
             "name": "标题字号",
-            "token": "componentProfiles.*.typeScale.body",
-            "value": "按 Mobile / Desktop 映射"
+            "role": "listTitle",
+            "token": "componentProfiles.*.typeScale.listTitle",
+            "value": "Mobile/Desktop 14/20 · w500"
           }
         ],
         "usage": [
@@ -895,12 +910,18 @@
             "value": "216 / 236px"
           },
           {
+            "layer": "semantic",
+            "mapping": "navigation.desktopLabel",
             "name": "桌面导航文字",
+            "role": "body",
             "token": "componentProfiles.desktop.typeScale.body",
             "value": "14/20"
           },
           {
+            "layer": "semantic",
+            "mapping": "navigation.mobileLabel",
             "name": "移动导航文字",
+            "role": "captionSmall",
             "token": "componentProfiles.mobile.typeScale.captionSmall",
             "value": "11/16"
           },
@@ -1866,8 +1887,109 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.6.2",
+    "specVersion": "0.7.0",
     "typography": {
+      "componentMappings": {
+        "app-bars": {
+          "navigationLabel": {
+            "role": "captionSmall"
+          },
+          "title": {
+            "role": "pageTitle"
+          }
+        },
+        "buttons": {
+          "label": {
+            "role": "label"
+          }
+        },
+        "data-display": {
+          "metadata": {
+            "role": "caption"
+          },
+          "title": {
+            "role": "title"
+          },
+          "value": {
+            "role": "body"
+          }
+        },
+        "dialogs": {
+          "action": {
+            "role": "label"
+          },
+          "body": {
+            "role": "body"
+          },
+          "title": {
+            "role": "sectionTitle"
+          }
+        },
+        "feedback": {
+          "message": {
+            "role": "bodySecondary"
+          },
+          "status": {
+            "role": "caption"
+          }
+        },
+        "icons": {
+          "label": {
+            "role": "captionSmall"
+          }
+        },
+        "inputs": {
+          "helperText": {
+            "role": "bodySecondary"
+          },
+          "label": {
+            "role": "label"
+          },
+          "text": {
+            "role": "body"
+          }
+        },
+        "list-rows": {
+          "metadata": {
+            "role": "caption"
+          },
+          "subtitle": {
+            "role": "bodySecondary"
+          },
+          "title": {
+            "role": "listTitle"
+          }
+        },
+        "menus": {
+          "itemLabel": {
+            "role": "label"
+          },
+          "itemMetadata": {
+            "role": "caption"
+          }
+        },
+        "navigation": {
+          "desktopLabel": {
+            "role": "body"
+          },
+          "mobileLabel": {
+            "role": "captionSmall"
+          }
+        },
+        "selection": {
+          "label": {
+            "role": "label"
+          },
+          "value": {
+            "role": "body"
+          }
+        },
+        "surfaces": {
+          "sectionTitle": {
+            "role": "sectionTitle"
+          }
+        }
+      },
       "componentRoles": {
         "buttonLabel": "label",
         "desktopNavigation": "body",
@@ -1885,6 +2007,81 @@
         "fallback": [],
         "family": "system-ui",
         "usePlatformTextStyles": true
+      },
+      "semanticRoles": {
+        "body": {
+          "allowedWeights": [
+            400
+          ],
+          "description": "正文、输入文字和普通内容标题",
+          "intent": "body"
+        },
+        "bodySecondary": {
+          "allowedWeights": [
+            400
+          ],
+          "description": "列表副题和说明文字",
+          "intent": "supporting"
+        },
+        "caption": {
+          "allowedWeights": [
+            400
+          ],
+          "description": "时间、状态和普通元信息",
+          "intent": "metadata"
+        },
+        "captionSmall": {
+          "allowedWeights": [
+            500
+          ],
+          "description": "空间受限的短标签",
+          "intent": "compact-label"
+        },
+        "displayLarge": {
+          "allowedWeights": [
+            600
+          ],
+          "description": "沉浸页面中的单个展示标题",
+          "intent": "display"
+        },
+        "label": {
+          "allowedWeights": [
+            500,
+            600
+          ],
+          "description": "按钮、选择控件和表单标签",
+          "intent": "control"
+        },
+        "listTitle": {
+          "allowedWeights": [
+            500
+          ],
+          "baseRole": "body",
+          "description": "列表行标题的紧凑组件角色",
+          "intent": "component-title",
+          "rationale": "列表行需要比正文更紧凑，同时保持统一的行标题层级"
+        },
+        "pageTitle": {
+          "allowedWeights": [
+            600
+          ],
+          "description": "页面主标题",
+          "intent": "heading"
+        },
+        "sectionTitle": {
+          "allowedWeights": [
+            600
+          ],
+          "description": "页面分区、对话框和 Sheet 标题",
+          "intent": "heading"
+        },
+        "title": {
+          "allowedWeights": [
+            600
+          ],
+          "description": "组件标题或强调行标题",
+          "intent": "heading"
+        }
       },
       "weights": {
         "body": 400,
@@ -1908,6 +2105,146 @@
           "description": "书籍与漫画窄幅封面的默认圆角",
           "type": "dimension",
           "value": 12
+        },
+        "typography.emptyState.message": {
+          "description": "空态消息；基于 caption",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.emptyState.title": {
+          "description": "空态标题；基于 title",
+          "type": "dimension",
+          "value": 16
+        },
+        "typography.launch.lockupSubtitle": {
+          "description": "启动页品牌锁定副标题；品牌展示内容",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.launch.lockupTitle": {
+          "description": "启动页品牌锁定标题；品牌展示内容",
+          "type": "dimension",
+          "value": 24
+        },
+        "typography.menu.itemLabelCompact": {
+          "description": "菜单紧凑项标签",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.menu.itemLabelWide": {
+          "description": "菜单宽布局项标签；原 13.5 整数化",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.menu.titleCompact": {
+          "description": "菜单紧凑标题；原 12.5 整数化",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.menu.titleWide": {
+          "description": "菜单宽布局标题",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.navigation.mobileLabel": {
+          "description": "移动底部导航标签；基于 captionSmall",
+          "type": "dimension",
+          "value": 10
+        },
+        "typography.reader.annotationTitle": {
+          "description": "批注标题；基于 sectionTitle",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.reader.bookTitle": {
+          "description": "阅读器书名；内容层展示层级",
+          "type": "dimension",
+          "value": 16
+        },
+        "typography.reader.bookmarkTitle": {
+          "description": "书签标题；基于 sectionTitle",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.reader.chapterTitle": {
+          "description": "阅读器章节标题；内容层展示层级",
+          "type": "dimension",
+          "value": 18
+        },
+        "typography.reader.excerptBody": {
+          "description": "摘录正文；基于 bodySecondary",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.reader.excerptQuote": {
+          "description": "摘录大引用；内容层装饰展示",
+          "type": "dimension",
+          "value": 48
+        },
+        "typography.reader.excerptTitle": {
+          "description": "摘录标题；基于 title",
+          "type": "dimension",
+          "value": 16
+        },
+        "typography.reader.overlaySubtitle": {
+          "description": "阅读器 chrome 副标题；基于 captionSmall",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.reader.overlayTitle": {
+          "description": "阅读器 chrome 标题；基于 bodySecondary",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.reader.searchResult": {
+          "description": "阅读器搜索结果；基于 bodySecondary",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.reader.sectionLabel": {
+          "description": "阅读器分区标签；基于 caption",
+          "type": "dimension",
+          "value": 13
+        },
+        "typography.reader.selectionMenu": {
+          "description": "阅读器选区菜单文字；基于 captionSmall",
+          "type": "dimension",
+          "value": 10
+        },
+        "typography.reader.thumbnailLabel": {
+          "description": "漫画缩略图标签；基于 title",
+          "type": "dimension",
+          "value": 16
+        },
+        "typography.reader.toolLabel": {
+          "description": "阅读器工具标签；基于 captionSmall",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.reader.toolValue": {
+          "description": "阅读器工具值；基于 caption",
+          "type": "dimension",
+          "value": 13
+        },
+        "typography.reader.waitingCover": {
+          "description": "阅读器等待封面标题；基于 pageTitle",
+          "type": "dimension",
+          "value": 28
+        },
+        "typography.settings.sheetTitle": {
+          "description": "设置弹层标题；基于 sectionTitle",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.shelf.sectionTitle": {
+          "description": "书架分区标题；基于 sectionTitle",
+          "type": "dimension",
+          "value": 18
+        },
+        "typography.shell.brandTitle": {
+          "description": "开卷桌面壳品牌标题；基于 title",
+          "type": "dimension",
+          "value": 17
         }
       }
     },
@@ -1934,6 +2271,191 @@
           "description": "WebDAV 远程来源标识色",
           "type": "color",
           "value": "#5E8BFF"
+        },
+        "typography.albumArtwork.artistOverlay": {
+          "description": "封面内容层艺人叠加文字；基于 captionSmall，受封面构图和对比度约束",
+          "type": "dimension",
+          "value": 9
+        },
+        "typography.albumArtwork.titleOverlay": {
+          "description": "封面内容层标题叠加文字；基于 title，受封面构图约束",
+          "type": "dimension",
+          "value": 18
+        },
+        "typography.launch.failureMessage": {
+          "description": "启动失败说明；产品错误页恢复提示",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.launch.failureTitle": {
+          "description": "启动失败标题；产品错误页展示标题",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.launch.lockupSubtitle": {
+          "description": "启动页品牌锁定副标题；品牌展示内容",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.launch.lockupTitle": {
+          "description": "启动页品牌锁定标题；品牌展示内容",
+          "type": "dimension",
+          "value": 24
+        },
+        "typography.library.albumCardMetadata": {
+          "description": "资料库专辑卡艺人元信息；基于 caption",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.library.albumSection": {
+          "description": "资料库专辑分区标题；基于 listTitle 的紧凑分区标签",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.library.albumSectionWide": {
+          "description": "资料库宽布局专辑分区标题；基于 listTitle 的宽布局分区层级",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.library.collectionEyebrow": {
+          "description": "资料库合集 hero eyebrow；内容展示层辅助标签",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.library.collectionStats": {
+          "description": "资料库合集 hero 统计；基于 caption 的展示信息",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.library.fastIndexOverlay": {
+          "description": "资料库快速索引拖动反馈气泡；基于 caption，提供短暂的可读放大反馈",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.library.modeLabel": {
+          "description": "资料库模式切换标签；基于 label",
+          "type": "dimension",
+          "value": 14
+        },
+        "typography.library.playAllLabel": {
+          "description": "资料库紧凑播放全部标签；受按钮宽度约束",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.library.songHeader": {
+          "description": "资料库歌曲结果标题；基于 sectionTitle 的紧凑产品展示",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.library.toolbarResult": {
+          "description": "资料库工具栏结果数；基于 caption",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.library.trackMetadata": {
+          "description": "资料库合集曲目元信息；基于 captionSmall",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.lyrics.controlLabel": {
+          "description": "歌词垂直控制列标签；基于 captionSmall，受 52px 控制列宽度约束",
+          "type": "dimension",
+          "value": 10
+        },
+        "typography.lyrics.offsetValue": {
+          "description": "歌词偏移数值；基于 captionSmall，保持 −.5 / 0 / +.5 在窄列内可读",
+          "type": "dimension",
+          "value": 10
+        },
+        "typography.miniPlayer.metadata.condensed": {
+          "description": "迷你播放器 condensed 元信息；基于 captionSmall，受紧凑行高约束",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.miniPlayer.metadata.docked": {
+          "description": "迷你播放器 docked 元信息；基于 captionSmall，保持艺人和专辑单行可读",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.miniPlayer.title.condensed": {
+          "description": "迷你播放器 condensed 标题；基于 listTitle，受紧凑行宽约束",
+          "type": "dimension",
+          "value": 13
+        },
+        "typography.miniPlayer.title.docked": {
+          "description": "迷你播放器 docked 标题；基于 listTitle，单行显示并适配常驻 dock 高度",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.navigation.mobileLabel": {
+          "description": "移动底部导航标签；基于 captionSmall，受底栏高度和多目的地并列宽度约束",
+          "type": "dimension",
+          "value": 10
+        },
+        "typography.nowPlaying.artist": {
+          "description": "正在播放艺人信息；基于 bodySecondary",
+          "type": "dimension",
+          "value": 13
+        },
+        "typography.nowPlaying.controlLabel": {
+          "description": "正在播放歌词控制按钮；基于 captionSmall",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.nowPlaying.panelLabel": {
+          "description": "正在播放面板标题；基于 caption",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.nowPlaying.time": {
+          "description": "正在播放时间；基于 captionSmall，使用等宽数字",
+          "type": "dimension",
+          "value": 11
+        },
+        "typography.nowPlaying.title.compact": {
+          "description": "正在播放紧凑标题；内容层展示层级",
+          "type": "dimension",
+          "value": 22
+        },
+        "typography.nowPlaying.title.wide": {
+          "description": "正在播放宽布局标题；内容层展示层级",
+          "type": "dimension",
+          "value": 24
+        },
+        "typography.playbackQueue.metadata": {
+          "description": "播放队列元信息；基于 caption",
+          "type": "dimension",
+          "value": 12
+        },
+        "typography.playbackQueue.title.compact": {
+          "description": "播放队列紧凑标题；基于 listTitle",
+          "type": "dimension",
+          "value": 16
+        },
+        "typography.playbackQueue.title.wide": {
+          "description": "播放队列宽布局标题；基于 title",
+          "type": "dimension",
+          "value": 22
+        },
+        "typography.settings.accentPreview": {
+          "description": "设置自定义强调色预览加号；颜色样本内部文字",
+          "type": "dimension",
+          "value": 15
+        },
+        "typography.settings.sheetTitle": {
+          "description": "设置选择弹层标题；基于 sectionTitle 的紧凑弹层标题",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.settings.storageTotal": {
+          "description": "设置离线存储总量展示数字；产品信息展示层",
+          "type": "dimension",
+          "value": 24
+        },
+        "typography.shell.brandTitle": {
+          "description": "开听桌面壳品牌标题；基于 title 的品牌锁定文字",
+          "type": "dimension",
+          "value": 17
         }
       }
     }

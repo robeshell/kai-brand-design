@@ -28,6 +28,20 @@ TYPE_STYLE_IDS = (
     "captionSmall",
 )
 COMPONENT_TYPE_STYLE_IDS = ("listTitle",)
+COMPONENT_MAPPING_COMPONENT_IDS = (
+    "surfaces",
+    "buttons",
+    "inputs",
+    "selection",
+    "navigation",
+    "list-rows",
+    "feedback",
+    "dialogs",
+    "menus",
+    "icons",
+    "app-bars",
+    "data-display",
+)
 PROFILE_METRIC_IDS = (
     "minimumInteractiveTarget",
     "controlHeight",
@@ -135,21 +149,83 @@ def validate_product_tokens(product_tokens: dict[str, dict]) -> None:
                 raise TokenValidationError(f"{token_path}.description: expected text")
 
 
-def validate_platform_profiles(primitives: dict) -> None:
-    typography = primitives.get("typography", {})
+def validate_typography_roles(typography: dict) -> None:
     require_keys(
         typography,
-        ("fontPolicy", "weights", "componentRoles"),
+        ("fontPolicy", "weights", "semanticRoles", "componentMappings", "componentRoles"),
         "primitives.typography",
     )
+    roles = typography["semanticRoles"]
+    if not isinstance(roles, dict) or not roles:
+        raise TokenValidationError("primitives.typography.semanticRoles: expected object")
+    for role_id, role in roles.items():
+        path = f"primitives.typography.semanticRoles.{role_id}"
+        require_keys(role, ("description", "intent", "allowedWeights"), path)
+        if not isinstance(role["description"], str) or not role["description"].strip():
+            raise TokenValidationError(f"{path}.description: expected text")
+        if not isinstance(role["intent"], str) or not role["intent"].strip():
+            raise TokenValidationError(f"{path}.intent: expected text")
+        weights = role["allowedWeights"]
+        if not isinstance(weights, list) or not weights or any(
+            weight not in (400, 500, 600) for weight in weights
+        ):
+            raise TokenValidationError(f"{path}.allowedWeights: expected 400, 500, or 600")
+        if "baseRole" in role and role["baseRole"] not in roles:
+            raise TokenValidationError(f"{path}.baseRole: unknown role {role['baseRole']}")
+        if role_id not in TYPE_STYLE_IDS and not role.get("baseRole"):
+            raise TokenValidationError(f"{path}: component roles require baseRole")
+        if role_id not in TYPE_STYLE_IDS and not role.get("rationale"):
+            raise TokenValidationError(f"{path}.rationale: required for component roles")
+
+    mappings = typography["componentMappings"]
+    if not isinstance(mappings, dict) or not mappings:
+        raise TokenValidationError("primitives.typography.componentMappings: expected object")
+    unknown_components = set(mappings) - set(COMPONENT_MAPPING_COMPONENT_IDS)
+    if unknown_components:
+        raise TokenValidationError(
+            "primitives.typography.componentMappings: unknown components "
+            + ", ".join(sorted(unknown_components))
+        )
+    for component_id, slots in mappings.items():
+        if not isinstance(slots, dict) or not slots:
+            raise TokenValidationError(
+                f"primitives.typography.componentMappings.{component_id}: expected object"
+            )
+        for slot_id, mapping in slots.items():
+            path = f"primitives.typography.componentMappings.{component_id}.{slot_id}"
+            require_keys(mapping, ("role",), path)
+            if mapping["role"] not in roles:
+                raise TokenValidationError(f"{path}.role: unknown role {mapping['role']}")
+            if "profileOverrides" in mapping:
+                overrides = mapping["profileOverrides"]
+                if not isinstance(overrides, dict):
+                    raise TokenValidationError(f"{path}.profileOverrides: expected object")
+                for profile_id, style in overrides.items():
+                    if profile_id not in ("mobile", "desktop"):
+                        raise TokenValidationError(f"{path}.profileOverrides: unknown profile {profile_id}")
+                    validate_text_style(style, f"{path}.profileOverrides.{profile_id}")
+
     component_roles = typography["componentRoles"]
     if not isinstance(component_roles, dict) or not component_roles:
         raise TokenValidationError("primitives.typography.componentRoles: expected object")
     for component, style_id in component_roles.items():
-        if style_id not in TYPE_STYLE_IDS + COMPONENT_TYPE_STYLE_IDS:
+        if style_id not in roles:
             raise TokenValidationError(
-                f"primitives.typography.componentRoles.{component}: unknown style {style_id}"
+                f"primitives.typography.componentRoles.{component}: unknown role {style_id}"
             )
+
+
+def validate_text_style(style: dict, path: str) -> None:
+    require_keys(style, ("fontSize", "lineHeight", "fontWeight", "letterSpacing"), path)
+    if style["fontSize"] <= 0 or style["lineHeight"] < style["fontSize"]:
+        raise TokenValidationError(f"{path}: lineHeight must be >= positive fontSize")
+    if style["fontWeight"] not in (400, 500, 600):
+        raise TokenValidationError(f"{path}.fontWeight: expected 400, 500, or 600")
+
+
+def validate_platform_profiles(primitives: dict) -> None:
+    typography = primitives.get("typography", {})
+    validate_typography_roles(typography)
 
     profiles = primitives.get("platformProfiles", {})
     require_keys(profiles, PLATFORM_PROFILE_IDS, "primitives.platformProfiles")
