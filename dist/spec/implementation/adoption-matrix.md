@@ -17,7 +17,7 @@
 | 产品 | 技术栈 | productSpecVersion | 目标品牌版本 | 状态 | 证据与剩余缺口 |
 |---|---|---:|---:|---|---|
 | 开听 / kaiting | Flutter | 0.2.0 | 0.7.0 | 进行中 | 0.6.2 的 Mobile / Desktop Profile 与语义字体已落地；组件字号映射规范已更新，待同步 v0.7.0 生成 token 与 lock，并继续登记组件级字号例外 |
-| 开卷 / kaijuan | Flutter | 0.2.0 | 0.7.0 | 待处理 | 待接入 v0.7.0 语义角色、组件 slot 映射、平台组件适配和动态字体 |
+| 开卷 / kaijuan | Flutter | 0.2.0 | 0.7.0 | 进行中 | 0.7.0 生成 token 和 lock 已同步；AppTheme applyTypeScale 和语义字号 accessor 已接入；产品 typography token 已登记；正在迁移全部硬编码字号 |
 | 开刮 / kaigua | Tauri 2 + React | 0.2.0 | 0.7.0 | 待处理 | 待接入 v0.7.0 语义角色、组件 slot 映射和桌面组件适配 |
 
 ## 更新规则

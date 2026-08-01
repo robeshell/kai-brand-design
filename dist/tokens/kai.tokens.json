@@ -1887,7 +1887,7 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.7.0",
+    "specVersion": "0.7.1",
     "typography": {
       "componentMappings": {
         "app-bars": {
@@ -2250,7 +2250,7 @@
     },
     "kaiting": {
       "product": "kaiting",
-      "productSpecVersion": "0.2.0",
+      "productSpecVersion": "0.2.1",
       "tokens": {
         "playback.busySpinnerSize": {
           "description": "传输按钮忙碌指示器尺寸",
@@ -2362,6 +2362,26 @@
           "type": "dimension",
           "value": 10
         },
+        "typography.lyrics.line.active": {
+          "description": "歌词当前行；展示层级，窄布局（<340px）下降一档",
+          "type": "dimension",
+          "value": 22
+        },
+        "typography.lyrics.line.activeNarrow": {
+          "description": "歌词当前行窄布局；减少换行甩字",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.lyrics.line.inactive": {
+          "description": "歌词非当前行；展示层级，窄布局（<340px）下降一档",
+          "type": "dimension",
+          "value": 20
+        },
+        "typography.lyrics.line.inactiveNarrow": {
+          "description": "歌词非当前行窄布局；减少换行甩字",
+          "type": "dimension",
+          "value": 18
+        },
         "typography.lyrics.offsetValue": {
           "description": "歌词偏移数值；基于 captionSmall，保持 −.5 / 0 / +.5 在窄列内可读",
           "type": "dimension",
@@ -2433,9 +2453,9 @@
           "value": 16
         },
         "typography.playbackQueue.title.wide": {
-          "description": "播放队列宽布局标题；基于 title",
+          "description": "播放队列宽布局标题；与设置弹层标题同档的紧凑弹层标题",
           "type": "dimension",
-          "value": 22
+          "value": 20
         },
         "typography.settings.accentPreview": {
           "description": "设置自定义强调色预览加号；颜色样本内部文字",
