@@ -33,7 +33,7 @@
 
 - 高度读取当前 Mobile / Desktop Profile 的 `controlHeight`；
 - 命中区不小于 `minimumInteractiveTarget`；
-- 字体读取 `typeScale.body`；
+- 字体读取 `typeScale.inputText`；
 - 支持 Default、Focused、Filled、Error、Read-only、Disabled；
 - Focused 使用平台焦点能力；输入容器可同步使用 accent 边框，但不叠加重复焦点环；
 - Error 同时显示错误色、文字和可访问关联。

@@ -27,7 +27,7 @@ TYPE_STYLE_IDS = (
     "caption",
     "captionSmall",
 )
-COMPONENT_TYPE_STYLE_IDS = ("listTitle",)
+COMPONENT_TYPE_STYLE_IDS = ("listTitle", "inputText", "gridTitle")
 COMPONENT_MAPPING_COMPONENT_IDS = (
     "surfaces",
     "buttons",
@@ -200,10 +200,16 @@ def validate_typography_roles(typography: dict) -> None:
                 overrides = mapping["profileOverrides"]
                 if not isinstance(overrides, dict):
                     raise TokenValidationError(f"{path}.profileOverrides: expected object")
+                if not isinstance(mapping.get("rationale"), str) or not mapping["rationale"].strip():
+                    raise TokenValidationError(f"{path}.rationale: required when profileOverrides is present")
                 for profile_id, style in overrides.items():
                     if profile_id not in ("mobile", "desktop"):
                         raise TokenValidationError(f"{path}.profileOverrides: unknown profile {profile_id}")
-                    validate_text_style(style, f"{path}.profileOverrides.{profile_id}")
+                    validate_text_style(
+                        style,
+                        f"{path}.profileOverrides.{profile_id}",
+                        roles[mapping["role"]]["allowedWeights"],
+                    )
 
     component_roles = typography["componentRoles"]
     if not isinstance(component_roles, dict) or not component_roles:
@@ -215,12 +221,19 @@ def validate_typography_roles(typography: dict) -> None:
             )
 
 
-def validate_text_style(style: dict, path: str) -> None:
+def validate_text_style(
+    style: dict,
+    path: str,
+    allowed_weights: list[int] | None = None,
+) -> None:
     require_keys(style, ("fontSize", "lineHeight", "fontWeight", "letterSpacing"), path)
     if style["fontSize"] <= 0 or style["lineHeight"] < style["fontSize"]:
         raise TokenValidationError(f"{path}: lineHeight must be >= positive fontSize")
     if style["fontWeight"] not in (400, 500, 600):
         raise TokenValidationError(f"{path}.fontWeight: expected 400, 500, or 600")
+    if allowed_weights is not None and style["fontWeight"] not in allowed_weights:
+        allowed = ", ".join(str(weight) for weight in allowed_weights)
+        raise TokenValidationError(f"{path}.fontWeight: expected one of {allowed}")
 
 
 def validate_platform_profiles(primitives: dict) -> None:
@@ -315,15 +328,11 @@ def validate_platform_profiles(primitives: dict) -> None:
         for style_id in component_style_ids:
             style = profile["typeScale"][style_id]
             style_path = f"{path}.typeScale.{style_id}"
-            require_keys(
+            validate_text_style(
                 style,
-                ("fontSize", "lineHeight", "fontWeight", "letterSpacing"),
                 style_path,
+                typography["semanticRoles"][style_id]["allowedWeights"],
             )
-            if style["fontSize"] <= 0 or style["lineHeight"] < style["fontSize"]:
-                raise TokenValidationError(
-                    f"{style_path}: lineHeight must be >= positive fontSize"
-                )
         validate_number_scale(profile["metrics"], PROFILE_METRIC_IDS, f"{path}.metrics")
         metrics = profile["metrics"]
         if metrics["compactControlHeight"] > metrics["controlHeight"]:

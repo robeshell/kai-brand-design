@@ -127,6 +127,8 @@ export function applyPlatformProfile(profileId: PlatformId): void {
     const name = role.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
     root.style.setProperty(`--viewer-type-${name}-size`, `${style.fontSize}px`);
     root.style.setProperty(`--viewer-type-${name}-line-height`, `${style.lineHeight}px`);
+    root.style.setProperty(`--viewer-type-${name}-weight`, String(style.fontWeight));
+    root.style.setProperty(`--viewer-type-${name}-tracking`, `${style.letterSpacing}px`);
   });
   Object.entries(profile.metrics).forEach(([metric, value]) => {
     const name = metric.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();

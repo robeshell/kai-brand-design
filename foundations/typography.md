@@ -27,12 +27,14 @@ componentProfiles.mobile/desktop.typeScale
 | `pageTitle` | 页面主标题 |
 | `sectionTitle` | 页面分区、对话框和 Sheet 标题 |
 | `title` | 组件标题或强调行标题 |
-| `body` | 正文、输入文字和普通内容标题 |
+| `body` | 正文和普通内容标题 |
+| `inputText` | 输入框、搜索框和文本编辑控件中的文字；基于 `body`，因控件密度需要而单独输出 |
 | `bodySecondary` | 列表副题和说明文字 |
 | `label` | 按钮、选择控件和表单标签 |
 | `caption` | 时间、状态和普通元信息 |
 | `captionSmall` | 空间受限的短标签 |
 | `listTitle` | 列表行标题的组件角色；基于 `body`，因列表密度需要而单独输出 |
+| `gridTitle` | 封面网格和紧凑卡片中的标题；基于 `listTitle`，因卡片高度约束而单独输出 |
 
 `listTitle` 是组件角色，不是新的通用语义层级。所有组件角色都必须声明基础角色或明确 rationale。
 
@@ -41,7 +43,7 @@ componentProfiles.mobile/desktop.typeScale
 | 组件 slot | 角色 |
 |---|---|
 | `buttons.label` | `label` |
-| `inputs.text` | `body` |
+| `inputs.text` | `inputText` |
 | `inputs.helperText` | `bodySecondary` |
 | `navigation.desktopLabel` | `body` |
 | `navigation.mobileLabel` | `captionSmall` |
@@ -50,6 +52,7 @@ componentProfiles.mobile/desktop.typeScale
 | `dialogs.title` | `sectionTitle` |
 | `dialogs.body` | `body` |
 | `app-bars.title` | `pageTitle` |
+| `data-display.title` | `title` |
 
 组件文档和契约应引用 `component → slot → role → Profile`，而不是把某个字号解释成组件全局字号。
 
@@ -62,8 +65,10 @@ componentProfiles.mobile/desktop.typeScale
 | `sectionTitle` | 22 / 28 · w600 | 18 / 24 · w600 |
 | `title` | 17 / 24 · w600 | 14 / 20 · w600 |
 | `body` | **17 / 24 · w400** | **14 / 20 · w400** |
+| `inputText` | 16 / 22 · w400 | 14 / 20 · w400 |
 | `bodySecondary` | 15 / 20 · w400 | 12 / 18 · w400 |
 | `listTitle` | 14 / 20 · w500 | 14 / 20 · w500 |
+| `gridTitle` | 14 / 20 · w500 | 14 / 20 · w500 |
 | `label` | 16 / 22 · w600 | 14 / 20 · w600 |
 | `caption` | 13 / 18 · w400 | 12 / 16 · w400 |
 | `captionSmall` | 11 / 16 · w500 | 11 / 16 · w500 |

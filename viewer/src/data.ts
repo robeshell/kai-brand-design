@@ -245,7 +245,7 @@ export const componentStories = [
     id: "inputs",
     name: "Inputs",
     description: "输入面使用 subtle fill；焦点由 2px accent 描边表达。",
-    tokens: ["radii.control", "derivedAlphas.subtleFill", "componentProfiles.*.typeScale.body"],
+    tokens: ["radii.control", "derivedAlphas.subtleFill", "componentProfiles.*.typeScale.inputText"],
   },
   {
     id: "selection",
@@ -263,7 +263,7 @@ export const componentStories = [
     id: "list-rows",
     name: "List rows",
     description: "设置项、操作项和多选行共享固定的解剖与状态。",
-    tokens: ["componentProfiles.*.typeScale.body", "radii.control"],
+    tokens: ["componentProfiles.*.typeScale.listTitle", "radii.control"],
   },
   {
     id: "feedback",

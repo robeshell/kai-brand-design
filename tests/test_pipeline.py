@@ -93,11 +93,28 @@ class TokenPipelineTest(unittest.TestCase):
         profiles = self.primitives["componentProfiles"]
         self.assertEqual(set(profiles), {"mobile", "desktop"})
         self.assertEqual(profiles["mobile"]["typeScale"]["body"]["fontSize"], 17)
+        self.assertEqual(profiles["mobile"]["typeScale"]["inputText"]["fontSize"], 16)
         self.assertEqual(profiles["mobile"]["typeScale"]["listTitle"]["fontSize"], 14)
+        self.assertEqual(profiles["mobile"]["typeScale"]["gridTitle"]["fontSize"], 14)
         self.assertEqual(profiles["mobile"]["metrics"]["controlHeight"], 48)
         self.assertEqual(profiles["desktop"]["typeScale"]["body"]["fontSize"], 14)
         self.assertEqual(profiles["desktop"]["typeScale"]["listTitle"]["fontSize"], 14)
         self.assertEqual(profiles["desktop"]["metrics"]["controlHeight"], 36)
+
+    def test_component_profile_weights_follow_semantic_roles(self) -> None:
+        primitives = copy.deepcopy(self.primitives)
+        primitives["componentProfiles"]["mobile"]["typeScale"]["listTitle"]["fontWeight"] = 600
+        with self.assertRaises(TokenValidationError):
+            validate(primitives, self.skins, self.accents, self.product_tokens)
+
+    def test_profile_override_requires_rationale(self) -> None:
+        primitives = copy.deepcopy(self.primitives)
+        label_style = primitives["componentProfiles"]["mobile"]["typeScale"]["label"]
+        primitives["typography"]["componentMappings"]["buttons"]["label"]["profileOverrides"] = {
+            "mobile": copy.deepcopy(label_style)
+        }
+        with self.assertRaises(TokenValidationError):
+            validate(primitives, self.skins, self.accents, self.product_tokens)
 
     def test_status_text_color_requires_accessible_contrast(self) -> None:
         primitives = copy.deepcopy(self.primitives)

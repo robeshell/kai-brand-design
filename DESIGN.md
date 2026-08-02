@@ -62,7 +62,7 @@ components:
   listRow: { height: "{platformProfile.metrics.listRowSingle/listRowDouble}", title: "{platformProfile.typeScale.listTitle}", subtitle: "{platformProfile.typeScale.bodySecondary}" }
   checkRow: { leading: "checkbox icon 20, accent filled / muted hollow" }
   settingsGroup: { radius: "{rounded.card}", fill: "surfaceContainerLow@0.72", border: "{colors.hairline}", dividerIndent: 14 }
-  textField: { radius: "{rounded.control}", fill: subtle, height: "{platformProfile.metrics.controlHeight}", text: "{platformProfile.typeScale.body}", focusBorder: "2px accent, no outer outline" }
+  textField: { radius: "{rounded.control}", fill: subtle, height: "{platformProfile.metrics.controlHeight}", text: "{platformProfile.typeScale.inputText}", focusBorder: "2px accent, no outer outline" }
   slider: { track: 3, thumbRadius: 6, overlay: "accent@0.12 r14" }
   switch: { track: "40x24", thumb: 18, motion: "160ms easeOutCubic" }
   checkbox: { radius: 5, border: "1.4px", checked: "accent + onAccent check" }

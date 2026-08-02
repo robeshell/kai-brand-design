@@ -72,6 +72,9 @@ class ViewerContentTests(unittest.TestCase):
         source = (ROOT / "viewer" / "src" / "main.ts").read_text()
         self.assertIn("tokens.primitives.componentProfiles", source)
         self.assertIn("typeRoleLabels", source)
+        for role in ("inputText", "listTitle", "gridTitle"):
+            with self.subTest(role=role):
+                self.assertIn(f'{role}:', source)
         self.assertIn("metricLabels", source)
 
     def test_viewer_can_preview_every_platform_profile(self):
@@ -82,6 +85,8 @@ class ViewerContentTests(unittest.TestCase):
         self.assertIn("root.dataset.platformProfile", theme)
         self.assertIn("root.dataset.componentProfile", theme)
         self.assertIn("--viewer-metric-", theme)
+        self.assertIn("--viewer-type-${name}-weight", theme)
+        self.assertIn("--viewer-type-${name}-tracking", theme)
 
     def test_viewer_uses_app_structures_instead_of_generic_pages(self):
         content = json.loads(

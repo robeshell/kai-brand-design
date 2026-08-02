@@ -182,6 +182,7 @@
       "required": ["role"],
       "properties": {
         "role": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
         "profileOverrides": {
           "type": "object",
           "properties": {
