@@ -148,6 +148,27 @@ class ViewerContentTests(unittest.TestCase):
         self.assertNotIn("tokenTable", template)
         self.assertNotIn("contract.usage", template)
 
+    def test_viewer_component_pages_expose_token_contract_source(self):
+        source = (ROOT / "viewer" / "src" / "main.ts").read_text()
+        primitives = (ROOT / "viewer" / "src" / "ui" / "primitives.ts").read_text()
+        package = json.loads((ROOT / "viewer" / "package.json").read_text())
+        self.assertIn("componentContractPanel", source)
+        self.assertIn("Token 驱动契约", source)
+        self.assertIn("tokens → componentContracts", source)
+        for primitive in ("renderButton", "renderField", "renderDialog", "renderMenu"):
+            with self.subTest(primitive=primitive):
+                self.assertIn(f"export function {primitive}", primitives)
+        self.assertEqual(set(package["scripts"]), {"dev", "build"})
+
+    def test_viewer_overlay_and_form_previews_have_semantics(self):
+        primitives = (ROOT / "viewer" / "src" / "ui" / "primitives.ts").read_text()
+        main = (ROOT / "viewer" / "src" / "main.ts").read_text()
+        for requirement in ('aria-invalid="true"', "aria-describedby", 'role=\"dialog\"', 'role=\"menu\"', 'role=\"status\"'):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, primitives)
+        self.assertIn("inspectorTrigger", main)
+        self.assertIn("aria-modal=\"true\"", main)
+
 
 if __name__ == "__main__":
     unittest.main()

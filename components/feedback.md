@@ -31,6 +31,13 @@
 
 进度图形、短反馈容器、系统通知和可访问播报方式由平台决定。
 
+## 短反馈表面
+
+- SnackBar、Toast、Tooltip 等短反馈若由应用自有容器承载，使用 `GlassSurface` base：`surface + blur + border + shadow`；
+- 不把 `overlay` 中灰色直接作为常规短反馈背景，也不把短反馈统一升级为 strong glass；
+- Inline Status、Empty State 和页面内的 Result Summary 继承所在内容表面，不单独套玻璃；
+- 需要用户持续处理的任务或错误进入稳定的任务/错误容器，不用短反馈玻璃承载。
+
 ## 状态规则
 
 - 已知总量才显示百分比或 `已完成 / 总量`；

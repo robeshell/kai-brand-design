@@ -16,7 +16,7 @@
 | 高度 | 当前 Mobile / Desktop Profile 的 `listRowSingle` / `listRowDouble`（设置页导航行用 `listRowSingle`，见 `patterns/settings-page.md`） |
 | padding | 水平 `spacing.x4`；垂直方向由行高与内容决定 |
 | leading 槽 | 32 宽居中 |
-| 标题 | 当前 Mobile / Desktop Profile 的 `typeScale.listTitle`：14/20、w500，单行省略 |
+| 标题 | 当前 Mobile / Desktop Profile 的 `typeScale.listTitle`：Mobile 15/22、Desktop 14/20、w500，单行省略 |
 | 副题 | 当前 Mobile / Desktop Profile 的 `typeScale.bodySecondary`，单行省略 |
 
 ## Token 映射与状态
@@ -45,5 +45,5 @@ leading 为 checkbox 图标（20px）：选中 accent 实心 / 未选 muted 空�
 
 ## 验收锚点
 
-- 单/双行高度和文字均来自当前 Mobile / Desktop Profile；标题 listTitle (14/20 w500)、副题 bodySecondary；
+- 单/双行高度和文字均来自当前 Mobile / Desktop Profile；标题 listTitle（Mobile 15/22、Desktop 14/20 w500）、副题 bodySecondary；
 - 行内不出现 elevation / 阴影。

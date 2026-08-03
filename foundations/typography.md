@@ -60,18 +60,20 @@ componentProfiles.mobile/desktop.typeScale
 
 | 角色 | Mobile | Desktop |
 |---|---:|---:|
-| `displayLarge` | 34 / 42 · w600 | 32 / 40 · w600 |
-| `pageTitle` | 28 / 36 · w600 | 24 / 32 · w600 |
-| `sectionTitle` | 22 / 28 · w600 | 18 / 24 · w600 |
+| `displayLarge` | 34 / 42 · w600 · −0.2 | 32 / 40 · w600 · −0.2 |
+| `pageTitle` | 28 / 36 · w600 · −0.2 | 24 / 32 · w600 · −0.2 |
+| `sectionTitle` | 22 / 28 · w600 · −0.15 | 18 / 24 · w600 · −0.1 |
 | `title` | 17 / 24 · w600 | 14 / 20 · w600 |
 | `body` | **17 / 24 · w400** | **14 / 20 · w400** |
 | `inputText` | 16 / 22 · w400 | 14 / 20 · w400 |
-| `bodySecondary` | 15 / 20 · w400 | 12 / 18 · w400 |
-| `listTitle` | 14 / 20 · w500 | 14 / 20 · w500 |
-| `gridTitle` | 14 / 20 · w500 | 14 / 20 · w500 |
+| `bodySecondary` | 15 / 22 · w400 | 12 / 18 · w400 |
+| `listTitle` | 15 / 22 · w500 | 14 / 20 · w500 |
+| `gridTitle` | 15 / 22 · w500 | 14 / 20 · w500 |
 | `label` | 16 / 22 · w600 | 14 / 20 · w600 |
 | `caption` | 13 / 18 · w400 | 12 / 16 · w400 |
-| `captionSmall` | 11 / 16 · w500 | 11 / 16 · w500 |
+| `captionSmall` | 12 / 16 · w500 | 12 / 16 · w500 |
+
+`captionSmall` 仅用于底栏/紧凑导航等短标签，不得作正文或列表标题。
 
 ## 使用规则
 

@@ -13,7 +13,9 @@
 - [ ] 平台解析唯一且正确：iOS→appleMobile、Android→androidMobile、macOS→macDesktop、Windows→windowsDesktop、Linux→linuxDesktop
 - [ ] 正文与交互目标：iOS 17/22 + 44pt；Android 16/24 + 48dp；macOS 13/16 + 28pt；Windows 14/20 + 32px；Linux 14/20 + 32px
 - [ ] 按钮、IconButton、chip 与列表行的命中区不小于当前 Profile 的 `minimumInteractiveTarget`
-- [ ] 列表标题使用 `body`，副题使用 `secondary`；单/双行高度读取当前 Profile
+- [ ] 列表标题使用 `listTitle`，副题使用 `bodySecondary`；单/双行高度读取当前 Profile
+- [ ] accent 使用登记的 `onAccent`；键盘焦点使用 `focusRing`（或平台等价 + accent 色）
+- [ ] chrome 使用皮肤 `chromeSurface` token，不手写 0.8 不透明度
 - [ ] 输入框：r10、subtle 填充、聚焦 2px accent 且无外侧 outline
 - [ ] 滑杆：轨道 3、拇指 r6；进度圈 24px/2px 且无硬编码色
 - [ ] Switch / Checkbox / Radio 使用当前平台等价控件，品牌色不破坏系统结构和可访问状态
@@ -21,6 +23,7 @@
 - [ ] 壳层画布：默认主题以右侧 `#F7F9FC`、左侧 `#F3F5F8` 为底层基色；三主题均使用 canvas → canvasHighlight → overlay；移动 extendBody true；底留白 140 / 桌面 96；壳层无 Material elevation
 - [ ] 桌面主窗：默认 1280×800、最小 1024×700（逻辑/content）；小屏钳制不得低于 min
 - [ ] 对话框、菜单、Popover、Flyout 和 Sheet 按平台与任务选择；按钮顺序、焦点和返回行为符合系统
+- [ ] 通用浮面语义正确：Dialog / Sheet / Menu / Popover = strongSurface + strongBlur；SnackBar / Toast / Tooltip = surface + blur；不直接使用 elevated / overlay 填充
 - [ ] 字族平台默认；组件只引用语义字体角色，不出现平台字号字面量；**禁止 w700+**
 - [ ] 代码中无字面色值泄漏（grep `Color(0x` 应只出现在 theme 层与内容层扩展）
 - [ ] 旧外观存储迁移有单元测试

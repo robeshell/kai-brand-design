@@ -13,7 +13,7 @@
 | `source.webDav` | `#5E8BFF` | WebDAV 远程来源 |
 | `source.local` | `#55B889` | 本机文件夹来源 |
 
-- 这两色是**来源身份标识**，不是状态色——`authenticationFailed` 用品牌层 `derivedAlphas.status.warning`，`error/unavailable` 用 `colorScheme.error`；
+- 这两色是**来源身份标识**，不是状态色——`authenticationFailed` 用品牌层 `statusColors.warning`，`error/unavailable` 用 `colorScheme.error`；
 - 来源就绪/正常状态借用来源色本身表达（已登记，见 `divergences.md` D2）；
 - 为何不是通用 token：来源类型是开听的领域概念（开卷没有"音乐来源"），若未来多产品出现"外部数据源标识色"需求再提升。
 

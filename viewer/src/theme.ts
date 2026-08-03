@@ -14,6 +14,17 @@ function cssColor(value: string): string {
   return `rgb(${rgb} / ${alpha})`;
 }
 
+function onAccentColor(value: string): string {
+  if (!value.startsWith("#") || value.length < 7) return "#1C1C22";
+  const channel = (offset: number): number => Number.parseInt(value.slice(offset, offset + 2), 16) / 255;
+  const linear = (channelValue: number): number =>
+    channelValue <= 0.03928 ? channelValue / 12.92 : ((channelValue + 0.055) / 1.055) ** 2.4;
+  const luminance = 0.2126 * linear(channel(1)) + 0.7152 * linear(channel(3)) + 0.0722 * linear(channel(5));
+  const darkContrast = (luminance + 0.05) / 0.05;
+  const lightContrast = 1.05 / (luminance + 0.05);
+  return darkContrast >= lightContrast ? "#1C1C22" : "#FFFFFF";
+}
+
 export function applyTheme(
   skinId: SkinId,
   productId: ProductId,
@@ -86,6 +97,7 @@ export function applyTheme(
     "--text-muted": skin.glass.mutedText,
     "--accent": viewerAccent,
     "--product-accent": accent.accent,
+    "--on-accent": onAccentColor(viewerAccent),
     "--hairline": derived.hairline[tone],
     "--border": derived.border[tone],
     "--subtle-fill": derived.subtleFill[tone],

@@ -14,6 +14,14 @@ import {
 } from "./data";
 import { loadState, saveState, type AppState } from "./state";
 import { applyPlatformProfile, applyTheme, installPrimitiveVariables } from "./theme";
+import {
+  renderButton,
+  renderDialog,
+  renderField,
+  renderMenu,
+  renderStatus,
+  renderSurface,
+} from "./ui/primitives";
 import type {
   InspectorTarget,
   PageId,
@@ -133,7 +141,7 @@ const tokenTable = (
 
 function sidebar(): string {
   return `
-    <aside class="sidebar ${mobileNavOpen ? "mobile-open" : ""}" id="site-navigation">
+    <aside class="sidebar ${mobileNavOpen ? "mobile-open" : ""}" id="site-navigation" role="${mobileNavOpen ? "dialog" : "complementary"}"${mobileNavOpen ? ' aria-modal="true" aria-label="规范目录"' : ""}${state.inspectorOpen ? " inert" : ""}>
       <a class="brand" href="#overview"><b>K</b><span><strong>Kai Design</strong><small>设计规范</small></span></a>
       <nav aria-label="规范目录">
         ${navigationGroups
@@ -169,7 +177,7 @@ function topbar(): string {
         <span><small>${escapeHtml(pageInfo().label)}</small><strong>${escapeHtml(pageInfo().label)}</strong></span>
       </div>
       <div class="top-actions">
-        <label class="search"><span>⌕</span><input id="nav-search" type="search" placeholder="搜索目录"></label>
+        <label class="search"><span aria-hidden="true">⌕</span><span class="sr-only">搜索规范目录</span><input id="nav-search" type="search" aria-label="搜索规范目录" placeholder="搜索目录"><span id="nav-search-status" class="sr-only" role="status" aria-live="polite"></span></label>
         <label class="select-control skin-control"><span>外观</span><select id="skin">
           ${option("system", "跟随系统", state.skin)}
           ${tokens.skins.presets.map((skin) => option(skin.id, skin.name, state.skin)).join("")}
@@ -177,7 +185,7 @@ function topbar(): string {
         <label class="select-control platform-control"><span>平台</span><select id="platform">
           ${Object.entries(tokens.primitives.platformProfiles).map(([id, profile]) => option(id, profile.label, state.platform)).join("")}
         </select></label>
-        <button id="motion" class="icon-button ${state.reducedMotion ? "active" : ""}" type="button" title="减少动态效果">≈</button>
+        <button id="motion" class="icon-button ${state.reducedMotion ? "active" : ""}" type="button" aria-label="减少动态效果" aria-pressed="${state.reducedMotion}">≈</button>
         <span class="top-version">v${escapeHtml(tokens.primitives.specVersion)}</span>
       </div>
     </header>`;
@@ -454,6 +462,21 @@ function motionPage(): string {
     </article>`;
 }
 
+function componentContractPanel(pageId: PageId): string {
+  const contract = componentContracts.components[pageId as keyof typeof componentContracts.components];
+  if (!contract) return "";
+  return `<aside class="component-contract" aria-label="${escapeHtml(contract.name)}契约">
+    <div><small>Token 驱动契约</small><strong>${escapeHtml(contract.name)}</strong></div>
+    <p>${escapeHtml(contract.summary)}</p>
+    <dl>
+      <div><dt>变体</dt><dd>${contract.variants.map((item) => escapeHtml(item.name)).join(" · ")}</dd></div>
+      <div><dt>状态</dt><dd>${contract.states.map((item) => escapeHtml(item.name)).join(" · ")}</dd></div>
+      <div><dt>无障碍</dt><dd>${escapeHtml(contract.accessibility[0] ?? "按组件契约验收")}</dd></div>
+    </dl>
+    <code>tokens → componentContracts</code>
+  </aside>`;
+}
+
 const componentPage = (
   pageId: PageId,
   preview: string,
@@ -465,6 +488,7 @@ const componentPage = (
       <div class="component-preview">
         <div class="component-stage">${preview}</div>
       </div>
+      ${componentContractPanel(pageId)}
     </section>
   </article>`;
 
@@ -499,9 +523,9 @@ function componentsOverview(): string {
       <section class="content-section">
         ${sectionHeader("基础表面", "页面、固定栏和浮层只使用这三层。", "surfaces")}
         <div class="surface-demo">
-          <article class="demo-surface base"><span>页面与容器</span><strong>Surface</strong><small>普通内容和分组。</small></article>
-          <article class="demo-surface glass"><span>侧栏与底栏</span><strong>Glass</strong><small>固定界面层。</small></article>
-          <article class="demo-surface elevated"><span>菜单与对话框</span><strong>Elevated</strong><small>临时浮层。</small></article>
+          ${renderSurface("页面与容器", "Surface", "普通内容和分组。", "base")}
+          ${renderSurface("侧栏与底栏", "Glass", "固定界面层。", "glass")}
+          ${renderSurface("菜单与对话框", "Glass Strong", "临时浮层。", "glass-strong")}
         </div>
       </section>
       <section class="content-section">
@@ -526,7 +550,7 @@ function componentSpecimen(family: "mobile" | "desktop", compact = false): strin
         <div class="phone-status"><b>9:41</b><span>● ◒ ▰</span></div>
         <header class="mobile-app-bar"><button aria-label="菜单">☰</button><strong>资料库</strong><button aria-label="更多">•••</button></header>
         <main>
-          <label class="specimen-field"><span>⌕</span><input placeholder="搜索内容"></label>
+          <label class="specimen-field"><span aria-hidden="true">⌕</span><span class="sr-only">搜索内容</span><input aria-label="搜索内容" placeholder="搜索内容"></label>
           <div class="material-chips"><b>全部</b><span>最近</span><span>收藏</span></div>
           <div class="specimen-list">
             <article><i>文</i><span><strong>设计记录</strong><small>今天更新</small></span><button aria-label="更多">⋮</button></article>
@@ -540,11 +564,11 @@ function componentSpecimen(family: "mobile" | "desktop", compact = false): strin
   }
   return `<div class="platform-specimen desktop-specimen kai-desktop-specimen${compactClass}">
     <div class="device-window">
-      <header class="kai-windowbar"><strong>◈　资料库</strong><div><button>—</button><button>□</button><button>×</button></div></header>
+      <header class="kai-windowbar"><strong>◈　资料库</strong><div><button aria-label="最小化">—</button><button aria-label="还原窗口">□</button><button aria-label="关闭窗口">×</button></div></header>
       <div class="desktop-body">
         <aside><b>⌂　主页</b><span>▦　全部项目</span><span>◷　最近使用</span><span>♡　收藏</span><small>位置</small><span>☁　云端</span><span>⚙　设置</span></aside>
         <main>
-          <div class="windows-command"><button class="specimen-primary">＋ 新建</button><button>⌄ 排序</button><button>⋯</button><label>⌕ <input placeholder="搜索资料库"></label></div>
+          <div class="windows-command"><button class="specimen-primary">＋ 新建</button><button>⌄ 排序</button><button aria-label="更多操作">⋯</button><label><span aria-hidden="true">⌕</span><span class="sr-only">搜索资料库</span><input aria-label="搜索资料库" placeholder="搜索资料库"></label></div>
           <h3>全部项目</h3>
           <div class="desktop-table"><header><span>名称</span><span>修改时间</span><span>状态</span></header><article><i>文</i><strong>设计记录</strong><span>今天 14:32</span><b>已同步</b></article><article><i>集</i><strong>我的收藏</strong><span>昨天 18:05</span><b>本机</b></article></div>
           <div class="windows-info"><span>ⓘ　内容已同步</span><button>关闭</button></div>
@@ -571,12 +595,12 @@ function inputsPage(): string {
   return componentPage(
     "inputs",
     `<div class="field-demo">
-      <label><span>默认</span><input placeholder="输入内容"></label>
-      <label class="focused"><span>聚焦</span><input value="设计规范"></label>
-      <label class="error"><span>输入有误</span><input value="错误内容"><small>请检查输入内容</small></label>
-      <label><span>选项</span><select><option>跟随系统</option><option>浅色</option><option>深色</option></select></label>
-      <label class="range-field"><span>播放进度</span><input type="range" value="42"></label>
-      <label><span>不可编辑</span><input value="固定内容" disabled></label>
+      ${renderField({ id: "default-input", label: "默认", placeholder: "输入内容" })}
+      <div class="focused">${renderField({ id: "focused-input", label: "聚焦", value: "设计规范" })}</div>
+      ${renderField({ id: "error-input", label: "项目名称", value: "", error: "请输入项目名称" })}
+      <label><span>选项</span><select id="theme-select" name="theme"><option>跟随系统</option><option>浅色</option><option>深色</option></select></label>
+      <label class="range-field" for="progress-input"><span>播放进度</span><input id="progress-input" name="progress" type="range" value="42"></label>
+      ${renderField({ id: "disabled-input", label: "不可编辑", value: "固定内容", disabled: true })}
     </div>`,
   );
 }
@@ -627,10 +651,10 @@ function feedbackPage(): string {
   return componentPage(
     "feedback",
     `<div class="feedback-demo">
-      <div class="feedback-item"><span>${platformFeedback}</span><div class="snackbar">已保存更改</div></div>
-      <div class="feedback-item"><span>工具提示</span><div class="tooltip-sample"><button class="demo-icon-button">?</button><b>查看使用说明</b></div></div>
-      <div class="feedback-item wide"><span>空态与加载</span><div class="empty-state"><i>◇</i><strong>还没有内容</strong><p>添加第一项后会显示在这里。</p><button class="secondary">添加内容</button></div><div class="loading-state"><i></i><span>正在载入</span></div></div>
-      <div class="feedback-item wide"><span>进度</span><div class="linear-progress"><i style="width:62%"></i></div><small>已完成 62%</small></div>
+      <div class="feedback-item"><span>${platformFeedback}</span>${renderStatus("已保存更改")}</div>
+      <div class="feedback-item"><span>工具提示</span><div class="tooltip-sample"><button class="demo-icon-button" type="button" aria-label="查看使用说明">?</button><b role="tooltip">查看使用说明</b></div></div>
+      <div class="feedback-item wide"><span>空态与加载</span><div class="empty-state"><i aria-hidden="true">◇</i><strong>还没有内容</strong><p>添加第一项后会显示在这里。</p>${renderButton({ label: "添加内容", variant: "secondary" })}</div><div class="loading-state" role="status" aria-live="polite"><i aria-hidden="true"></i><span>正在载入</span></div></div>
+      <div class="feedback-item wide"><span>进度</span><div class="linear-progress" role="progressbar" aria-label="任务进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"><i style="width:62%"></i></div><small>已完成 62%</small></div>
       <div class="feedback-item wide"><span>滚动条</span><div class="scrollbar-sample"><i></i></div></div>
     </div>`,
   );
@@ -641,18 +665,11 @@ function dialogsPage(): string {
   return componentPage(
     "dialogs",
     `<div class="demo-stack">
-      <div class="demo-group"><span>${family} 确认对话框</span><div class="dialog-demo">
-        <div class="dialog-backdrop"></div>
-        <article>
-          <header><h3>删除这条记录？</h3><button class="demo-icon-button" aria-label="关闭">×</button></header>
-          <p>删除后将无法恢复。其他记录不会受到影响。</p>
-          <footer><button class="secondary">取消</button><button class="danger">删除</button></footer>
-        </article>
-      </div></div>
-      <div class="demo-group"><span>输入对话框</span><div class="prompt-dialog">
-        <h3>重命名</h3>
-        <label class="error"><span>名称</span><input value=""><small>名称不能为空</small></label>
-        <footer><button class="secondary">取消</button><button class="primary">保存</button></footer>
+      <div class="demo-group"><span>${family} 确认对话框</span>${renderDialog({ id: "delete-dialog", title: "删除这条记录？", description: "删除后将无法恢复。其他记录不会受到影响。", destructive: true })}</div>
+      <div class="demo-group"><span>输入对话框</span><div class="prompt-dialog" role="dialog" aria-labelledby="rename-dialog-title">
+        <h3 id="rename-dialog-title">重命名</h3>
+        ${renderField({ id: "rename-input", label: "名称", value: "", error: "请输入名称" })}
+        <footer>${renderButton({ label: "取消", variant: "secondary" })}${renderButton({ label: "保存更改", variant: "primary" })}</footer>
       </div></div>
     </div>`,
   );
@@ -663,14 +680,17 @@ function menusPage(): string {
   return componentPage(
     "menus",
     `<div class="menu-demo">
-      <div class="demo-group"><span>${mobile ? "Mobile" : "Desktop"} 菜单</span><div class="anchored-menu">
-        <header>排序方式</header>
-        <button class="selected"><i>↕</i><span>最近修改</span><b>✓</b></button>
-        <button><i>字</i><span>按名称</span></button>
-        <hr>
-        <button class="destructive"><i>删</i><span>清除记录</span></button>
-      </div></div>
-      ${mobile ? `<div class="demo-group"><span>Mobile 底部弹层</span><div class="sheet-frame"><div class="sheet"><i class="sheet-handle"></i><strong>选择操作</strong><button><span>添加到收藏</span><b>›</b></button><button><span>分享</span><b>›</b></button><button class="destructive"><span>删除</span></button></div></div></div>` : `<div class="demo-group"><span>Desktop 右键菜单</span><div class="anchored-menu shortcut-menu"><button class="focused"><i>↗</i><span>打开</span><kbd>Enter</kbd></button><button><i>✎</i><span>重命名</span><kbd>F2</kbd></button><button><i>⧉</i><span>复制</span><kbd>⌘C</kbd></button><hr><button class="destructive"><i>删</i><span>移到废纸篓</span><kbd>⌫</kbd></button></div></div>`}
+      <div class="demo-group"><span>${mobile ? "Mobile" : "Desktop"} 菜单</span>${renderMenu([
+        { label: "最近修改", icon: "↕", selected: true },
+        { label: "按名称", icon: "字" },
+        { label: "清除记录", icon: "删", destructive: true },
+      ], "排序方式", "排序方式")}</div>
+      ${mobile ? `<div class="demo-group"><span>Mobile 底部弹层</span><div class="sheet-frame"><div class="sheet" role="dialog" aria-labelledby="sheet-title"><i class="sheet-handle" aria-hidden="true"></i><strong id="sheet-title">选择操作</strong><button type="button"><span>添加到收藏</span><b aria-hidden="true">›</b></button><button type="button"><span>分享</span><b aria-hidden="true">›</b></button><button type="button" class="destructive"><span>删除</span></button></div></div></div>` : `<div class="demo-group"><span>Desktop 右键菜单</span>${renderMenu([
+        { label: "打开", icon: "↗", shortcut: "Enter", selected: true },
+        { label: "重命名", icon: "✎", shortcut: "F2" },
+        { label: "复制", icon: "⧉", shortcut: "⌘C" },
+        { label: "移到废纸篓", icon: "删", shortcut: "⌫", destructive: true },
+      ], "快捷菜单")}</div>`}
     </div>`,
   );
 }
@@ -966,8 +986,8 @@ function pageToc(): string {
 function inspector(): string {
   const target = state.inspectorTarget;
   return `
-    <aside class="inspector ${state.inspectorOpen ? "open" : ""}">
-      <header><span><small>变量详情</small><strong>查看具体数值</strong></span><button id="inspector-close" type="button">×</button></header>
+    <aside class="inspector ${state.inspectorOpen ? "open" : ""}" id="token-inspector" role="${state.inspectorOpen ? "dialog" : "complementary"}"${state.inspectorOpen ? ' aria-modal="true"' : ""} aria-labelledby="inspector-title" aria-hidden="${!state.inspectorOpen}"${state.inspectorOpen ? "" : " inert"}>
+      <header><span><small>变量详情</small><strong id="inspector-title">查看具体数值</strong></span><button id="inspector-close" type="button" aria-label="关闭变量详情">×</button></header>
       ${target
         ? `<main>
             <div class="token-preview" style="--token-value:${displayColor(target.value)}"><i></i></div>
@@ -983,10 +1003,64 @@ function inspector(): string {
     </aside>`;
 }
 
+type FocusReference = {
+  id?: string;
+  page?: string;
+  token?: string;
+};
+
+let mobileNavTrigger: FocusReference | null = null;
+let inspectorTrigger: FocusReference | null = null;
+
+function captureFocus(): FocusReference | null {
+  const active = document.activeElement;
+  if (!(active instanceof HTMLElement) || !root.contains(active)) return null;
+  return {
+    id: active.id || undefined,
+    page: active.dataset.page,
+    token: active.dataset.token,
+  };
+}
+
+function restoreFocus(reference: FocusReference | null): void {
+  if (!reference) return;
+  let target: HTMLElement | null = null;
+  if (reference.id) target = root.querySelector<HTMLElement>(`#${CSS.escape(reference.id)}`);
+  if (!target && reference.token) {
+    target = [...root.querySelectorAll<HTMLElement>("[data-token]")].find(
+      (element) => element.dataset.token === reference.token,
+    ) ?? null;
+  }
+  if (!target && reference.page) {
+    target = [...root.querySelectorAll<HTMLElement>("[data-page]")].find(
+      (element) => element.dataset.page === reference.page,
+    ) ?? null;
+  }
+  target?.focus({ preventScroll: true });
+}
+
 function update(patch: Partial<AppState>): void {
+  const focused = captureFocus();
+  const openingInspector = patch.inspectorOpen === true && !state.inspectorOpen;
+  const closingInspector = patch.inspectorOpen === false && state.inspectorOpen;
+  const pageChanged = patch.page !== undefined && patch.page !== state.page;
   state = { ...state, ...patch };
   saveState(state);
   render();
+  if (pageChanged) {
+    const live = root.querySelector<HTMLElement>("#viewer-live");
+    if (live) live.textContent = `${pageInfo().label}页面已打开`;
+  }
+  requestAnimationFrame(() => {
+    if (openingInspector) {
+      root.querySelector<HTMLButtonElement>("#inspector-close")?.focus();
+    } else if (closingInspector) {
+      restoreFocus(inspectorTrigger);
+      inspectorTrigger = null;
+    } else {
+      restoreFocus(focused);
+    }
+  });
 }
 
 function bind(): void {
@@ -1000,21 +1074,32 @@ function bind(): void {
     });
   });
   root.querySelector("#mobile-nav-toggle")?.addEventListener("click", () => {
+    mobileNavTrigger = captureFocus();
     mobileNavOpen = !mobileNavOpen;
     render();
     if (mobileNavOpen) {
       requestAnimationFrame(() => root.querySelector<HTMLButtonElement>(".sidebar nav button.active")?.focus());
+    } else {
+      requestAnimationFrame(() => restoreFocus(mobileNavTrigger));
+      mobileNavTrigger = null;
     }
   });
   root.querySelector("#mobile-nav-backdrop")?.addEventListener("click", () => {
     mobileNavOpen = false;
     render();
+    requestAnimationFrame(() => restoreFocus(mobileNavTrigger));
+    mobileNavTrigger = null;
   });
   root.onkeydown = (event) => {
+    if (event.key === "Escape" && state.inspectorOpen) {
+      update({ inspectorOpen: false, inspectorTarget: undefined });
+      return;
+    }
     if (event.key === "Escape" && mobileNavOpen) {
       mobileNavOpen = false;
       render();
-      requestAnimationFrame(() => root.querySelector<HTMLButtonElement>("#mobile-nav-toggle")?.focus());
+      requestAnimationFrame(() => restoreFocus(mobileNavTrigger));
+      mobileNavTrigger = null;
     }
   };
   root.querySelector<HTMLSelectElement>("#skin")?.addEventListener("change", (event) => {
@@ -1024,18 +1109,22 @@ function bind(): void {
     update({ platform: (event.target as HTMLSelectElement).value as PlatformId });
   });
   root.querySelector("#motion")?.addEventListener("click", () => update({ reducedMotion: !state.reducedMotion }));
-  root.querySelector("#inspector-close")?.addEventListener("click", () => update({ inspectorOpen: false }));
+  root.querySelector("#inspector-close")?.addEventListener("click", () => update({ inspectorOpen: false, inspectorTarget: undefined }));
+  root.querySelector("#inspector-backdrop")?.addEventListener("click", () => update({ inspectorOpen: false, inspectorTarget: undefined }));
   root.querySelectorAll<HTMLElement>("[data-token]").forEach((element) => {
-    element.addEventListener("click", () => update({
-      inspectorOpen: true,
-      inspectorTarget: {
-        token: element.dataset.token ?? "",
-        role: element.dataset.role ?? "",
-        value: element.dataset.value ?? "",
-        source: element.dataset.source ?? "",
-        note: element.dataset.note ?? "",
-      },
-    }));
+    element.addEventListener("click", () => {
+      inspectorTrigger = { token: element.dataset.token ?? "" };
+      update({
+        inspectorOpen: true,
+        inspectorTarget: {
+          token: element.dataset.token ?? "",
+          role: element.dataset.role ?? "",
+          value: element.dataset.value ?? "",
+          source: element.dataset.source ?? "",
+          note: element.dataset.note ?? "",
+        },
+      });
+    });
   });
   root.querySelector<HTMLSelectElement>("#product-inline")?.addEventListener("change", (event) => {
     const product = (event.target as HTMLSelectElement).value as ProductId;
@@ -1063,8 +1152,29 @@ function bind(): void {
   }));
   root.querySelector<HTMLInputElement>("#nav-search")?.addEventListener("input", (event) => {
     const query = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    root.querySelectorAll<HTMLElement>("[data-nav-label]").forEach((item) => {
+    const items = [...root.querySelectorAll<HTMLElement>("[data-nav-label]")];
+    items.forEach((item) => {
       item.hidden = Boolean(query) && !(item.dataset.navLabel ?? "").toLowerCase().includes(query);
+    });
+    const visibleCount = items.filter((item) => !item.hidden).length;
+    const status = root.querySelector<HTMLElement>("#nav-search-status");
+    if (status) status.textContent = query ? `找到 ${visibleCount} 个目录项` : "";
+  });
+  root.querySelectorAll<HTMLElement>("[role=menu]").forEach((menu) => {
+    const items = [...menu.querySelectorAll<HTMLButtonElement>("[role=menuitem]")];
+    menu.addEventListener("keydown", (event) => {
+      if (!items.length) return;
+      const current = items.indexOf(document.activeElement as HTMLButtonElement);
+      let next = current;
+      if (event.key === "ArrowDown") next = (current + 1 + items.length) % items.length;
+      if (event.key === "ArrowUp") next = (current - 1 + items.length) % items.length;
+      if (event.key === "Home") next = 0;
+      if (event.key === "End") next = items.length - 1;
+      if (next !== current) {
+        event.preventDefault();
+        items.forEach((item, index) => item.tabIndex = index === next ? 0 : -1);
+        items[next]?.focus();
+      }
     });
   });
 }
@@ -1074,7 +1184,7 @@ function render(): void {
   if (!product.presets.some((preset) => preset.id === state.accent)) state.accent = product.default;
   applyTheme(state.skin, state.product, state.accent, state.reducedMotion);
   applyPlatformProfile(state.platform);
-  root.innerHTML = `<div class="workbench ${state.inspectorOpen ? "with-inspector" : ""} ${mobileNavOpen ? "mobile-nav-open" : ""}">${sidebar()}${mobileNavOpen ? '<button id="mobile-nav-backdrop" class="mobile-nav-backdrop" type="button" aria-label="关闭目录"></button>' : ""}<div class="workspace">${topbar()}<main class="content"><div class="doc-layout">${renderPage()}${pageToc()}</div></main></div>${inspector()}</div>`;
+  root.innerHTML = `<div class="workbench ${state.inspectorOpen ? "with-inspector" : ""} ${mobileNavOpen ? "mobile-nav-open" : ""}">${sidebar()}${mobileNavOpen ? '<button id="mobile-nav-backdrop" class="mobile-nav-backdrop" type="button" aria-label="关闭目录"></button>' : ""}<div class="workspace"${state.inspectorOpen ? " inert" : ""}>${topbar()}<main class="content"><div class="doc-layout">${renderPage()}${pageToc()}</div></main></div>${state.inspectorOpen ? '<button id="inspector-backdrop" class="inspector-backdrop" type="button" aria-label="关闭变量详情"></button>' : ""}${inspector()}<div id="viewer-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div></div>`;
   bind();
 }
 
@@ -1083,4 +1193,12 @@ if (navigation.some((item) => item.id === hashPage)) state.page = hashPage;
 if (!navigation.some((item) => item.id === state.page)) state.page = "overview";
 installPrimitiveVariables();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => state.skin === "system" && render());
+window.addEventListener("hashchange", () => {
+  const nextPage = location.hash.slice(1) as PageId;
+  if (navigation.some((item) => item.id === nextPage) && nextPage !== state.page) {
+    update({ page: nextPage });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+});
 render();
+window.scrollTo({ top: 0, behavior: "auto" });

@@ -49,13 +49,13 @@ KaiComponentProfile resolveKaiComponentProfile(AppFormFactor formFactor)
 
 ## 第 3 步：组件 kit（按依赖序）
 
-1. **GlassSurface 第一**——所有浮面的原语（可选 blur + border + shadow × shadowScale；blur≤0 跳过 BackdropFilter）；
+1. **GlassSurface 第一**——所有浮面的原语。`base` 读取 `surface + blur`，`strong` 读取 `strongSurface + strongBlur`；两者都读取 border 与 shadow，strong 额外读取 innerHighlight；blur≤0 跳过 BackdropFilter；
 2. 跨产品确实复用的内容组件，如 ListRow、TaskStatus、ResultSummary；
 3. 平台适配器：PrimaryNavigation、PlatformDialog、PlatformMenu、PlatformProgress；
 4. 产品专属组件继续放产品层；
 6. （设置页）SettingsGroup / PageHeader / SkinCard。
 
-规则：kit 组件只读 `context` 扩展与 `colorScheme`，不出现字面色值。
+规则：kit 组件只读 `context` 扩展与 `colorScheme`，不出现字面色值；业务组件不得直接选择 `elevated`、`overlay` 或任意灰色填充来替代 GlassSurface。
 
 ## 第 4 步：持久化与外壳
 

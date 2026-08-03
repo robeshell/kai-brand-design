@@ -27,6 +27,8 @@
 - 实色皮肤（shadowScale=0）自动无影。
 - 封面 / 缩略图小于 96px 时可省略投影（重复元素省渲染）。
 
+上表的 shadow blur 是阴影参数，不是 `glass.blur` / `glass.strongBlur` 的背景模糊参数；背景模糊必须按组件的 `GlassSurface` 变体读取皮肤 token。
+
 ## 分隔
 
 - 一级分隔：hairline（1px，`derivedAlphas.hairline`）。
@@ -41,7 +43,7 @@
 |---|---|
 | hovered | 仅桌面指向设备；使用平台 Hover 或轻状态层 |
 | pressed | 保留 Apple 按压、Android Material 状态层和桌面按下反馈 |
-| focused | 使用平台焦点视觉；品牌提供 accent |
+| focused | 使用平台焦点视觉；品牌 `focusRing`（宽 2、偏移 2，色优先 accent，不足则 primaryText）；填充可用 `stateLayer.focused` accent@0.16 |
 | disabled | 前景/文字 38–48% 透明度，不叠加 |
 | selected | 面：前景 5–5.5%；指示：accent 系（见配色规范） |
 
