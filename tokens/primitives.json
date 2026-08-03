@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/primitives.schema.json",
-  "specVersion": "0.7.1",
+  "specVersion": "0.8.0",
   "basePalette": {
     "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
     "mainBackground": "#F7F9FC",
@@ -75,9 +75,16 @@
         "allowedWeights": [600]
       },
       "body": {
-        "description": "正文、输入文字和普通内容标题",
+        "description": "正文和普通内容标题",
         "intent": "body",
         "allowedWeights": [400]
+      },
+      "inputText": {
+        "description": "输入框、搜索框和文本编辑控件中的文字",
+        "intent": "component-control-content",
+        "allowedWeights": [400, 500],
+        "baseRole": "body",
+        "rationale": "输入控件需要独立于正文的紧凑尺寸，避免页面正文角色直接决定控件布局"
       },
       "bodySecondary": {
         "description": "列表副题和说明文字",
@@ -105,6 +112,13 @@
         "allowedWeights": [500],
         "baseRole": "body",
         "rationale": "列表行需要比正文更紧凑，同时保持统一的行标题层级"
+      },
+      "gridTitle": {
+        "description": "封面网格和紧凑卡片中的标题",
+        "intent": "component-title",
+        "allowedWeights": [500, 600],
+        "baseRole": "listTitle",
+        "rationale": "封面网格标题受卡片高度约束，使用组件标题角色而不是页面正文角色"
       }
     },
     "componentMappings": {
@@ -112,7 +126,7 @@
         "label": { "role": "label" }
       },
       "inputs": {
-        "text": { "role": "body" },
+        "text": { "role": "inputText" },
         "label": { "role": "label" },
         "helperText": { "role": "bodySecondary" }
       },
@@ -164,7 +178,8 @@
       "dialogTitle": "sectionTitle",
       "listTitle": "listTitle",
       "listSubtitle": "bodySecondary",
-      "inputText": "body",
+      "inputText": "inputText",
+      "gridTitle": "gridTitle",
       "buttonLabel": "label",
       "desktopNavigation": "body",
       "mobileNavigation": "captionSmall",
@@ -184,16 +199,18 @@
         "url": "https://github.com/robeshell/kai-brand-design"
       },
       "typeScale": {
-        "displayLarge": { "fontSize": 34, "lineHeight": 42, "fontWeight": 600, "letterSpacing": 0 },
-        "pageTitle": { "fontSize": 28, "lineHeight": 36, "fontWeight": 600, "letterSpacing": 0 },
-        "sectionTitle": { "fontSize": 22, "lineHeight": 28, "fontWeight": 600, "letterSpacing": 0 },
+        "displayLarge": { "fontSize": 34, "lineHeight": 42, "fontWeight": 600, "letterSpacing": -0.2 },
+        "pageTitle": { "fontSize": 28, "lineHeight": 36, "fontWeight": 600, "letterSpacing": -0.2 },
+        "sectionTitle": { "fontSize": 22, "lineHeight": 28, "fontWeight": 600, "letterSpacing": -0.15 },
         "title": { "fontSize": 17, "lineHeight": 24, "fontWeight": 600, "letterSpacing": 0 },
         "body": { "fontSize": 17, "lineHeight": 24, "fontWeight": 400, "letterSpacing": 0 },
-        "bodySecondary": { "fontSize": 15, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
-        "listTitle": { "fontSize": 14, "lineHeight": 20, "fontWeight": 500, "letterSpacing": 0 },
+        "inputText": { "fontSize": 16, "lineHeight": 22, "fontWeight": 400, "letterSpacing": 0 },
+        "bodySecondary": { "fontSize": 15, "lineHeight": 22, "fontWeight": 400, "letterSpacing": 0 },
+        "listTitle": { "fontSize": 15, "lineHeight": 22, "fontWeight": 500, "letterSpacing": 0 },
+        "gridTitle": { "fontSize": 15, "lineHeight": 22, "fontWeight": 500, "letterSpacing": 0 },
         "label": { "fontSize": 16, "lineHeight": 22, "fontWeight": 600, "letterSpacing": 0 },
         "caption": { "fontSize": 13, "lineHeight": 18, "fontWeight": 400, "letterSpacing": 0 },
-        "captionSmall": { "fontSize": 11, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
+        "captionSmall": { "fontSize": 12, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
       },
       "metrics": {
         "minimumInteractiveTarget": 48,
@@ -219,16 +236,18 @@
         "url": "https://github.com/robeshell/kai-brand-design"
       },
       "typeScale": {
-        "displayLarge": { "fontSize": 32, "lineHeight": 40, "fontWeight": 600, "letterSpacing": 0 },
-        "pageTitle": { "fontSize": 24, "lineHeight": 32, "fontWeight": 600, "letterSpacing": 0 },
-        "sectionTitle": { "fontSize": 18, "lineHeight": 24, "fontWeight": 600, "letterSpacing": 0 },
+        "displayLarge": { "fontSize": 32, "lineHeight": 40, "fontWeight": 600, "letterSpacing": -0.2 },
+        "pageTitle": { "fontSize": 24, "lineHeight": 32, "fontWeight": 600, "letterSpacing": -0.2 },
+        "sectionTitle": { "fontSize": 18, "lineHeight": 24, "fontWeight": 600, "letterSpacing": -0.1 },
         "title": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
         "body": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
+        "inputText": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "letterSpacing": 0 },
         "bodySecondary": { "fontSize": 12, "lineHeight": 18, "fontWeight": 400, "letterSpacing": 0 },
         "listTitle": { "fontSize": 14, "lineHeight": 20, "fontWeight": 500, "letterSpacing": 0 },
+        "gridTitle": { "fontSize": 14, "lineHeight": 20, "fontWeight": 500, "letterSpacing": 0 },
         "label": { "fontSize": 14, "lineHeight": 20, "fontWeight": 600, "letterSpacing": 0 },
         "caption": { "fontSize": 12, "lineHeight": 16, "fontWeight": 400, "letterSpacing": 0 },
-        "captionSmall": { "fontSize": 11, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
+        "captionSmall": { "fontSize": 12, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0 }
       },
       "metrics": {
         "minimumInteractiveTarget": 32,
@@ -501,8 +520,45 @@
       "headerMinHeight": 40
     }
   },
+  "focusRing": {
+    "comment": "键盘焦点环：宽度与偏移为逻辑 px；颜色优先 accent，不足对比时回退 primaryText。输入框可用自身 2px accent 边框代替外侧 outline，但不得 outline:none 且无替代。",
+    "width": 2,
+    "offset": 2,
+    "colorRole": "accent",
+    "fallbackColorRole": "primaryText"
+  },
+  "appearance": {
+    "increasedContrast": {
+      "comment": "系统 prefers-contrast: more 时叠在当前皮肤上；不单独成皮肤。",
+      "glassSurfaceMinOpacity": 1.0,
+      "hairlineLight": "black@0.12",
+      "hairlineDark": "white@0.16",
+      "borderLight": "black@0.16",
+      "borderDark": "white@0.20",
+      "preferPrimaryForSecondaryText": true
+    }
+  },
+  "statusColors": {
+    "comment": "语义状态色（固体色，不是 alpha）。浅色/深色各一档；用作文字时须对常见表面 ≥ 4.5:1。",
+    "success": {
+      "light": "#237A57",
+      "dark": "#5BC89A"
+    },
+    "warning": {
+      "light": "#9A640D",
+      "dark": "#E3AC45"
+    },
+    "error": {
+      "light": "#B42318",
+      "dark": "#FF7B72"
+    },
+    "info": {
+      "light": "#2563A6",
+      "dark": "#73A7E8"
+    }
+  },
   "derivedAlphas": {
-    "comment": "全品牌通用的派生透明度；实现方不得另行发明数值",
+    "comment": "全品牌通用的派生透明度；实现方不得另行发明数值。每个 key 为单值（或 light/dark 各一值），禁止区间。",
     "border": {
       "light": "black@0.08",
       "dark": "white@0.10"
@@ -523,16 +579,21 @@
       "light": "black@0.024",
       "dark": "white@0.028"
     },
+    "disabledForeground": {
+      "comment": "禁用前景：secondary 色 × alpha。WCAG 对 inactive 控件有对比度例外；仍保持可辨认，禁止再低于 0.55。",
+      "light": "secondary@0.55",
+      "dark": "secondary@0.55"
+    },
     "stateLayer": {
-      "hover": "foreground@0.055~0.065",
+      "hover": "foreground@0.06",
       "pressed": "foreground@0.10",
       "focused": "accent@0.16"
     },
     "selection": {
-      "rowOrSurface": "foreground@0.05~0.055",
-      "accentIndicator": "accent@0.10~0.14",
+      "rowOrSurface": "foreground@0.055",
+      "accentIndicator": "accent@0.12",
       "chipSelected": "accent@0.09",
-      "listTileSelected": "accent@0.035"
+      "listTileSelected": "accent@0.04"
     },
     "barrier": {
       "dialogLight": "black@0.38",
@@ -543,24 +604,6 @@
       "hoverOrFocus": "error@0.12",
       "pressed": "error@0.16",
       "disabled": "error@0.025"
-    },
-    "status": {
-      "success": {
-        "light": "#237A57",
-        "dark": "#5BC89A"
-      },
-      "warning": {
-        "light": "#9A640D",
-        "dark": "#E3AC45"
-      },
-      "error": {
-        "light": "#B42318",
-        "dark": "#FF7B72"
-      },
-      "info": {
-        "light": "#2563A6",
-        "dark": "#73A7E8"
-      }
     }
   }
 }

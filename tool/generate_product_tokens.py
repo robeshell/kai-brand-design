@@ -119,7 +119,7 @@ def render_dart(
     component_profiles = primitives["componentProfiles"]
     platform_profiles = primitives["platformProfiles"]
     product_accents = accents["products"][product]
-    status = primitives["derivedAlphas"]["status"]
+    status = primitives["statusColors"]
 
     lines = [
         "// GENERATED FILE — DO NOT EDIT.",
@@ -271,6 +271,17 @@ def render_dart(
                 lines.append(f"  static const double {name} = {dart_number(value)};")
         lines.append("}")
 
+    focus = primitives["focusRing"]
+    lines += [
+        "",
+        "abstract final class KaiBrandFocusRing {",
+        f"  static const double width = {dart_number(focus['width'])};",
+        f"  static const double offset = {dart_number(focus['offset'])};",
+        f"  static const colorRole = '{focus['colorRole']}';",
+        f"  static const fallbackColorRole = '{focus['fallbackColorRole']}';",
+        "}",
+    ]
+
     lines += [
         "",
         "abstract final class KaiProductAccents {",
@@ -281,6 +292,7 @@ def render_dart(
         lines.append(f"  static const {name}Id = '{preset['id']}';")
         lines.append(f"  static const {name}Label = '{preset['name']}';")
         lines.append(f"  static const {name} = {dart_color(preset['accent'])};")
+        lines.append(f"  static const {name}OnAccent = {dart_color(preset['onAccent'])};")
         if "hover" in preset:
             lines.append(f"  static const {name}Hover = {dart_color(preset['hover'])};")
         if "pressed" in preset:
@@ -333,9 +345,8 @@ def render_css(
         glass = skin["glass"]
         effects = skin["effects"]
         dark = skin["brightness"] == "dark"
-        chrome = glass["strongSurface"] if glass["blur"] == 0 else (
-            "#202024@0.80" if dark else "#FFFFFF@0.80"
-        )
+        status = primitives["statusColors"]
+        chrome = glass["chromeSurface"]
         values = {
             "canvas": skin["canvas"],
             "surface": skin["surface"],
@@ -343,20 +354,21 @@ def render_css(
             "overlay": skin["overlay"],
             "canvas-highlight": glass["canvasHighlight"],
             "chrome": chrome,
-            "chrome-strong": chrome,
+            "chrome-strong": glass["strongSurface"],
             "text-primary": glass["primaryText"],
             "text-secondary": glass["secondaryText"],
             "text-muted": glass["mutedText"],
             "glass-border": glass["border"],
+            "glass-surface": glass["surface"],
             "glass-strong": glass["strongSurface"],
             "hairline": derived["hairline"]["dark" if dark else "light"],
             "border": derived["border"]["dark" if dark else "light"],
             "subtle-fill": derived["subtleFill"]["dark" if dark else "light"],
             "barrier": derived["barrier"]["dialogDark" if dark else "dialogLight"],
-            "warning": derived["status"]["warning"]["dark" if dark else "light"],
-            "success": derived["status"]["success"]["dark" if dark else "light"],
-            "error": derived["status"]["error"]["dark" if dark else "light"],
-            "info": derived["status"]["info"]["dark" if dark else "light"],
+            "warning": status["warning"]["dark" if dark else "light"],
+            "success": status["success"]["dark" if dark else "light"],
+            "error": status["error"]["dark" if dark else "light"],
+            "info": status["info"]["dark" if dark else "light"],
         }
         blocks.append(f"{selectors[skin['id']]} {{")
         blocks.append(f"  color-scheme: {'dark' if dark else 'light'};")
@@ -372,11 +384,14 @@ def render_css(
         blocks.append("}")
         blocks.append("")
 
+    focus = primitives["focusRing"]
     blocks += [
         ":root {",
         f"  --kg-main-background: {css_color(base_palette['mainBackground'])};",
         f"  --kg-side-background: {css_color(base_palette['sideBackground'])};",
         f"  --kg-brand-primary: {css_color(base_palette['primary'])};",
+        f"  --kg-focus-ring-width: {focus['width']}px;",
+        f"  --kg-focus-ring-offset: {focus['offset']}px;",
         f"  --kg-radius-control: {radii['control']}px;",
         f"  --kg-radius-menu: {radii['menu']}px;",
         f"  --kg-radius-card: {radii['card']}px;",
@@ -444,8 +459,10 @@ def render_css(
         blocks += [
             f"{selector} {{",
             f"  --kg-accent: {css_color(preset['accent'])};",
+            f"  --kg-on-accent: {css_color(preset['onAccent'])};",
             f"  --kg-accent-09: rgb({red} {green} {blue} / 0.09);",
             f"  --kg-accent-10: rgb({red} {green} {blue} / 0.10);",
+            f"  --kg-accent-12: rgb({red} {green} {blue} / 0.12);",
             f"  --kg-accent-14: rgb({red} {green} {blue} / 0.14);",
             f"  --kg-accent-16: rgb({red} {green} {blue} / 0.16);",
             "}",

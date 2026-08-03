@@ -103,6 +103,70 @@ def contrast_ratio(foreground: str, background: str) -> float:
     return (lighter + 0.05) / (darker + 0.05)
 
 
+def composite_over_opaque(
+    foreground: str, background: str
+) -> tuple[int, int, int]:
+    fr, fg, fb, fa = parse_color(foreground)
+    br, bg, bb, ba = parse_color(background)
+    if ba < 1:
+        raise TokenValidationError(f"background must be opaque for contrast checks: {background}")
+    if fa >= 1:
+        return fr, fg, fb
+    return (
+        round(fr * fa + br * (1 - fa)),
+        round(fg * fa + bg * (1 - fa)),
+        round(fb * fa + bb * (1 - fa)),
+    )
+
+
+def rgb_to_hex(rgb: tuple[int, int, int]) -> str:
+    return f"#{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
+
+
+def contrast_on_surface(foreground: str, background: str) -> float:
+    composed = composite_over_opaque(foreground, background)
+    return contrast_ratio(rgb_to_hex(composed), background)
+
+
+def _validate_skin_text_contrast(preset: dict, path: str) -> None:
+    glass = preset["glass"]
+    surfaces = ("canvas", "surface", "elevated", "overlay")
+    text_roles = {
+        "primaryText": 4.5,
+        "secondaryText": 4.5,
+        "mutedText": 4.5,
+    }
+    for text_key, minimum in text_roles.items():
+        for surface_key in surfaces:
+            ratio = contrast_on_surface(glass[text_key], preset[surface_key])
+            if ratio < minimum:
+                raise TokenValidationError(
+                    f"{path}.glass.{text_key} on {surface_key}: "
+                    f"contrast {ratio:.2f}:1 must be at least {minimum}:1"
+                )
+    # Hierarchy: primary stronger than secondary stronger than muted (by contrast on canvas).
+    primary_c = contrast_on_surface(glass["primaryText"], preset["canvas"])
+    secondary_c = contrast_on_surface(glass["secondaryText"], preset["canvas"])
+    muted_c = contrast_on_surface(glass["mutedText"], preset["canvas"])
+    if not (primary_c >= secondary_c > muted_c):
+        raise TokenValidationError(
+            f"{path}.glass: text hierarchy must satisfy primary >= secondary > muted "
+            f"on canvas (got {primary_c:.2f} / {secondary_c:.2f} / {muted_c:.2f})"
+        )
+    # Glass fill over black and white worst cases for secondary text.
+    for glass_key in ("surface", "strongSurface", "chromeSurface"):
+        for worst in ("#000000", "#FFFFFF"):
+            fill_rgb = composite_over_opaque(glass[glass_key], worst)
+            fill = rgb_to_hex(fill_rgb)
+            for text_key in ("primaryText", "secondaryText"):
+                ratio = contrast_on_surface(glass[text_key], fill)
+                if ratio < 4.5:
+                    raise TokenValidationError(
+                        f"{path}.glass.{text_key} on {glass_key} over {worst}: "
+                        f"contrast {ratio:.2f}:1 must be at least 4.5:1"
+                    )
+
+
 def walk_colors(value: Any, path: str = "$") -> None:
     if isinstance(value, dict):
         for key, item in value.items():
@@ -443,14 +507,43 @@ def validate(
         ("dialog", "sheet", "menu", "table"),
         "primitives.componentMetrics",
     )
-    status = primitives.get("derivedAlphas", {}).get("status", {})
-    require_keys(status, ("success", "warning", "error", "info"), "primitives.derivedAlphas.status")
+    require_keys(
+        primitives.get("focusRing", {}),
+        ("width", "offset", "colorRole", "fallbackColorRole"),
+        "primitives.focusRing",
+    )
+    if primitives["focusRing"]["width"] < 2:
+        raise TokenValidationError("primitives.focusRing.width: must be at least 2")
+    if primitives["focusRing"]["offset"] < 0:
+        raise TokenValidationError("primitives.focusRing.offset: must be non-negative")
+
+    if "status" in primitives.get("derivedAlphas", {}):
+        raise TokenValidationError(
+            "primitives.derivedAlphas.status: moved to primitives.statusColors"
+        )
+    status = primitives.get("statusColors", {})
+    require_keys(status, ("success", "warning", "error", "info"), "primitives.statusColors")
     for role in ("success", "warning", "error", "info"):
-        require_keys(status[role], ("light", "dark"), f"primitives.derivedAlphas.status.{role}")
+        require_keys(status[role], ("light", "dark"), f"primitives.statusColors.{role}")
         if contrast_ratio(status[role]["light"], "#FFFFFF") < 4.5:
-            raise TokenValidationError(f"status.{role}.light: contrast must be at least 4.5:1")
+            raise TokenValidationError(
+                f"statusColors.{role}.light: contrast must be at least 4.5:1"
+            )
         if contrast_ratio(status[role]["dark"], "#0D0D0F") < 4.5:
-            raise TokenValidationError(f"status.{role}.dark: contrast must be at least 4.5:1")
+            raise TokenValidationError(
+                f"statusColors.{role}.dark: contrast must be at least 4.5:1"
+            )
+
+    derived = primitives.get("derivedAlphas", {})
+    for group in ("stateLayer", "selection"):
+        values = derived.get(group, {})
+        if not isinstance(values, dict):
+            raise TokenValidationError(f"primitives.derivedAlphas.{group}: expected object")
+        for key, value in values.items():
+            if isinstance(value, str) and "~" in value:
+                raise TokenValidationError(
+                    f"primitives.derivedAlphas.{group}.{key}: ranges are not allowed; use a single value"
+                )
 
     presets = skins.get("presets")
     if not isinstance(presets, list) or not presets:
@@ -472,6 +565,7 @@ def validate(
         "canvasHighlight",
         "surface",
         "strongSurface",
+        "chromeSurface",
         "border",
         "innerHighlight",
         "shadow",
@@ -481,6 +575,7 @@ def validate(
         "blur",
         "strongBlur",
     )
+    surface_keys = ("canvas", "surface", "elevated", "overlay")
     for index, preset in enumerate(presets):
         path = f"skins.presets[{index}]"
         require_keys(preset, required_skin, path)
@@ -489,7 +584,9 @@ def validate(
         skin_ids.add(preset["id"])
         if preset["brightness"] not in ("light", "dark"):
             raise TokenValidationError(f"{path}.brightness: expected light or dark")
-        require_keys(preset["glass"], required_glass, f"{path}.glass")
+        glass = preset["glass"]
+        require_keys(glass, required_glass, f"{path}.glass")
+        _validate_skin_text_contrast(preset, path)
 
     products = accents.get("products")
     if not isinstance(products, dict) or not products:
@@ -497,16 +594,22 @@ def validate(
     for product_id, product in products.items():
         path = f"accents.products.{product_id}"
         require_keys(product, ("displayName", "default", "presets"), path)
-        presets = product["presets"]
-        if not isinstance(presets, list) or not presets:
+        product_presets = product["presets"]
+        if not isinstance(product_presets, list) or not product_presets:
             raise TokenValidationError(f"{path}.presets: expected non-empty list")
-        ids = [preset.get("id") for preset in presets]
+        ids = [preset.get("id") for preset in product_presets]
         if len(ids) != len(set(ids)):
             raise TokenValidationError(f"{path}.presets: duplicate id")
         if product["default"] not in ids:
             raise TokenValidationError(f"{path}.default: not found in presets")
-        for index, preset in enumerate(presets):
-            require_keys(preset, ("id", "name", "accent"), f"{path}.presets[{index}]")
+        for index, preset in enumerate(product_presets):
+            preset_path = f"{path}.presets[{index}]"
+            require_keys(preset, ("id", "name", "accent", "onAccent"), preset_path)
+            ratio = contrast_ratio(preset["onAccent"], preset["accent"])
+            if ratio < 4.5:
+                raise TokenValidationError(
+                    f"{preset_path}: onAccent contrast {ratio:.2f}:1 must be at least 4.5:1"
+                )
 
     walk_colors({"skins": skins, "accents": accents, "primitives": primitives})
     validate_product_tokens(product_tokens)

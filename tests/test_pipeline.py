@@ -94,8 +94,8 @@ class TokenPipelineTest(unittest.TestCase):
         self.assertEqual(set(profiles), {"mobile", "desktop"})
         self.assertEqual(profiles["mobile"]["typeScale"]["body"]["fontSize"], 17)
         self.assertEqual(profiles["mobile"]["typeScale"]["inputText"]["fontSize"], 16)
-        self.assertEqual(profiles["mobile"]["typeScale"]["listTitle"]["fontSize"], 14)
-        self.assertEqual(profiles["mobile"]["typeScale"]["gridTitle"]["fontSize"], 14)
+        self.assertEqual(profiles["mobile"]["typeScale"]["listTitle"]["fontSize"], 15)
+        self.assertEqual(profiles["mobile"]["typeScale"]["gridTitle"]["fontSize"], 15)
         self.assertEqual(profiles["mobile"]["metrics"]["controlHeight"], 48)
         self.assertEqual(profiles["desktop"]["typeScale"]["body"]["fontSize"], 14)
         self.assertEqual(profiles["desktop"]["typeScale"]["listTitle"]["fontSize"], 14)
@@ -118,9 +118,40 @@ class TokenPipelineTest(unittest.TestCase):
 
     def test_status_text_color_requires_accessible_contrast(self) -> None:
         primitives = copy.deepcopy(self.primitives)
-        primitives["derivedAlphas"]["status"]["warning"]["light"] = "#D9B978"
+        primitives["statusColors"]["warning"]["light"] = "#D9B978"
         with self.assertRaises(TokenValidationError):
             validate(primitives, self.skins, self.accents, self.product_tokens)
+
+    def test_on_accent_requires_accessible_contrast(self) -> None:
+        accents = copy.deepcopy(self.accents)
+        accents["products"]["kaiting"]["presets"][0]["onAccent"] = "#FFFFFF"
+        with self.assertRaises(TokenValidationError):
+            validate(self.primitives, self.skins, accents, self.product_tokens)
+
+    def test_muted_text_requires_accessible_contrast(self) -> None:
+        skins = copy.deepcopy(self.skins)
+        default = next(skin for skin in skins["presets"] if skin["id"] == "default")
+        default["glass"]["mutedText"] = "#B0AEB5"
+        with self.assertRaises(TokenValidationError):
+            validate(self.primitives, skins, self.accents, self.product_tokens)
+
+    def test_deep_night_text_hierarchy_is_enforced(self) -> None:
+        skins = copy.deepcopy(self.skins)
+        night = next(skin for skin in skins["presets"] if skin["id"] == "deep-night")
+        night["glass"]["secondaryText"] = "white@0.50"
+        night["glass"]["mutedText"] = "white@0.70"
+        with self.assertRaises(TokenValidationError):
+            validate(self.primitives, skins, self.accents, self.product_tokens)
+
+    def test_chrome_surface_and_on_accent_are_generated(self) -> None:
+        outputs, _, _ = distribution_outputs()
+        dart = outputs[DIST / "flutter" / "kaiting" / "brand_tokens.g.dart"]
+        css = outputs[DIST / "css" / "kaigua" / "brand.generated.css"]
+        self.assertIn("glassChromeSurface", dart)
+        self.assertIn("OnAccent", dart)
+        self.assertIn("KaiBrandFocusRing", dart)
+        self.assertIn("--kg-on-accent:", css)
+        self.assertIn("--kg-focus-ring-width:", css)
 
     def test_platform_profiles_are_generated_for_flutter_and_css(self) -> None:
         outputs, _, _ = distribution_outputs()

@@ -16,6 +16,8 @@
     "breakpoints",
     "layoutMetrics",
     "componentMetrics",
+    "focusRing",
+    "statusColors",
     "derivedAlphas"
   ],
   "properties": {
@@ -143,6 +145,17 @@
     "componentMetrics": {
       "type": "object",
       "required": ["dialog", "sheet", "menu", "table"]
+    },
+    "focusRing": {
+      "type": "object",
+      "required": ["width", "offset", "colorRole", "fallbackColorRole"]
+    },
+    "statusColors": {
+      "type": "object",
+      "required": ["success", "warning", "error", "info"]
+    },
+    "appearance": {
+      "type": "object"
     },
     "derivedAlphas": {
       "type": "object"

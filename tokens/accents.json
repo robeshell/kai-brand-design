@@ -1,7 +1,7 @@
 {
   "$schema": "../schema/accents.schema.json",
-  "specVersion": "0.2.3",
-  "comment": "强调色是独立品牌轴，与皮肤正交组合。品牌统一中性系统与规则，不统一主色。onAccent 规则：对 accent 做亮度估算，深底白字、浅底 #1C1C22。",
+  "specVersion": "0.3.0",
+  "comment": "强调色是独立品牌轴，与皮肤正交组合。品牌统一中性系统与规则，不统一主色。每个 preset 必须登记 onAccent，且与 accent 对比度 ≥ 4.5:1（由 validate 强制）。",
   "products": {
     "kaiting": {
       "displayName": "开听",
@@ -11,6 +11,7 @@
           "id": "coral",
           "name": "珊瑚",
           "accent": "#FF5A4D",
+          "onAccent": "#1C1C22",
           "hover": "#FF7567",
           "pressed": "#E3483E"
         },
@@ -18,20 +19,23 @@
           "id": "rose",
           "name": "玫瑰",
           "accent": "#D95770",
+          "onAccent": "#141418",
           "hover": "#E66C82",
           "pressed": "#BF465D"
         },
         {
           "id": "indigo",
           "name": "靛蓝",
-          "accent": "#6673C7",
-          "hover": "#7884D2",
-          "pressed": "#5360AE"
+          "accent": "#5A66B8",
+          "onAccent": "#FFFFFF",
+          "hover": "#717BC2",
+          "pressed": "#4E59A0"
         },
         {
           "id": "teal",
           "name": "青绿",
           "accent": "#3F9E98",
+          "onAccent": "#1C1C22",
           "hover": "#51ADA7",
           "pressed": "#338781"
         },
@@ -39,6 +43,7 @@
           "id": "amber",
           "name": "暖金",
           "accent": "#C7842F",
+          "onAccent": "#1C1C22",
           "hover": "#D4953F",
           "pressed": "#AB6E24"
         },
@@ -46,11 +51,12 @@
           "id": "violet",
           "name": "紫罗兰",
           "accent": "#8067BC",
+          "onAccent": "#FFFFFF",
           "hover": "#9279C8",
           "pressed": "#6D54A5"
         }
       ],
-      "customDerive": "自定义色：hover = lerp(accent, white, 0.14)，pressed = lerp(accent, black, 0.13)"
+      "customDerive": "自定义色：hover = lerp(accent, white, 0.14)，pressed = lerp(accent, black, 0.13)；onAccent 取 white 与 #1C1C22/#141418 中对比度 ≥ 4.5 的一侧，两侧均不达标则调 accent 明度"
     },
     "kaijuan": {
       "displayName": "开卷",
@@ -59,27 +65,32 @@
         {
           "id": "ember",
           "name": "暖橙",
-          "accent": "#EA580C"
+          "accent": "#EA580C",
+          "onAccent": "#1C1C22"
         },
         {
           "id": "sky",
           "name": "晴空",
-          "accent": "#0284C7"
+          "accent": "#0177B5",
+          "onAccent": "#FFFFFF"
         },
         {
           "id": "forest",
           "name": "松绿",
-          "accent": "#047857"
+          "accent": "#047857",
+          "onAccent": "#FFFFFF"
         },
         {
           "id": "rose",
           "name": "绯红",
-          "accent": "#BE123C"
+          "accent": "#BE123C",
+          "onAccent": "#FFFFFF"
         },
         {
           "id": "slate",
           "name": "岩灰",
-          "accent": "#475569"
+          "accent": "#475569",
+          "onAccent": "#FFFFFF"
         }
       ],
       "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色"
@@ -91,22 +102,26 @@
         {
           "id": "indigo",
           "name": "靛蓝",
-          "accent": "#6673C7"
+          "accent": "#5A66B8",
+          "onAccent": "#FFFFFF"
         },
         {
           "id": "teal",
           "name": "青绿",
-          "accent": "#3F9E98"
+          "accent": "#3F9E98",
+          "onAccent": "#1C1C22"
         },
         {
           "id": "sky",
           "name": "晴空",
-          "accent": "#0284C7"
+          "accent": "#0177B5",
+          "onAccent": "#FFFFFF"
         },
         {
           "id": "slate",
           "name": "岩灰",
-          "accent": "#475569"
+          "accent": "#475569",
+          "onAccent": "#FFFFFF"
         }
       ],
       "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色"
@@ -114,7 +129,8 @@
   },
   "usageRules": [
     "强调色只用于选中 / 进度 / 主操作；同一区域最多一个主强调",
-    "低透明度派生（指示器 10~14%、chip 选中 9%、列表选中 3.5%）见 primitives.derivedAlphas",
+    "onAccent 必须与 accent 对比 ≥ 4.5:1，禁止运行时再估亮度跳过校验",
+    "低透明度派生（指示器 12%、chip 选中 9%、列表选中 4%）见 primitives.derivedAlphas",
     "新产品接入：在此文件新增产品轴；禁止在 App 内私建强调色常量"
   ]
 }
