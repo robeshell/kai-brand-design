@@ -1,5 +1,5 @@
 ---
-version: "0.6.2"
+version: "0.8.0"
 name: kai-brand-design
 description: "A quiet, content-first interface system with a cool-white content canvas, a soft gray side rail, and a coral reference primary. Product accents stay stable across skins."
 colors:
@@ -11,13 +11,14 @@ colors:
   surface: "#FAFAFB"
   elevated: "#FFFFFF"
   overlay: "#F1F2F4"
-  glassSurface: "#FFFFFF@0.72"
-  glassStrong: "#FFFFFF@0.87"
+  glassSurface: "#FFFFFF@0.85"
+  glassStrong: "#FFFFFF@0.90"
+  chromeSurface: "#FFFFFF@0.88"
   glassBorder: "black@0.07"
   hairline: "black@0.055"
   textPrimary: "#1C1C22"
   textSecondary: "#5A5A62"
-  textMuted: "#77747D"
+  textMuted: "#64616A"
   success: "#237A57 light / #5BC89A dark"
   warning: "#9A640D light / #E3AC45 dark"
   error: "#B42318 light / #FF7B72 dark"
@@ -71,8 +72,8 @@ components:
   sideRail: { width: "216 medium / 236 wide", surface: "GlassSurface strong + chromeSurface; default base #F3F5F8", row: "{desktopProfile.metrics.controlHeight}", label: "{desktopProfile.typeScale.body}" }
   navBar: { target: "{mobileProfile.metrics.minimumInteractiveTarget}", surface: "GlassSurface strong + chromeSurface", label: "{mobileProfile.typeScale.captionSmall}" }
   appShell: { defaultCanvasBase: "#F7F9FC", defaultSideBase: "#F3F5F8", allSkins: "gradient canvas → canvasHighlight → overlay, stops 0/0.46/1; strong glass chrome", extendBody: true, contentBottomPad: "140 mobile / 96 desktop" }
-  snackbar: { behavior: floating, surface: "overlay no border", radius: "{rounded.pill}", width: "hug content max viewport-40", padding: "18h/11v", text: "14 w600", duration: "1.6s", bottom: "36 >=420w / 18 narrow" }
-  tooltip: { surface: "overlay + border", radius: "{rounded.tooltip}", padding: "10h/7v", delay: "450ms", show: "3s" }
+  snackbar: { behavior: floating, surface: "GlassSurface base: surface + blur + border + shadow", radius: "{rounded.pill}", width: "hug content max viewport-40", padding: "18h/11v", text: "14 w600", duration: "1.6s", bottom: "36 >=420w / 18 narrow" }
+  tooltip: { surface: "GlassSurface base: surface + blur + border + shadow", radius: "{rounded.tooltip}", padding: "10h/7v", delay: "450ms", show: "3s" }
   emptyState: { maxWidth: 420, icon: "{iconography.sizes.display}", title: "{platformProfile.typeScale.sectionTitle}", note: "{platformProfile.typeScale.bodySecondary}" }
   spinner: { size: 24, stroke: 2 }
   scrollbar: { width: 5, thumb: "secondary@0.30 / hover 0.55" }
@@ -106,32 +107,34 @@ components:
 
 - **canvas** — 页面底色，坡道起点。
 - **surface** — 卡片与常驻面。
-- **elevated** — 抬升面（选中卡、封面卡）。
-- **overlay** — 浮层底（菜单、Snackbar）。
+- **elevated** — 抬升坡道（选中卡、封面卡）；不是通用浮层的任意背景。
+- **overlay** — 反馈坡道（Snackbar、Toast、Tooltip 的语义角色）；应用自有反馈通过 GlassSurface base 表达。
 - 三皮肤值见 `tokens/skins.json`；纯净皮肤 shadow=transparent、blur=0，组件读 token 则免模糊免投影免费获得。
 
 ### Glass（浮面 token）
 
-- **glassSurface** / **glassStrong** — 浮面填充；浮面一律 strong + border + token 阴影 ×shadowScale。
+- **glassSurface** / **glassStrong** — base / strong 浮面填充；Dialog、Sheet、Menu、Popover 使用 strong，SnackBar、Toast、Tooltip 使用 base。
 - **glassBorder** — 浮面描边；**hairline** — 分隔线，直接使用，禁止再乘衰减系数。
+- strong 浮面额外使用 `innerHighlight` 与 `strongBlur`；base 浮面使用 `blur`，不得直接把 `overlay` 中灰色作为背景。
 
 ### Text（三档，不再衰减）
 
 - **textPrimary** `#1C1C22`（默认皮肤）— 标题、行标题、正文。
 - **textSecondary** `#5A5A62` — 副题、元信息、未选导航；`bodySecondary` 默认使用此色。
-- **textMuted** `#77747D` — 占位、序号、弱提示；禁用态 = secondary@0.38（规范档，不得自造）。
+- **textMuted** `#64616A`（默认皮肤）— 占位、序号、弱提示；须 ≥ 4.5:1；禁用态 = `disabledForeground` secondary@0.55。
 
 ### Accent（产品轴，见 `tokens/accents.json`）
 
 - 通用参考主色为 **primary** `#FF5A4D`；产品强调色由 L0 选择，并在默认、纯净、深夜皮肤间保持一致。
 - **accentKaiting** `#FF5A4D` 珊瑚（6 预设 + 自定义派生）；**accentKaijuan** `#EA580C` 暖橙（5 预设，单值模型）。
-- 强调色只用于**选中 / 进度 / 主操作**，同一区域最多一个主强调；低透明度派生只取 `derivedAlphas.selection`（chip 9%、指示器 10–14%、列表选中 3.5%）。
-- onAccent 规则：亮度估算，深底白字、浅底 `#1C1C22`。
+- 强调色只用于**选中 / 进度 / 主操作**，同一区域最多一个主强调；低透明度派生只取 `derivedAlphas.selection`（chip 9%、指示器 12%、列表选中 4%）。
+- **onAccent** 写入每个 accent preset，与 accent 对比 ≥ 4.5:1（validate 强制）。
 
 ### Semantic
 
-- **success / warning / error / info** 使用 `derivedAlphas.status` 的浅色/深色语义值。
+- **success / warning / error / info** 使用 `statusColors` 的浅色/深色语义值。
 - 状态同时使用文字或图形，不只靠颜色；禁止硬编码框架自带 accent 状态色。
+- 键盘焦点：`focusRing` 宽 2 / 偏移 2；输入框可用 2px accent 边框。
 
 ## Typography
 
@@ -187,11 +190,12 @@ components:
 | 0 画布 | 三主题对角渐变；默认主题使用浅色基底 | 壳层页面底 |
 | 1 分隔 | hairline 1px | 行间、区间分隔 |
 | 2 卡片 | hairline 描边（设置卡）或 token 阴影 ×shadowScale（封面 ≥96px） | 设置分组卡、封面 |
-| 3 浮面 / chrome | strongSurface + border + token 阴影 ×shadowScale + 模糊 | 对话框、菜单、弹层、**侧栏、底栏**、迷你播放器 |
+| 3a 强浮面 / chrome | strongSurface + strongBlur + border + innerHighlight + token 阴影 ×shadowScale | 对话框、菜单、弹层、**侧栏、底栏**、迷你播放器 |
+| 3b 轻反馈浮面 | surface + blur + border + token 阴影 ×shadowScale | Snackbar、Toast、Tooltip |
 
 ### Decorative Depth
 
-- 浮面与常驻 chrome 模糊；**重复的行/卡片不模糊**（`blur: false`）；blur=0 的皮肤自动跳过 BackdropFilter。
+- 浮面与常驻 chrome 按 base/strong 变体模糊；**重复的行/卡片不模糊**（`blur: false`）；blur=0 的皮肤自动跳过 BackdropFilter。
 - 阴影只来自 glass token 并乘 `effects.shadowScale`；纯净皮肤 shadowScale=0 自动无影。
 - 禁止手写「侧栏免模糊」——仅皮肤 token 驱动。
 
@@ -216,7 +220,7 @@ components:
 
 ### Surfaces — 表面原语
 
-- **`glass-surface`** — 一切浮面的原语：`base` / `strong` 两档填充（取自 `glass.surface` / `glass.strongSurface`）+ `glass.border` 描边 + token 阴影 × `effects.shadowScale` +（可选）`glass.blur` 模糊。blur=0 的皮肤（纯净）自动跳过 BackdropFilter，shadowScale=0 自动免投影。浮面按场景用模糊，**重复的行/卡片不模糊**。
+- **`glass-surface`** — 一切浮面的原语：`base` 读取 `glass.surface + glass.blur`，`strong` 读取 `glass.strongSurface + glass.strongBlur`；两者都使用 `glass.border` 与 token 阴影，strong 额外使用 `innerHighlight`。blur=0 的皮肤（纯净）自动跳过 BackdropFilter，shadowScale=0 自动免投影。**重复的行/卡片不模糊**。
 - **`settings-group`** — r14 + `surfaceContainerLow@72%` + hairline 描边；行间 hairline 分隔，左右缩进 14，自动插入（不手动写 Divider）；子块标签使用当前 Profile 的 `caption` w600，padding 14/12/14/2，左对齐。
 - **皮肤预览卡** — 124×80、r12、hairline 描边；内部 0.74×0.64 elevated 小卡（r7）+ accent 短条 13×4 + 两条假文字（0.78/0.52 宽、3.5 高、primaryText@0.22 / secondaryText@0.32）；选中 accent 2px 描边 + 下方标签 accent w600，未选 hairline + secondary w500（12px）。不放 check 角标。
 - **主题色板** — 28px 圆点横排，间距 12；选中 1.5px primary 描边 + 中心 8px onAccent 圆点；未选无描边（自定义彩虹渐变点外带 hairline）。不放 check 图标、不加投影。
@@ -268,7 +272,7 @@ components:
 - 不把一个平台的控件结构强制覆盖其他平台；不移除必要的系统焦点、触控反馈和辅助输入能力。
 - 不在品牌层写产品特数值（accents 登记表、L0 接口、参考实现指针除外）。
 - 不自造断点——壳切换只由窗口分级驱动。
-- 不把内容页整面实色底盖住壳层画布；不绕过主题语义入口自行决定侧栏/底栏材质。
+- 不把内容页整面实色底盖住壳层画布；不绕过主题语义入口自行决定侧栏/底栏材质；不使用 `elevated` / `overlay` 或任意灰色填充替代 GlassSurface。
 
 ## Responsive Behavior
 
@@ -315,4 +319,4 @@ components:
 - 实现新产品：`tokens/accents.json` 登记产品轴 → 建 `products/<product>/README.md` → 按 `implementation/flutter.md` 生成主题层与 kit → 按验收清单自检。
 - 实现普通流程：先选 `patterns/structures/content-browser.md` 或 `task-workspace.md`，状态统一查 `patterns/status-system.md`。
 - 产品特有页面（开听正在播放、开卷阅读器）先查 `products/<product>/patterns/`，不要凭品牌层自由发挥。
-- 快速取色：中性色看当前皮肤坡道；强调色看产品轴；状态色看 `derivedAlphas.status`；其余一律使用已登记 token。
+- 快速取色：中性色看当前皮肤坡道；强调色看产品轴（含 onAccent）；状态色看 `statusColors`；其余一律使用已登记 token。

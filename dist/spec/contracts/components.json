@@ -298,12 +298,18 @@
           "name": "按钮间距",
           "token": "component.dialog.actionGap",
           "value": "10px"
+        },
+        {
+          "name": "容器材质",
+          "token": "skins.*.glass.strongSurface / strongBlur / border / innerHighlight / shadow",
+          "value": "strong glass"
         }
       ],
       "usage": [
         "先按平台选择 Sheet、Dialog、ContentDialog、Popover 或独立窗口。",
         "简单选择优先使用菜单，不要把对话框当作普通信息卡片。",
-        "内容过高时只滚动内容区，标题和按钮区保持可见。"
+        "内容过高时只滚动内容区，标题和按钮区保持可见。",
+        "Dialog 容器使用 strongSurface + strongBlur + border + innerHighlight + shadow。"
       ],
       "variants": [
         {
@@ -366,19 +372,25 @@
         },
         {
           "name": "状态颜色",
-          "token": "derivedAlphas.status",
+          "token": "statusColors",
           "value": "success / warning / error / info"
         },
         {
           "name": "进度强调",
           "token": "component.feedback.progressAccent",
           "value": "当前产品 accent"
+        },
+        {
+          "name": "短反馈材质",
+          "token": "skins.*.glass.surface / blur / border / shadow",
+          "value": "base glass；不直接使用 overlay"
         }
       ],
       "usage": [
         "短结果反馈使用当前平台对应组件，不把所有平台统一成 Snackbar。",
         "空态说明为什么没有内容，并在有明确下一步时提供操作。",
-        "加载和进度使用统一尺寸与强调色，不单独硬编码。"
+        "加载和进度使用统一尺寸与强调色，不单独硬编码。",
+        "SnackBar、Toast、Tooltip 等应用自有短反馈使用 surface + blur + border + shadow；Inline Status 继承所在内容表面。"
       ],
       "variants": [
         {
@@ -534,9 +546,9 @@
           "layer": "semantic",
           "mapping": "inputs.text",
           "name": "输入文字",
-          "role": "body",
-          "token": "componentProfiles.*.typeScale.body",
-          "value": "Mobile 17/24 · Desktop 14/20"
+          "role": "inputText",
+          "token": "componentProfiles.*.typeScale.inputText",
+          "value": "Mobile 16/22 · Desktop 14/20"
         },
         {
           "name": "品牌焦点色",
@@ -721,12 +733,18 @@
           "name": "平台行为",
           "token": "component.menu.platformBehavior",
           "value": "keyboard / focus / anchor / safe area"
+        },
+        {
+          "name": "容器材质",
+          "token": "skins.*.glass.strongSurface / strongBlur / border / innerHighlight / shadow",
+          "value": "strong glass"
         }
       ],
       "usage": [
         "与触发位置相关的短操作列表使用锚定菜单。",
         "根据平台、输入模式和任务选择容器，不只根据窗口宽度判断。",
-        "菜单宽度由内容决定，长列表需要限制高度并允许滚动。"
+        "菜单宽度由内容决定，长列表需要限制高度并允许滚动。",
+        "Menu、Popover、Flyout 和 Sheet 容器使用 strongSurface + strongBlur + border + innerHighlight + shadow。"
       ],
       "variants": [
         {
@@ -964,12 +982,28 @@
           "name": "对话框圆角",
           "token": "radii.dialog",
           "value": "20px"
+        },
+        {
+          "name": "普通玻璃",
+          "token": "skins.*.glass.surface + skins.*.glass.blur",
+          "value": "base：surface + blur"
+        },
+        {
+          "name": "强玻璃",
+          "token": "skins.*.glass.strongSurface + skins.*.glass.strongBlur",
+          "value": "strong：strongSurface + strongBlur"
+        },
+        {
+          "name": "玻璃配套",
+          "token": "skins.*.glass.border / innerHighlight / shadow",
+          "value": "strong 额外使用 innerHighlight；阴影乘 shadowScale"
         }
       ],
       "usage": [
-        "普通页面分区使用基础表面；固定导航和浮层使用强玻璃表面。",
+        "普通页面分区使用基础表面；短反馈使用 base glass；固定导航和强浮层使用 strong glass。",
         "不要为了分组给每一块内容都增加卡片、阴影或模糊。",
-        "玻璃效果关闭时仍保留边框和层级，不能依赖模糊表达结构。"
+        "玻璃效果关闭时仍保留边框和层级，不能依赖模糊表达结构。",
+        "不直接使用 elevated、overlay 或任意灰色填充替代 GlassSurface。"
       ],
       "variants": [
         {
@@ -977,12 +1011,16 @@
           "name": "基础表面"
         },
         {
-          "description": "侧栏、底栏和浮层等固定界面层。",
+          "description": "SnackBar、Toast、Tooltip 等短反馈使用 base glass。",
+          "name": "轻玻璃表面"
+        },
+        {
+          "description": "侧栏、底栏以及 Dialog、Sheet、Menu、Popover 等固定或强浮层。",
           "name": "强玻璃表面"
         },
         {
-          "description": "菜单、对话框和需要与页面分离的内容。",
-          "name": "浮层表面"
+          "description": "重复列表行、普通卡片和设置分组不使用 BackdropFilter。",
+          "name": "非浮面容器"
         }
       ]
     }

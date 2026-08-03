@@ -26,9 +26,12 @@
 
 ## 品牌覆盖
 
-- 浮层表面读取当前皮肤；
+- 所有应用自有浮层通过 `GlassSurface` 读取当前皮肤，不直接使用 `elevated`、`overlay` 或任意灰色填充；
+- Dialog、Sheet、Menu、Popover 使用 `strongSurface + strongBlur`，并配合 `border`、`innerHighlight`、`shadow`；
+- SnackBar、Toast、Tooltip 使用 `surface + blur`，并配合 `border`、`shadow`；
+- 行、卡片和设置分组不是浮层，不因处于浮层内部就增加 BackdropFilter；
 - accent、error、图标和文字角色保持品牌一致；
-- 自有浮层可以使用品牌圆角和玻璃材质。
+- 自有浮层可以使用品牌圆角，但材质必须遵循上述变体。
 
 平台锁定锚点定位、窗口边缘避让、按钮顺序、焦点循环、返回、Escape、安全区域、系统动效和辅助功能。
 

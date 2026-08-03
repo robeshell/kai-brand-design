@@ -1,6 +1,6 @@
 # 开听（kaiting）产品规范
 
-**productSpecVersion: 0.2.0**
+**productSpecVersion: 0.2.1**
 
 音乐播放器。品牌层的第一个参考实现产品，品牌层初版即由开听与开卷的收敛实现反向提炼。
 

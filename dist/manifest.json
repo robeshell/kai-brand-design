@@ -1,28 +1,28 @@
 {
   "files": {
     "css/kaigua/brand.generated.css": {
-      "bytes": 9899,
-      "sha256": "c1e7ffb1626618e2b6ca78c15de0a4743b983f4e4693012654367dc9cf503656"
+      "bytes": 11290,
+      "sha256": "8a6dc4272ff537bfdea8cbe6b1faf7e27bd4a0395e3b7ea28e6de2eef2753569"
     },
     "flutter/kaijuan/brand_tokens.g.dart": {
-      "bytes": 25154,
-      "sha256": "f35148284f117be937af47a9b56e7b3f3067ac04ca02c92c5b229ccd02b8006b"
+      "bytes": 26528,
+      "sha256": "5749560e8573c827d3f50ad9540bae7ea4df7d813b7f41a34df0c5ade1c860c2"
     },
     "flutter/kaiting/brand_tokens.g.dart": {
-      "bytes": 26895,
-      "sha256": "096691d92776990b51ae31d8a76350678d48bc87de22b95b1d79392718094529"
+      "bytes": 28321,
+      "sha256": "45cf00cb2222b77a71d0be709d49e0fd1d2a3b822f32368de6722796c1a89654"
     },
     "release/kai-design.lock.json": {
       "bytes": 179,
-      "sha256": "38243d2867ba90407713eb05f35fecfa52eb8dc5ba85413d7f07edc27f829cde"
+      "sha256": "f1ab997fa9caf1c4463f743d1883107772a36368951460ad8a20e463a270259b"
     },
     "spec/DESIGN.md": {
-      "bytes": 20103,
-      "sha256": "2b861a2a430d2750070f3379ae70a2677a7e0688faf0ce6c9bec34ac64a5bc5c"
+      "bytes": 20858,
+      "sha256": "9c5cd0c26c53750645b749f2aa6945114d81562094da8850f0fd12fb90d2c626"
     },
     "spec/README.md": {
-      "bytes": 18814,
-      "sha256": "d48755af025d405fc6cff67ba41d509ce6e7b2143fb68a54c6c18efb8ff265fb"
+      "bytes": 19338,
+      "sha256": "7297abb1da76ad8aedd6abfdefbe5cd926a6f75e6857b62e157c804cdccda850"
     },
     "spec/components/_template.md": {
       "bytes": 1318,
@@ -45,48 +45,48 @@
       "sha256": "0cf2b27ce2d8454119bd93b4984ff8675f3769ba8a474cccf4d7b6945332f264"
     },
     "spec/components/dialogs.md": {
-      "bytes": 1732,
-      "sha256": "df4903eed7da44800ac0557104dfc74cf60f551f28e1aa3bb944921ff01b9f17"
+      "bytes": 1900,
+      "sha256": "81491f1801eb9e2b5452707ae975ddf2ed2b26a218453bb4bbb538983c71fd4f"
     },
     "spec/components/feedback.md": {
-      "bytes": 2563,
-      "sha256": "f2ef273109cb37e268416f1a4317edcefa9cf55bd64603ffaa844b4ed56c4ad5"
+      "bytes": 3061,
+      "sha256": "74af71bf98ac6b8fc17789e76cab05a614ec3a170c6d8261ae6c64fb65287755"
     },
     "spec/components/icons.md": {
       "bytes": 1050,
       "sha256": "32b4c98d70eea4ca10ea0f2c2c967bf9ed29a2424945bd615b23cd84f0d94823"
     },
     "spec/components/inputs.md": {
-      "bytes": 2247,
-      "sha256": "50c26ed863286a584f259c56fc2edf333f70f209ee2cf5dda8b3e52638fe0746"
+      "bytes": 2252,
+      "sha256": "0245aa37685160c031b2dabb1fea0559f26e950d6d7355d93785d64afaf76f8f"
     },
     "spec/components/list-rows.md": {
-      "bytes": 1822,
-      "sha256": "084b7d8f707b35856959e76dd271925f68952ceab9a507cdb1bda16e786c5a9e"
+      "bytes": 1871,
+      "sha256": "55e2751a4ee84828849ebe8ff4951b57722bbe2eb631ca02b46c9803a8cf20da"
     },
     "spec/components/navigation.md": {
-      "bytes": 4853,
-      "sha256": "f8ad5a27fd109818bee4a168f03160e2b768e6fdbbd01497533999be6ce5b257"
+      "bytes": 4842,
+      "sha256": "4fd715fc82e337991677b292ff39d5eec422f90fc24ad0e065132252faadd1d4"
     },
     "spec/components/platform-component-map.md": {
       "bytes": 2059,
       "sha256": "5cbb8f91df560e740a5e23218c483aa149d0089f01a93b3ff3a4c76066434e23"
     },
     "spec/components/sheets-and-menus.md": {
-      "bytes": 2961,
-      "sha256": "d2d24cf5f709b69cc9d09eb120bedd5710c9f29dcced8bf921e56ca1a2a5b5f6"
+      "bytes": 3226,
+      "sha256": "9075bc842dff385c4ebfb86f0102f260e2ffd6d85ae61f0605fb73f26316868e"
     },
     "spec/components/surfaces.md": {
-      "bytes": 640,
-      "sha256": "f37041e22974ba2f579121c5f59a7d22746c437e79ee4f6efb27fdc2711206c3"
+      "bytes": 2047,
+      "sha256": "ce889c1f5bf072e5b3fea65f3092dd4bf80dc0d7b851063af79102f015162a08"
     },
     "spec/contracts/components.json": {
-      "bytes": 31077,
-      "sha256": "1a1dff31314b607a27e3c2177b0a15a859187047d9f386bf16d47642cf78ca13"
+      "bytes": 32875,
+      "sha256": "f67ce0c4e264f31b50d0b4b7ee8b32be2fc2ff0c9b3fcf4616b35212bbc767fc"
     },
     "spec/foundations/color.md": {
-      "bytes": 4363,
-      "sha256": "2b1241be72785b125fc8cda2c4b32bfd708798a51c4ad77431c673a814ffbdd0"
+      "bytes": 6126,
+      "sha256": "a47ef9ee1f5e2709e712f80eec75dbb9655cdb08305e38706f536d57fac12dbd"
     },
     "spec/foundations/iconography.md": {
       "bytes": 1525,
@@ -101,24 +101,24 @@
       "sha256": "c483bfdd10769f20b422bd4aa81a3e3a09bd0c503b0618cdc46832218bda2607"
     },
     "spec/foundations/shape-and-motion.md": {
-      "bytes": 3428,
-      "sha256": "d70098b99562d5d387d98c794c474e65c6f25b37faffb7ad174b3d0ab20eb5dd"
+      "bytes": 3720,
+      "sha256": "a097d6b8d16cfbc633b0c583e38b73f72295bdadf12bc451fb2a6e9ccb69f5b3"
     },
     "spec/foundations/typography.md": {
-      "bytes": 4340,
-      "sha256": "9195c4445b089e84dccff4c498f80e82e0e55b181bb39a629b02f302e719bf6a"
+      "bytes": 4869,
+      "sha256": "3ece75ccc634464d1280925bba8aafb71eca0128ebf2d90cd59331246124dda1"
     },
     "spec/implementation/acceptance-checklist.md": {
-      "bytes": 3821,
-      "sha256": "e23df4d51b5941278adfb52c14d6208ed466515c4c24e4b94b5de9f90eb6dad1"
+      "bytes": 4198,
+      "sha256": "820912d8193f7cf77a4df4eb53c67567e9baa4c4fb6cf7df994d72c4179f9a4d"
     },
     "spec/implementation/adoption-matrix.md": {
       "bytes": 2175,
       "sha256": "121c9bb89a5c9b1302aae43ee031994327cab3b27f8c9d2b5a5398baaebfc72b"
     },
     "spec/implementation/flutter.md": {
-      "bytes": 4445,
-      "sha256": "daa7de5006a4e71329330aabbaa8fb30d2b1121c6a19e01ed06466dbc79e9a46"
+      "bytes": 4648,
+      "sha256": "39f19dc8109e5f7b91b40c891d65e5802ac56f1888e8e11c90598b4716678220"
     },
     "spec/implementation/token-pipeline.md": {
       "bytes": 4506,
@@ -133,12 +133,12 @@
       "sha256": "7b1eb2549626bc1afea9b849691256b5a40e3b71d2385905a5b278a49c07bfeb"
     },
     "spec/patterns/overlays.md": {
-      "bytes": 2060,
-      "sha256": "9196b233e369c56df7ec750273fbb427442514a7e7a63af2ddfaa30c75bcbe12"
+      "bytes": 2486,
+      "sha256": "577afd9ef87218cdfc1d0720b46b01b71bc24a7d81c612bb0e628689de5ed12b"
     },
     "spec/patterns/settings-page.md": {
-      "bytes": 6229,
-      "sha256": "ca15bc35ab762c71a089444eb3fbf7077dbe48f18aa280780cc81f8c9250638a"
+      "bytes": 6252,
+      "sha256": "332cd8b689db09e1f663eb733d18c8fbab795ae81c7b223c927c9bace52ae2e1"
     },
     "spec/patterns/status-system.md": {
       "bytes": 3139,
@@ -185,8 +185,8 @@
       "sha256": "fc6ef2b9b0e8ad05908fd66cc940baae74724d1e79b37b6126a3210e832011e3"
     },
     "spec/products/kaijuan/patterns/bookshelf.md": {
-      "bytes": 3037,
-      "sha256": "6fa31489ba63c0693d641d3354d183cde5ead4fbfa6430f4bcb54313b5701973"
+      "bytes": 3069,
+      "sha256": "2b6c57d8271ff2a8a6460c71af7ff192f2bdb5d6e663cbb2732cb085109d4870"
     },
     "spec/products/kaijuan/patterns/collections-and-import.md": {
       "bytes": 1058,
@@ -202,7 +202,7 @@
     },
     "spec/products/kaiting/README.md": {
       "bytes": 2574,
-      "sha256": "f64aba0b0ab1e496a22c7603061c657c4fd93ec7e840b7b181ef7c254f66e55a"
+      "sha256": "83ad8be4746859b5656de48c3e5e1c4bd7abf8efeddfe4770509206425ce6c5a"
     },
     "spec/products/kaiting/divergences.md": {
       "bytes": 1525,
@@ -221,8 +221,8 @@
       "sha256": "4ca272d4bf9b83308059a046919017d29c7d780e4dea8a6da52c2c8a902a6e37"
     },
     "spec/products/kaiting/tokens.md": {
-      "bytes": 1907,
-      "sha256": "e7cefe0bdd2d229b86055d2fe510dcf7b335c50a939a1e6c6ccae5e9cccd57c7"
+      "bytes": 1899,
+      "sha256": "2206e859f82969af6143e2b6dd73cf8bc62df2664ad08b6d87e7b930ace62a9f"
     },
     "spec/spec/viewer-content.json": {
       "bytes": 4187,
@@ -230,19 +230,19 @@
     },
     "tokens/kai.meta.json": {
       "bytes": 114,
-      "sha256": "bae35d0b538d1fb053cf1c9449a187b91d1b3f79aa3d7e91b33c2dabbb615a4a"
+      "sha256": "3a92bc44477cd07980b0eb2a27e2e939dcc635f502b24cc35a6d3105cf6437ca"
     },
     "tokens/kai.tokens.json": {
-      "bytes": 85154,
-      "sha256": "82404571c4284aebf05f0c88d9799f7a5369ef564f477b373d431ae4921dfb17"
+      "bytes": 90685,
+      "sha256": "23f04d6a6797ae5081ead91ccf75d3277333304bd62828189ac6c853e071e845"
     },
     "viewer/assets/app.css": {
-      "bytes": 62480,
-      "sha256": "c94856b2f2f871ad153b786cfcb3beef96268a2ad5256ae13b4a327e83e7054b"
+      "bytes": 67039,
+      "sha256": "c93dcc7bb248d47d7ef640a7c23d5fd71f9cff1122efce03ffa3dd30339a5ab0"
     },
     "viewer/assets/app.js": {
-      "bytes": 113544,
-      "sha256": "9d53305f54ee7c443ddbbe298bac487a230fd645e3636e9b24c3f14d6c4c7956"
+      "bytes": 123557,
+      "sha256": "8626e8b559fad40392aeb9cb42a8faa16a389a9b3d1cb31b85a08c95799b10e1"
     },
     "viewer/index.html": {
       "bytes": 523,
@@ -250,6 +250,6 @@
     }
   },
   "name": "kai-brand-design",
-  "specVersion": "0.7.1",
-  "tokenDigest": "997bd0f0aa4bee02e5783b77270971cc0fd01e4ebf0c0b71c5fc391e7b0cba99"
+  "specVersion": "0.8.0",
+  "tokenDigest": "b2fd457b866c415b5f723cdd422f16ef8e82d91a42117b5768c67f34caae24de"
 }

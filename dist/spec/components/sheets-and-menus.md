@@ -24,7 +24,8 @@
 
 - 菜单项图标和文字层级；
 - accent、error 和当前项语义；
-- 表面、边框和材质 token；
+- Menu、Popover、Flyout 和 Sheet 的容器使用 `GlassSurface` strong：`strongSurface + strongBlur + border + innerHighlight + shadow`；
+- 不把 `elevated` 或 `overlay` 直接作为容器背景；平台原生容器无法覆盖材质时，保留平台行为并使用最接近的系统表面；
 - 允许范围内的圆角。
 
 平台保留菜单尺寸、键盘移动、子菜单、关闭方式、锚点、窗口边缘避让和系统命令习惯。

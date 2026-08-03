@@ -1,6 +1,6 @@
 # 品牌设计体系（Design DSL）
 
-**specVersion: 0.6.2（draft）** — APP 规范输出 Mobile / Desktop 两套组件，并用五个平台基准约束系统行为。
+**specVersion: 0.8.0（draft）** — APP 规范输出 Mobile / Desktop 两套组件，并用五个平台基准约束系统行为。
 
 **AI 代理入口**：[`DESIGN.md`](DESIGN.md)（Stitch 格式单文件蒸馏）；本 README 是完整索引。
 
@@ -106,7 +106,7 @@ L5 APP 结构                    → patterns/structures/（内容浏览 / 任�
 
 ## 可视化（viewer）
 
-`viewer/` 是 Vite + TypeScript 实现的规范文档站。页面标题与说明读取 `spec/viewer-content.json`，Token 与产品变量读取构建后的 bundle；页面结构和交互演示保留在 Viewer 代码中。构建结果同时写入 `dist/viewer/` 和 `docs/`：
+`viewer/` 是 Vite + TypeScript 实现的规范文档站。页面标题与说明读取 `spec/viewer-content.json`，Token、产品变量和组件契约读取构建后的 bundle；页面结构、平台形态和交互演示统一保留在 Viewer 中。Viewer 是规范的唯一可视化入口，构建结果同时写入 `dist/viewer/` 和 `docs/`：
 
 - 左侧按「开始 / 基础规范 / 组件 / APP 结构 / 状态与反馈 / 产品与工程」分组；
 - 颜色、字体、间距、按钮、输入框等主题各自独立成页；
@@ -147,7 +147,9 @@ make check
 - 规范使用中性命名（`GlassSurface`、`MenuButton`…）；各产品实现可加前缀（开听 `Sound*`、开卷 `App*`）。
 - 版本：品牌层 specVersion 与各产品层各自记 changelog；产品层变更不影响品牌层版本号。
 
-- **0.7.0**（2026-07-31）：字号规范增加 `semanticRoles → componentMappings → Mobile/Desktop Profile` 三层模型；组件角色（如 `listTitle`）必须声明语义来源，组件契约登记 typography 追溯字段；保留旧生成 API 兼容。- **0.6.2**（2026-07-30）：列表标题独立为 Mobile / Desktop 共用的 14/20、w500，不再借用正文或按钮标签字号。
+- **0.8.0**（2026-08-03）：可访问性与 token 硬化——accent 登记 `onAccent`（≥4.5:1）；皮肤文字三档强制对比与层级；`chromeSurface` 入 token；玻璃面提高不透明度；`statusColors` 独立；`derivedAlphas` 取消区间；新增 `focusRing` 与 `appearance.increasedContrast`；Mobile listTitle 15/22、bodySecondary 行高 1.47、captionSmall 12；禁用前景 secondary@0.55；validate 扩展对比度门禁。
+- **0.7.0**（2026-07-31）：字号规范增加 `semanticRoles → componentMappings → Mobile/Desktop Profile` 三层模型；组件角色（如 `listTitle`）必须声明语义来源，组件契约登记 typography 追溯字段；保留旧生成 API 兼容。
+- **0.6.2**（2026-07-30）：列表标题独立为 Mobile / Desktop 共用的 14/20、w500，不再借用正文或按钮标签字号。
 - **0.6.1**（2026-07-30）：列表标题从正文角色改为更紧凑的 `label` 角色；Mobile 为 16/22、Desktop 为 14/20，保持 w500。
 - **0.6.0**（2026-07-29）：新增 Mobile / Desktop 两套实际组件 Profile；五个平台 Profile 改为官方约束与行为适配层；删除五套万能页面，收缩为内容浏览、任务工作台和通用状态系统。
 - **0.5.0**（2026-07-29）：建立五套平台 Profile 与生成管线，补齐基础字号、尺寸、组件与产品页面映射。

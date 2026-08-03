@@ -25,7 +25,9 @@
 - 标题、正文和帮助文字角色；
 - accent、error 和表面层级；
 - 图标语义；
-- 允许范围内的圆角与玻璃材质。
+- Dialog 容器使用 `GlassSurface` strong：`strongSurface + strongBlur + border + innerHighlight + shadow`；
+- 不直接使用 `elevated`、`overlay` 或任意灰色 Container；
+- 允许范围内的圆角。
 
 ## 状态与行为
 

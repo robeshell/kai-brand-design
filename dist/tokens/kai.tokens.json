@@ -1,7 +1,7 @@
 {
   "accents": {
     "$schema": "../schema/accents.schema.json",
-    "comment": "强调色是独立品牌轴，与皮肤正交组合。品牌统一中性系统与规则，不统一主色。onAccent 规则：对 accent 做亮度估算，深底白字、浅底 #1C1C22。",
+    "comment": "强调色是独立品牌轴，与皮肤正交组合。品牌统一中性系统与规则，不统一主色。每个 preset 必须登记 onAccent，且与 accent 对比度 ≥ 4.5:1（由 validate 强制）。",
     "products": {
       "kaigua": {
         "default": "indigo",
@@ -9,24 +9,28 @@
         "note": "单值模型：hover/pressed 由通用 stateLayer 前景叠加表达，不设独立 accent hover 色",
         "presets": [
           {
-            "accent": "#6673C7",
+            "accent": "#5A66B8",
             "id": "indigo",
-            "name": "靛蓝"
+            "name": "靛蓝",
+            "onAccent": "#FFFFFF"
           },
           {
             "accent": "#3F9E98",
             "id": "teal",
-            "name": "青绿"
+            "name": "青绿",
+            "onAccent": "#1C1C22"
           },
           {
-            "accent": "#0284C7",
+            "accent": "#0177B5",
             "id": "sky",
-            "name": "晴空"
+            "name": "晴空",
+            "onAccent": "#FFFFFF"
           },
           {
             "accent": "#475569",
             "id": "slate",
-            "name": "岩灰"
+            "name": "岩灰",
+            "onAccent": "#FFFFFF"
           }
         ]
       },
@@ -38,32 +42,37 @@
           {
             "accent": "#EA580C",
             "id": "ember",
-            "name": "暖橙"
+            "name": "暖橙",
+            "onAccent": "#1C1C22"
           },
           {
-            "accent": "#0284C7",
+            "accent": "#0177B5",
             "id": "sky",
-            "name": "晴空"
+            "name": "晴空",
+            "onAccent": "#FFFFFF"
           },
           {
             "accent": "#047857",
             "id": "forest",
-            "name": "松绿"
+            "name": "松绿",
+            "onAccent": "#FFFFFF"
           },
           {
             "accent": "#BE123C",
             "id": "rose",
-            "name": "绯红"
+            "name": "绯红",
+            "onAccent": "#FFFFFF"
           },
           {
             "accent": "#475569",
             "id": "slate",
-            "name": "岩灰"
+            "name": "岩灰",
+            "onAccent": "#FFFFFF"
           }
         ]
       },
       "kaiting": {
-        "customDerive": "自定义色：hover = lerp(accent, white, 0.14)，pressed = lerp(accent, black, 0.13)",
+        "customDerive": "自定义色：hover = lerp(accent, white, 0.14)，pressed = lerp(accent, black, 0.13)；onAccent 取 white 与 #1C1C22/#141418 中对比度 ≥ 4.5 的一侧，两侧均不达标则调 accent 明度",
         "default": "coral",
         "displayName": "开听",
         "presets": [
@@ -72,6 +81,7 @@
             "hover": "#FF7567",
             "id": "coral",
             "name": "珊瑚",
+            "onAccent": "#1C1C22",
             "pressed": "#E3483E"
           },
           {
@@ -79,20 +89,23 @@
             "hover": "#E66C82",
             "id": "rose",
             "name": "玫瑰",
+            "onAccent": "#141418",
             "pressed": "#BF465D"
           },
           {
-            "accent": "#6673C7",
-            "hover": "#7884D2",
+            "accent": "#5A66B8",
+            "hover": "#717BC2",
             "id": "indigo",
             "name": "靛蓝",
-            "pressed": "#5360AE"
+            "onAccent": "#FFFFFF",
+            "pressed": "#4E59A0"
           },
           {
             "accent": "#3F9E98",
             "hover": "#51ADA7",
             "id": "teal",
             "name": "青绿",
+            "onAccent": "#1C1C22",
             "pressed": "#338781"
           },
           {
@@ -100,6 +113,7 @@
             "hover": "#D4953F",
             "id": "amber",
             "name": "暖金",
+            "onAccent": "#1C1C22",
             "pressed": "#AB6E24"
           },
           {
@@ -107,15 +121,17 @@
             "hover": "#9279C8",
             "id": "violet",
             "name": "紫罗兰",
+            "onAccent": "#FFFFFF",
             "pressed": "#6D54A5"
           }
         ]
       }
     },
-    "specVersion": "0.2.3",
+    "specVersion": "0.3.0",
     "usageRules": [
       "强调色只用于选中 / 进度 / 主操作；同一区域最多一个主强调",
-      "低透明度派生（指示器 10~14%、chip 选中 9%、列表选中 3.5%）见 primitives.derivedAlphas",
+      "onAccent 必须与 accent 对比 ≥ 4.5:1，禁止运行时再估亮度跳过校验",
+      "低透明度派生（指示器 12%、chip 选中 9%、列表选中 4%）见 primitives.derivedAlphas",
       "新产品接入：在此文件新增产品轴；禁止在 App 内私建强调色常量"
     ]
   },
@@ -419,12 +435,18 @@
             "name": "按钮间距",
             "token": "component.dialog.actionGap",
             "value": "10px"
+          },
+          {
+            "name": "容器材质",
+            "token": "skins.*.glass.strongSurface / strongBlur / border / innerHighlight / shadow",
+            "value": "strong glass"
           }
         ],
         "usage": [
           "先按平台选择 Sheet、Dialog、ContentDialog、Popover 或独立窗口。",
           "简单选择优先使用菜单，不要把对话框当作普通信息卡片。",
-          "内容过高时只滚动内容区，标题和按钮区保持可见。"
+          "内容过高时只滚动内容区，标题和按钮区保持可见。",
+          "Dialog 容器使用 strongSurface + strongBlur + border + innerHighlight + shadow。"
         ],
         "variants": [
           {
@@ -487,19 +509,25 @@
           },
           {
             "name": "状态颜色",
-            "token": "derivedAlphas.status",
+            "token": "statusColors",
             "value": "success / warning / error / info"
           },
           {
             "name": "进度强调",
             "token": "component.feedback.progressAccent",
             "value": "当前产品 accent"
+          },
+          {
+            "name": "短反馈材质",
+            "token": "skins.*.glass.surface / blur / border / shadow",
+            "value": "base glass；不直接使用 overlay"
           }
         ],
         "usage": [
           "短结果反馈使用当前平台对应组件，不把所有平台统一成 Snackbar。",
           "空态说明为什么没有内容，并在有明确下一步时提供操作。",
-          "加载和进度使用统一尺寸与强调色，不单独硬编码。"
+          "加载和进度使用统一尺寸与强调色，不单独硬编码。",
+          "SnackBar、Toast、Tooltip 等应用自有短反馈使用 surface + blur + border + shadow；Inline Status 继承所在内容表面。"
         ],
         "variants": [
           {
@@ -655,9 +683,9 @@
             "layer": "semantic",
             "mapping": "inputs.text",
             "name": "输入文字",
-            "role": "body",
-            "token": "componentProfiles.*.typeScale.body",
-            "value": "Mobile 17/24 · Desktop 14/20"
+            "role": "inputText",
+            "token": "componentProfiles.*.typeScale.inputText",
+            "value": "Mobile 16/22 · Desktop 14/20"
           },
           {
             "name": "品牌焦点色",
@@ -842,12 +870,18 @@
             "name": "平台行为",
             "token": "component.menu.platformBehavior",
             "value": "keyboard / focus / anchor / safe area"
+          },
+          {
+            "name": "容器材质",
+            "token": "skins.*.glass.strongSurface / strongBlur / border / innerHighlight / shadow",
+            "value": "strong glass"
           }
         ],
         "usage": [
           "与触发位置相关的短操作列表使用锚定菜单。",
           "根据平台、输入模式和任务选择容器，不只根据窗口宽度判断。",
-          "菜单宽度由内容决定，长列表需要限制高度并允许滚动。"
+          "菜单宽度由内容决定，长列表需要限制高度并允许滚动。",
+          "Menu、Popover、Flyout 和 Sheet 容器使用 strongSurface + strongBlur + border + innerHighlight + shadow。"
         ],
         "variants": [
           {
@@ -1085,12 +1119,28 @@
             "name": "对话框圆角",
             "token": "radii.dialog",
             "value": "20px"
+          },
+          {
+            "name": "普通玻璃",
+            "token": "skins.*.glass.surface + skins.*.glass.blur",
+            "value": "base：surface + blur"
+          },
+          {
+            "name": "强玻璃",
+            "token": "skins.*.glass.strongSurface + skins.*.glass.strongBlur",
+            "value": "strong：strongSurface + strongBlur"
+          },
+          {
+            "name": "玻璃配套",
+            "token": "skins.*.glass.border / innerHighlight / shadow",
+            "value": "strong 额外使用 innerHighlight；阴影乘 shadowScale"
           }
         ],
         "usage": [
-          "普通页面分区使用基础表面；固定导航和浮层使用强玻璃表面。",
+          "普通页面分区使用基础表面；短反馈使用 base glass；固定导航和强浮层使用 strong glass。",
           "不要为了分组给每一块内容都增加卡片、阴影或模糊。",
-          "玻璃效果关闭时仍保留边框和层级，不能依赖模糊表达结构。"
+          "玻璃效果关闭时仍保留边框和层级，不能依赖模糊表达结构。",
+          "不直接使用 elevated、overlay 或任意灰色填充替代 GlassSurface。"
         ],
         "variants": [
           {
@@ -1098,12 +1148,16 @@
             "name": "基础表面"
           },
           {
-            "description": "侧栏、底栏和浮层等固定界面层。",
+            "description": "SnackBar、Toast、Tooltip 等短反馈使用 base glass。",
+            "name": "轻玻璃表面"
+          },
+          {
+            "description": "侧栏、底栏以及 Dialog、Sheet、Menu、Popover 等固定或强浮层。",
             "name": "强玻璃表面"
           },
           {
-            "description": "菜单、对话框和需要与页面分离的内容。",
-            "name": "浮层表面"
+            "description": "重复列表行、普通卡片和设置分组不使用 BackdropFilter。",
+            "name": "非浮面容器"
           }
         ]
       }
@@ -1112,6 +1166,17 @@
   },
   "primitives": {
     "$schema": "../schema/primitives.schema.json",
+    "appearance": {
+      "increasedContrast": {
+        "borderDark": "white@0.20",
+        "borderLight": "black@0.16",
+        "comment": "系统 prefers-contrast: more 时叠在当前皮肤上；不单独成皮肤。",
+        "glassSurfaceMinOpacity": 1.0,
+        "hairlineDark": "white@0.16",
+        "hairlineLight": "black@0.12",
+        "preferPrimaryForSecondaryText": true
+      }
+    },
     "basePalette": {
       "comment": "通用浅色基准：右侧主内容冷白、左侧导航浅灰、参考主色为珊瑚红。产品强调色由 accents 产品轴覆盖，皮肤切换不得改变强调色。",
       "mainBackground": "#F7F9FC",
@@ -1195,7 +1260,7 @@
             "lineHeight": 16
           },
           "captionSmall": {
-            "fontSize": 11,
+            "fontSize": 12,
             "fontWeight": 500,
             "letterSpacing": 0,
             "lineHeight": 16
@@ -1203,8 +1268,20 @@
           "displayLarge": {
             "fontSize": 32,
             "fontWeight": 600,
-            "letterSpacing": 0,
+            "letterSpacing": -0.2,
             "lineHeight": 40
+          },
+          "gridTitle": {
+            "fontSize": 14,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 20
+          },
+          "inputText": {
+            "fontSize": 14,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 20
           },
           "label": {
             "fontSize": 14,
@@ -1221,13 +1298,13 @@
           "pageTitle": {
             "fontSize": 24,
             "fontWeight": 600,
-            "letterSpacing": 0,
+            "letterSpacing": -0.2,
             "lineHeight": 32
           },
           "sectionTitle": {
             "fontSize": 18,
             "fontWeight": 600,
-            "letterSpacing": 0,
+            "letterSpacing": -0.1,
             "lineHeight": 24
           },
           "title": {
@@ -1275,7 +1352,7 @@
             "fontSize": 15,
             "fontWeight": 400,
             "letterSpacing": 0,
-            "lineHeight": 20
+            "lineHeight": 22
           },
           "caption": {
             "fontSize": 13,
@@ -1284,7 +1361,7 @@
             "lineHeight": 18
           },
           "captionSmall": {
-            "fontSize": 11,
+            "fontSize": 12,
             "fontWeight": 500,
             "letterSpacing": 0,
             "lineHeight": 16
@@ -1292,8 +1369,20 @@
           "displayLarge": {
             "fontSize": 34,
             "fontWeight": 600,
-            "letterSpacing": 0,
+            "letterSpacing": -0.2,
             "lineHeight": 42
+          },
+          "gridTitle": {
+            "fontSize": 15,
+            "fontWeight": 500,
+            "letterSpacing": 0,
+            "lineHeight": 22
+          },
+          "inputText": {
+            "fontSize": 16,
+            "fontWeight": 400,
+            "letterSpacing": 0,
+            "lineHeight": 22
           },
           "label": {
             "fontSize": 16,
@@ -1302,21 +1391,21 @@
             "lineHeight": 22
           },
           "listTitle": {
-            "fontSize": 14,
+            "fontSize": 15,
             "fontWeight": 500,
             "letterSpacing": 0,
-            "lineHeight": 20
+            "lineHeight": 22
           },
           "pageTitle": {
             "fontSize": 28,
             "fontWeight": 600,
-            "letterSpacing": 0,
+            "letterSpacing": -0.2,
             "lineHeight": 36
           },
           "sectionTitle": {
             "fontSize": 22,
             "fontWeight": 600,
-            "letterSpacing": 0,
+            "letterSpacing": -0.15,
             "lineHeight": 28
           },
           "title": {
@@ -1338,7 +1427,7 @@
         "dark": "white@0.10",
         "light": "black@0.08"
       },
-      "comment": "全品牌通用的派生透明度；实现方不得另行发明数值",
+      "comment": "全品牌通用的派生透明度；实现方不得另行发明数值。每个 key 为单值（或 light/dark 各一值），禁止区间。",
       "destructive": {
         "disabled": "error@0.025",
         "hoverOrFocus": "error@0.12",
@@ -1349,6 +1438,11 @@
         "dark": "white@0.05",
         "light": "black@0.04"
       },
+      "disabledForeground": {
+        "comment": "禁用前景：secondary 色 × alpha。WCAG 对 inactive 控件有对比度例外；仍保持可辨认，禁止再低于 0.55。",
+        "dark": "secondary@0.55",
+        "light": "secondary@0.55"
+      },
       "disabledSubtle": {
         "dark": "white@0.028",
         "light": "black@0.024"
@@ -1358,38 +1452,27 @@
         "light": "black@0.055"
       },
       "selection": {
-        "accentIndicator": "accent@0.10~0.14",
+        "accentIndicator": "accent@0.12",
         "chipSelected": "accent@0.09",
-        "listTileSelected": "accent@0.035",
-        "rowOrSurface": "foreground@0.05~0.055"
+        "listTileSelected": "accent@0.04",
+        "rowOrSurface": "foreground@0.055"
       },
       "stateLayer": {
         "focused": "accent@0.16",
-        "hover": "foreground@0.055~0.065",
+        "hover": "foreground@0.06",
         "pressed": "foreground@0.10"
-      },
-      "status": {
-        "error": {
-          "dark": "#FF7B72",
-          "light": "#B42318"
-        },
-        "info": {
-          "dark": "#73A7E8",
-          "light": "#2563A6"
-        },
-        "success": {
-          "dark": "#5BC89A",
-          "light": "#237A57"
-        },
-        "warning": {
-          "dark": "#E3AC45",
-          "light": "#9A640D"
-        }
       },
       "subtleFill": {
         "dark": "white@0.055",
         "light": "black@0.045"
       }
+    },
+    "focusRing": {
+      "colorRole": "accent",
+      "comment": "键盘焦点环：宽度与偏移为逻辑 px；颜色优先 accent，不足对比时回退 primaryText。输入框可用自身 2px accent 边框代替外侧 outline，但不得 outline:none 且无替代。",
+      "fallbackColorRole": "primaryText",
+      "offset": 2,
+      "width": 2
     },
     "iconography": {
       "opticalStroke": {
@@ -1887,7 +1970,26 @@
       "x6": 24,
       "x8": 32
     },
-    "specVersion": "0.7.1",
+    "specVersion": "0.8.0",
+    "statusColors": {
+      "comment": "语义状态色（固体色，不是 alpha）。浅色/深色各一档；用作文字时须对常见表面 ≥ 4.5:1。",
+      "error": {
+        "dark": "#FF7B72",
+        "light": "#B42318"
+      },
+      "info": {
+        "dark": "#73A7E8",
+        "light": "#2563A6"
+      },
+      "success": {
+        "dark": "#5BC89A",
+        "light": "#237A57"
+      },
+      "warning": {
+        "dark": "#E3AC45",
+        "light": "#9A640D"
+      }
+    },
     "typography": {
       "componentMappings": {
         "app-bars": {
@@ -1946,7 +2048,7 @@
             "role": "label"
           },
           "text": {
-            "role": "body"
+            "role": "inputText"
           }
         },
         "list-rows": {
@@ -1994,7 +2096,8 @@
         "buttonLabel": "label",
         "desktopNavigation": "body",
         "dialogTitle": "sectionTitle",
-        "inputText": "body",
+        "gridTitle": "gridTitle",
+        "inputText": "inputText",
         "listSubtitle": "bodySecondary",
         "listTitle": "listTitle",
         "metadata": "caption",
@@ -2013,7 +2116,7 @@
           "allowedWeights": [
             400
           ],
-          "description": "正文、输入文字和普通内容标题",
+          "description": "正文和普通内容标题",
           "intent": "body"
         },
         "bodySecondary": {
@@ -2043,6 +2146,26 @@
           ],
           "description": "沉浸页面中的单个展示标题",
           "intent": "display"
+        },
+        "gridTitle": {
+          "allowedWeights": [
+            500,
+            600
+          ],
+          "baseRole": "listTitle",
+          "description": "封面网格和紧凑卡片中的标题",
+          "intent": "component-title",
+          "rationale": "封面网格标题受卡片高度约束，使用组件标题角色而不是页面正文角色"
+        },
+        "inputText": {
+          "allowedWeights": [
+            400,
+            500
+          ],
+          "baseRole": "body",
+          "description": "输入框、搜索框和文本编辑控件中的文字",
+          "intent": "component-control-content",
+          "rationale": "输入控件需要独立于正文的紧凑尺寸，避免页面正文角色直接决定控件布局"
         },
         "label": {
           "allowedWeights": [
@@ -2482,7 +2605,7 @@
   },
   "skins": {
     "$schema": "../schema/skins.schema.json",
-    "comment": "皮肤预设：每个皮肤自带明暗 + 四档表面坡道 + 玻璃 token + 动效 token。已发布皮肤的 token 值是稳定承诺，不得修改；新外观只能新增皮肤。",
+    "comment": "皮肤预设：每个皮肤自带明暗 + 四档表面坡道 + 玻璃 token + 动效 token。已发布皮肤的 token 值是稳定承诺，不得修改；新外观只能新增皮肤。0.5.0：chromeSurface 入 token；玻璃面提高不透明度以保障半透明上的文字对比；修正深夜文字层级与浅色 muted 对比度。",
     "presets": [
       {
         "brightness": "light",
@@ -2503,14 +2626,15 @@
           "blur": 20,
           "border": "black@0.07",
           "canvasHighlight": "#FBFBFC",
+          "chromeSurface": "#FFFFFF@0.88",
           "innerHighlight": "white@0.55",
-          "mutedText": "#77747D",
+          "mutedText": "#64616A",
           "primaryText": "#1C1C22",
           "secondaryText": "#5A5A62",
           "shadow": "black@0.09",
           "strongBlur": 28,
-          "strongSurface": "#FFFFFF@0.87",
-          "surface": "#FFFFFF@0.72"
+          "strongSurface": "#FFFFFF@0.90",
+          "surface": "#FFFFFF@0.85"
         },
         "id": "default",
         "name": "默认",
@@ -2536,8 +2660,9 @@
           "blur": 0,
           "border": "#526174@0.12",
           "canvasHighlight": "#F8FBFF",
+          "chromeSurface": "#FFFFFF@1.0",
           "innerHighlight": "#FFFFFF@1.0",
-          "mutedText": "#718092",
+          "mutedText": "#5A6473",
           "primaryText": "#18202A",
           "secondaryText": "#536171",
           "shadow": "transparent",
@@ -2570,14 +2695,15 @@
           "blur": 20,
           "border": "white@0.11",
           "canvasHighlight": "#17171A",
+          "chromeSurface": "#202024@0.90",
           "innerHighlight": "white@0.12",
-          "mutedText": "white@0.70",
+          "mutedText": "white@0.55",
           "primaryText": "#F7F3F4",
-          "secondaryText": "white@0.60",
+          "secondaryText": "white@0.72",
           "shadow": "black@0.42",
           "strongBlur": 28,
-          "strongSurface": "#202024@0.90",
-          "surface": "#17171A@0.72"
+          "strongSurface": "#202024@0.92",
+          "surface": "#17171A@0.85"
         },
         "id": "deep-night",
         "name": "深夜",
@@ -2585,7 +2711,7 @@
         "surface": "#17171A"
       }
     ],
-    "specVersion": "0.4.0",
+    "specVersion": "0.5.0",
     "systemPseudoSkin": {
       "id": "system",
       "note": "不是真实预设，不进 presets 列表；持久化层存 'system' 字符串",

@@ -19,7 +19,7 @@
 | 图标 | **21** |
 | 标签 | 当前 Mobile Profile 的 `captionSmall`；选中 w600 / 未选 w500 |
 | 项内边距 | 3h |
-| 表面 | `GlassSurface` strong + `chromeSurface`（strongSurface @80%） |
+| 表面 | `GlassSurface` strong + 皮肤 `chromeSurface` token |
 | 顶部分隔 | 顶 hairline |
 | 阴影 | blur **18** × shadowScale，offset **(0, −6)** |
 

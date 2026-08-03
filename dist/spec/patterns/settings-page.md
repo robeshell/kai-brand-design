@@ -47,7 +47,7 @@
 
 ## 行（三类呈现）
 
-1. **导航行**：标题使用当前 Profile 的 `listTitle`（14/20 w500）primary；padding 14h/8v；行高 = `listRowSingle`；行尾 value 使用 `caption` secondary w500 + chevron 19 secondary；**默认不带副标题**——解释性文案放进点开后的弹层/子页，行内保持单行扫读；
+1. **导航行**：标题使用当前 Profile 的 `listTitle`（Mobile 15/22、Desktop 14/20 w500）primary；padding 14h/8v；行高 = `listRowSingle`；行尾 value 使用 `caption` secondary w500 + chevron 19 secondary；**默认不带副标题**——解释性文案放进点开后的弹层/子页，行内保持单行扫读；
 2. **开关行**：同上行结构，Switch trailing；
 3. **选择行**：行内 check，或下述预览卡 / 色板直接展示；
 4. 危险操作（清库等）放分区末尾，destructive 样式。

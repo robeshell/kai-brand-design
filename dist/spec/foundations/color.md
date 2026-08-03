@@ -30,24 +30,37 @@
 |---|---|
 | `canvas` | 页面底布（Scaffold 背景） |
 | `surface` | 常驻面：列表区、导航底栏、卡片 |
-| `elevated` | 浮层：对话框、菜单、弹层 |
-| `overlay` | 反馈面：snackbar、tooltip |
+| `elevated` | 抬升坡道：选中卡、封面卡等内容层；强浮层材质由 `GlassSurface` 选择 |
+| `overlay` | 反馈坡道：Snackbar、Toast、Tooltip 的语义角色；实现仍通过 `GlassSurface` base 表达 |
 
 ### 玻璃 token（浮面的半透明语言）
 
-`surface`（72%）用于一般玻璃面；`strongSurface`（87–90%）用于需要更高遮罩的 chrome（对话框、底栏、侧栏）；`border` / `innerHighlight` / `shadow` / `blur` / `strongBlur` 配套使用。
+`surface`（默认/深夜约 85%）用于一般玻璃面；`strongSurface`（约 90–92%）用于对话框等强浮层；`chromeSurface`（默认约 88%、深夜 90%、纯净 100%）用于侧栏/底栏等常驻 chrome。`border` / `innerHighlight` / `shadow` / `blur` / `strongBlur` 配套使用。
 
-**chromeSurface**：`strongSurface` 收敛到 80% 不透明度，用于常驻玻璃 chrome（侧栏、底栏）。
+半透明面上的 `primaryText` / `secondaryText` 必须在叠黑与叠白最坏背景下仍 ≥ 4.5:1（由 `validate` 强制）。禁止再把 chrome 不透明度写死在实现里。
+
+### 浮层组件规则
+
+浮层不是统一的中灰色实心块，而是按任务使用玻璃语义：
+
+- `Dialog` / `Sheet` / `Menu` / `Popover` 使用 `strongSurface` + `strongBlur`，并配合 `border`、`innerHighlight` 与 `shadow`；这是需要与页面分离的强浮层。
+- `SnackBar` / `Toast` / `Tooltip` 作为短反馈使用 `surface` + `blur`，并配合 `border` 与 `shadow`；不得直接把 `overlay` 中灰色作为常规浮层背景。
+- 纯净皮肤在 `blur=0` 时自动退化为不透明实色面；这是玻璃组件的降级行为，不另造一套视觉。
+- `elevated` / `overlay` 是表面坡道中的语义角色；实现不得把它们当作绕过玻璃组件的任意灰色填充。
 
 ### 文字三档
 
-`primaryText` / `secondaryText` / `mutedText`。**层级 = 字重 × 颜色**，muted 档用于空态图标、次要说明、元信息。
+`primaryText` / `secondaryText` / `mutedText`。**层级 = 字重 × 颜色**，且在 canvas 上对比度必须 **primary ≥ secondary > muted**，三档对常用表面均 ≥ 4.5:1。muted 用于占位、序号、弱元信息，不得用于正文。
+
+禁用前景使用 `derivedAlphas.disabledForeground`（`secondary@0.55`），禁止再乘更低 alpha。inactive 控件在 WCAG 上可有例外，但仍需可辨认。
 
 ### 派生 alpha（全品牌唯一来源）
 
-边框、hairline、subtle 填充、状态层、选中、barrier、destructive 的透明度**只能**取自 `tokens/primitives.json → derivedAlphas`。实现中发现缺档 → 提规范变更，不私造数值。
+边框、hairline、subtle 填充、状态层、选中、barrier、destructive 的透明度**只能**取自 `tokens/primitives.json → derivedAlphas`。每个 key 为**单值**（或 light/dark 各一），禁止 `0.05~0.06` 区间。实现中发现缺档 → 提规范变更，不私造数值。
 
 ### 状态色
+
+状态固体色在 `tokens/primitives.json → statusColors`（不再挂在 derivedAlphas 下）：
 
 | 状态 | 浅色 | 深色 | 用途 |
 |---|---|---|---|
@@ -63,8 +76,12 @@
 - 通用参考主色为珊瑚红 `#FF5A4D`；强调色轴与皮肤正交。
 - 产品强调色登记于 `tokens/accents.json`。选定产品与强调色后，切换任何皮肤都必须保持该色。
 - 只用于：**选中态、进度、主操作**。同区最多一个主强调。
-- `onAccent`：亮度估算——深底白字，浅底 `#1C1C22`。
-- 低透明度派生固定：指示器 10–14%、chip 选中 9%、列表选中 3.5%、focus 环 16%。
+- **`onAccent` 必须写入每个 preset**，与 accent 对比 ≥ 4.5:1；禁止运行时仅凭亮度估算绕过。
+- 低透明度派生固定：指示器 12%、chip 选中 9%、列表选中 4%、focus 环填充 16%；焦点环几何见 `focusRing`（宽 2、偏移 2）。
+
+## 高对比外观
+
+系统 `prefers-contrast: more` 时叠 `appearance.increasedContrast`：玻璃面不透明、hairline/border 加强，次要文案优先升为 primary。不单独成皮肤。
 
 ## 皮肤规则
 
